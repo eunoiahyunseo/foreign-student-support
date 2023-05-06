@@ -11,6 +11,7 @@ import SwiftUI
 struct WelcomeView: View {
     @State private var index = 1
     @State private var pushActive = false
+    
     @ObservedObject var state: AppState = AppState()
     
     var body: some View {
@@ -21,13 +22,13 @@ struct WelcomeView: View {
                                isActive: self.$pushActive) {
                                 EmptyView()
                 }
+                .navigationBarTitle("홈")
                 .navigationBarHidden(true)
                 
                 VStack(spacing: 40) {
-                    Image("logo")
+                    Image("knu")
                         .resizable()
                         .frame(width: 120, height: 120, alignment: .center)
-                        .colorMultiply(Color(UIConfiguration.tintColor))
                         .padding(.top, 100)
                     
                     Text("환영합니다!")
@@ -68,17 +69,27 @@ struct WelcomeView: View {
                 }
                 Spacer()
             }
+            .onAppear {
+                print("appear \(self.index)")
+                if self.index == 3 || self.index == 4 {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        self.index = 5 - self.index
+                        self.pushActive = true
+                    }
+                }
+            }
         }
+        
     }
     
     // index에 따라 login, signup창을 네비게이션 뷰의 목적지로 설정한다.
     private func destinationView() -> some View {
         switch index {
         case 1:
-            return AnyView(SignInView(state: state))
+            return AnyView(SignInView(state: state, index: $index))
             
         default:
-            return AnyView(SignUpView(state: state))
+            return AnyView(SignUpView(state: state, index: $index))
         }
     }
 }

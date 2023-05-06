@@ -7,6 +7,7 @@
 //
 import SwiftUI
 
+
 struct SplashView: View {
     @State var isActive:Bool = false
     @ObservedObject var state: AppState

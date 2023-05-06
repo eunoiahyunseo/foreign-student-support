@@ -19,14 +19,18 @@ class StatusViewModel: Identifiable, ObservableObject {
     }
     
     static var signUpSuccessStatus: StatusViewModel {
-        return StatusViewModel(title: "Successful", message: "Your account has been created successfully")
+        return StatusViewModel(title: "Successful", message: "회원가입이 정상적으로 이루어졌습니다.")
     }
     
     static var logInSuccessStatus: StatusViewModel {
-        return StatusViewModel(title: "Successful", message: "Your account has been logged in successfully")
+        return StatusViewModel(title: "Successful", message: "로그인이 정상적으로 이루어졌습니다.")
     }
     
     static var errorStatus: StatusViewModel {
-        return StatusViewModel(title: "Error", message: "Oops! Something went wrong. Please try again.")
+        return StatusViewModel(title: "Error", message: "이메일, 비밀번호를 확인 후 재시도 부탁드립니다.")
+    }
+    
+    static var passwordMatchErrorStatus: StatusViewModel {
+        return StatusViewModel(title: "Error", message: "비밀번호가 같은지 다시한번 확인해 주세요.")
     }
 }

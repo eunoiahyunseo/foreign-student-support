@@ -20,9 +20,15 @@ struct SignInView: View {
     @ObservedObject private var viewModel: SignInViewModel
     
     @FocusState private var focus: FocusableField?
+    
+    @Environment(\.presentationMode) var presentationMode
+    
+    @Binding var index: Int
+    
 
-    init(state: AppState) {
+    init(state: AppState, index: Binding<Int>) {
         self.viewModel = SignInViewModel(authAPI: AuthService(), state: state)
+        _index = index
     }
     
     var body: some View {
@@ -53,23 +59,26 @@ struct SignInView: View {
                                 .disableAutocorrection(true)
                                 .focused($focus, equals: .email)
                                 .submitLabel(.next)
+                                
                                 .onSubmit {
                                     self.focus = .password
                                 }
                         }
+                        .padding(.bottom, 6)
+                        .background(Divider(), alignment: .bottom)
                         
                         HStack {
-                               Image(systemName: "lock")
-                               SecureField("Password", text: $viewModel.password)
-                                 .focused($focus, equals: .password)
-                                 .submitLabel(.go)
-                                 .onSubmit {
-                                     self.viewModel.login()
-                                 }
-                             }
-                             .padding(.vertical, 6)
-                             .background(Divider(), alignment: .bottom)
-                             .padding(.bottom, 8)
+                            Image(systemName: "lock")
+                            SecureField("Password", text: $viewModel.password)
+                                .focused($focus, equals: .password)
+                                .submitLabel(.go)
+                                .onSubmit {
+                                    self.viewModel.login()
+                                }
+                         }
+                         .padding(.vertical, 6)
+                         .background(Divider(), alignment: .bottom)
+                         .padding(.bottom, 8)
                     }.padding(.horizontal, 25)
                     
                     VStack(alignment: .center) {
@@ -78,10 +87,11 @@ struct SignInView: View {
                                 .padding(.vertical, 8)
                                 .frame(maxWidth: .infinity)
                         }
+                        
                         .disabled(!viewModel.isValid)
                         .frame(maxWidth: .infinity)
                         .buttonStyle(.borderedProminent)
-                        
+                        .tint(Color(UIConfiguration.tintColor))
                         
                         HStack {
                             VStack { Divider() }
@@ -98,20 +108,25 @@ struct SignInView: View {
                                 .padding(.vertical, 8)
                                 .frame(maxWidth: .infinity)
                                 .background(alignment: .leading) {
-                                    Image("Google")
-                                        .frame(width: 30, alignment: .center)
+                                    Image("google")
+                                        .resizable()
+                                        .frame(width: 35, alignment: .center)
                                 }
                         }
                         .foregroundColor(.black)
                         .buttonStyle(.bordered)
+                        
                     }
                     
                     HStack {
                             Text("아직 계정이 없으신가요?")
-                            Button(action: { pushActive = true }) {
+                            Button(action: {
+                                self.index = 3
+                                self.presentationMode.wrappedValue.dismiss()
+                            }) {
                               Text("회원가입")
                                 .fontWeight(.semibold)
-                                .foregroundColor(.blue)
+                                .foregroundColor(Color(UIConfiguration.tintColor))
                             }
                     }.padding([.top, .bottom], 50)
                 }
@@ -121,6 +136,7 @@ struct SignInView: View {
             Alert(title: Text(status.title),
                   message: Text(status.message),
                   dismissButton: .default(Text("OK"), action: {
+                    self.viewModel.initField(email: true, password: true)
                     if status.title == "Successful" {
                         self.pushActive = true
                     }
@@ -129,6 +145,7 @@ struct SignInView: View {
         .listStyle(.plain)
         .padding()
     }
+
     
     private func customButton(title: String,
                               backgroundColor: UIColor,
@@ -146,6 +163,6 @@ struct SignInView: View {
 
 struct SignInView_Previews: PreviewProvider {
     static var previews: some View {
-        SignInView(state: AppState())
+        SignInView(state: AppState(), index: .constant(1))
     }
 }
