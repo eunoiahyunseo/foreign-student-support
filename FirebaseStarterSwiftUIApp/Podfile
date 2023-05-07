@@ -10,4 +10,6 @@ target 'FirebaseStarterSwiftUIApp' do
 	pod 'FBSDKCoreKit'
  	pod 'FBSDKLoginKit'
 	pod 'GoogleSignIn'
+	pod 'FirebaseFirestore'
+	pod 'FirebaseFirestoreSwift'
 end
