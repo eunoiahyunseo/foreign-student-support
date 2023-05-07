@@ -12,11 +12,6 @@ import FirebaseAuth
 import Firebase
 import GoogleSignIn
 
-enum AuthenticationFlow {
-  case login
-  case signUp
-}
-
 class SignInViewModel: ObservableObject {
     @Published var email: String = ""
     @Published var password: String = ""
@@ -40,12 +35,6 @@ class SignInViewModel: ObservableObject {
             }
             .assign(to: &$isValid)
     }
-    
-    func switchToSignUp() {
-        
-    }
-    
-    
 }
 
 // MARK: - Private helper function
@@ -63,6 +52,17 @@ extension SignInViewModel {
 }
 
 extension SignInViewModel {
+    
+    func initField(email: Bool, password: Bool) {
+        if email == true {
+            self.email = ""
+        }
+        if password == true {
+            self.password = ""
+        }
+    }
+    
+    
     func login() {
         authAPI.login(email: email, password: password)
             .receive(on: RunLoop.main) // 메인쓰레드의 RunLoop

@@ -7,13 +7,26 @@
 //
 
 import SwiftUI
+import Combine
+
+private enum FocusableField: Hashable {
+  case email
+  case password
+  case confirmPassword
+}
 
 struct SignUpView: View {
     @ObservedObject private var viewModel: SignUpViewModel
     @State var pushActive = false
     
-    init(state: AppState) {
+    @FocusState private var focus: FocusableField?
+    @Environment(\.presentationMode) var presentationMode
+
+    @Binding var index: Int
+
+    init(state: AppState, index: Binding<Int>) {
         self.viewModel = SignUpViewModel(authAPI: AuthService(), state: state)
+        _index = index
     }
     
     var body: some View {
@@ -22,37 +35,96 @@ struct SignUpView: View {
                            isActive: self.$pushActive) {
               EmptyView()
             }.hidden()
-            VStack(alignment: .leading, spacing: 30) {
-                Text("Sign Up")
-                    .modifier(TextModifier(font: UIConfiguration.titleFont,
-                                           color: UIConfiguration.tintColor))
-                    .padding(.leading, 25)
-                VStack(alignment: .center, spacing: 30) {
-                    VStack(alignment: .center, spacing: 25) {
-                        CustomTextField(placeHolderText: "Full Name",
-                                      text: $viewModel.fullName)
-                        CustomTextField(placeHolderText: "Phone Number",
-                                      text: $viewModel.phoneNumber)
-                        CustomTextField(placeHolderText: "E-mail Address",
-                                      text: $viewModel.email)
-                        CustomTextField(placeHolderText: "Password",
-                                      text: $viewModel.password,
-                                      isPasswordType: true)
-                    }.padding(.horizontal, 25)
-                    
-                    VStack(alignment: .center, spacing: 40) {
-                        customButton(title: "Create Account",
-                                     backgroundColor: UIColor(hexString: "#334D92"),
-                                     action: self.viewModel.signUp)
+            
+            Image("SignUp")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(minHeight: 300, maxHeight: 400)
+            Text("회원가입")
+                .font(.largeTitle)
+                .fontWeight(.bold)
+                .frame(width: .infinity, alignment: .leading)
+            
+            HStack {
+                Image(systemName: "at")
+                TextField("Email", text: $viewModel.email)
+                    .textInputAutocapitalization(.never)
+                    .disableAutocorrection(true)
+                    .focused($focus, equals: .email)
+                    .submitLabel(.next)
+                    .onSubmit {
+                        self.focus = .password
                     }
+            }
+            .padding(.vertical, 6)
+            .background(Divider(), alignment: .bottom)
+            .padding(.bottom, 4)
+            
+            HStack {
+                Image(systemName: "lock")
+                SecureField("Password", text: $viewModel.password)
+                    .focused($focus, equals: .password)
+                    .submitLabel(.next)
+                    .onSubmit {
+                        self.focus = .confirmPassword
+                    }
+            }
+            .padding(.vertical, 6)
+            .background(Divider(), alignment: .bottom)
+            .padding(.bottom, 8)
+            
+            HStack {
+                Image(systemName: "lock")
+                SecureField("Confirm password", text: $viewModel.confirmPassword)
+                  .focused($focus, equals: .confirmPassword)
+                  .submitLabel(.go)
+                  .onSubmit {
+                    
+                  }
+            }
+            .padding(.vertical, 6)
+            .background(Divider(), alignment: .bottom)
+            .padding(.bottom, 8)
+            
+            
+            Button(action: self.viewModel.signUp ) {
+                Text("가입")
+                    .padding(.vertical, 8)
+                    .frame(maxWidth: .infinity)
+            }
+            .disabled(!viewModel.isValid)
+            .frame(maxWidth: .infinity)
+            .buttonStyle(.borderedProminent)
+            .tint(Color(UIConfiguration.tintColor))
+            
+            HStack {
+                Text("이미 계정이 있으신가요?")
+                Button(action: {
+                    // 4의 의미는 돌아갈 때 Login으로 가기 위함임
+                    self.index = 4
+                    self.presentationMode.wrappedValue.dismiss()
+                }) {
+                Text("로그인")
+                    .fontWeight(.semibold)
+                    .foregroundColor(Color(UIConfiguration.tintColor))
                 }
             }
-            Spacer()
+            .padding([.top, .bottom], 50)
+
+            
         }.alert(item: self.$viewModel.statusViewModel) { status in
             Alert(title: Text(status.title),
-                  message: Text(status.message),
-                  dismissButton: .default(Text("OK"), action: { self.pushActive = true }))
+                message: Text(status.message),
+                dismissButton: .default(Text("OK"), action: {
+                    if(status.title == "Successful") {
+                        viewModel.initField(email: true, password: true, confirmPassword: true)
+                        self.pushActive = true
+                    }
+                }
+            ))
         }
+        .listStyle(.plain)
+        .padding()
     }
     
     private func customButton(title: String,
@@ -66,5 +138,11 @@ struct SignUpView: View {
                                          width: 275,
                                          height: 45))
         }
+    }
+}
+
+struct SignUpView_Previews: PreviewProvider {
+    static var previews: some View {
+        SignUpView(state: AppState(), index: .constant(2))
     }
 }
