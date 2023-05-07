@@ -9,10 +9,10 @@ import AlamofireObjectMapper
 import Foundation
 
 
-func exec(SendText: String) -> String {
+func exec(SendText: String, completion: @escaping (String?) -> Void) -> String {
     //API URL
     let url = "https://openapi.naver.com/v1/papago/n2mt"
-    var Trans_Res = ""
+    var Trans_Res: String?
     //파라미터
     let params: Parameters = [
         //번역 전 언어(한국어)
@@ -38,8 +38,11 @@ func exec(SendText: String) -> String {
     
     //Alamofire 요청
     let alamo = Alamofire.request(url, method: .post, parameters: params, encoding: URLEncoding.default, headers: header)
+        
     
-    alamo.responseObject {(response:DataResponse<PAPAGO_RESULT>) in
+
+    
+    let k = alamo.responseObject {(response:DataResponse<PAPAGO_RESULT>) ->Void in
 
 
         switch response.result
@@ -48,15 +51,19 @@ func exec(SendText: String) -> String {
             case .success(let value):
                 let TRANS_TEXT = (value.message?.result?.translatedText)!
                 print("번역 텍스트는 '\(TRANS_TEXT)' 입니다.")
-            Trans_Res = TRANS_TEXT
-                
+                Trans_Res = TRANS_TEXT
+                completion(Trans_Res)
             //통신실패
             case .failure(let error):
                 print("error: \(String(describing: error.localizedDescription))")
+                completion(nil)
             }
         
 
     }
-    return Trans_Res
+    
+    
+    print("Trans_Res의 값은 \(Trans_Res) 입니다.")
+    return "test"
     
 }
