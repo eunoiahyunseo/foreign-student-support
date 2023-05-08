@@ -36,7 +36,10 @@
 		3C203BE12A06EF9600137D5C /* CollectionScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C203BE02A06EF9600137D5C /* CollectionScheme.swift */; };
 		D86C249AD9B318D7EDABE111 /* Pods_FirebaseStarterSwiftUIApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33EF7DB6D4437A5CDC876808 /* Pods_FirebaseStarterSwiftUIApp.framework */; };
 		DA4A4BB52A06352700D5BA11 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DA4A4BB42A06352700D5BA11 /* GoogleService-Info.plist */; };
-		F3B3974D2A08DBD00060974D /* comBaord in Resources */ = {isa = PBXBuildFile; fileRef = F3B3974C2A08DBD00060974D /* comBaord */; };
+		F3B397502A08E4D40060974D /* Content.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B3974F2A08E4D40060974D /* Content.swift */; };
+		F3B397522A08E5000060974D /* boardmain.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B397512A08E5000060974D /* boardmain.swift */; };
+		F3B397542A08E5100060974D /* ContentDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B397532A08E5100060974D /* ContentDetail.swift */; };
+		F3B397562A08E51A0060974D /* ContentRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B397552A08E51A0060974D /* ContentRow.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,7 +89,10 @@
 		7BDA8AF3125E28867EFB0E98 /* Pods-SwiftUIChatAppKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftUIChatAppKit.debug.xcconfig"; path = "Target Support Files/Pods-SwiftUIChatAppKit/Pods-SwiftUIChatAppKit.debug.xcconfig"; sourceTree = "<group>"; };
 		8445C9E02BCD321F08E7E9E0 /* Pods-FirebaseStarterSwiftUIApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FirebaseStarterSwiftUIApp.debug.xcconfig"; path = "Target Support Files/Pods-FirebaseStarterSwiftUIApp/Pods-FirebaseStarterSwiftUIApp.debug.xcconfig"; sourceTree = "<group>"; };
 		DA4A4BB42A06352700D5BA11 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		F3B3974C2A08DBD00060974D /* comBaord */ = {isa = PBXFileReference; lastKnownFileType = folder; name = comBaord; path = "../../../../SwiftProject-MAP2/SwiftProject-Team6/comBaord"; sourceTree = "<group>"; };
+		F3B3974F2A08E4D40060974D /* Content.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Content.swift; sourceTree = "<group>"; };
+		F3B397512A08E5000060974D /* boardmain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = boardmain.swift; sourceTree = "<group>"; };
+		F3B397532A08E5100060974D /* ContentDetail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentDetail.swift; sourceTree = "<group>"; };
+		F3B397552A08E51A0060974D /* ContentRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentRow.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -170,7 +176,7 @@
 		30F0AF9324E985240084CE6E /* View */ = {
 			isa = PBXGroup;
 			children = (
-				F3B3974C2A08DBD00060974D /* comBaord */,
+				F3B3974E2A08E2D70060974D /* comBoard */,
 				30F0AF9124E976410084CE6E /* SplashView.swift */,
 				30D8C60124E818D300CB0858 /* SignUpView.swift */,
 				30127DCE24DE506300576F65 /* SignInView.swift */,
@@ -254,6 +260,17 @@
 				33EF7DB6D4437A5CDC876808 /* Pods_FirebaseStarterSwiftUIApp.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F3B3974E2A08E2D70060974D /* comBoard */ = {
+			isa = PBXGroup;
+			children = (
+				F3B397552A08E51A0060974D /* ContentRow.swift */,
+				F3B397532A08E5100060974D /* ContentDetail.swift */,
+				F3B397512A08E5000060974D /* boardmain.swift */,
+				F3B3974F2A08E4D40060974D /* Content.swift */,
+			);
+			path = comBoard;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -347,7 +364,6 @@
 				DA4A4BB52A06352700D5BA11 /* GoogleService-Info.plist in Resources */,
 				30127DD424DE506500576F65 /* Preview Assets.xcassets in Resources */,
 				30127DD124DE506500576F65 /* Assets.xcassets in Resources */,
-				F3B3974D2A08DBD00060974D /* comBaord in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -414,14 +430,18 @@
 				30127DCB24DE506300576F65 /* AppDelegate.swift in Sources */,
 				3C203BDD2A06E3D600137D5C /* FireStoreTestView.swift in Sources */,
 				30DDE0B924EABC9700208D32 /* User.swift in Sources */,
+				F3B397502A08E4D40060974D /* Content.swift in Sources */,
 				30F0AF8C24E92D160084CE6E /* AuthAPI.swift in Sources */,
 				30DDE0BD24EC21E900208D32 /* DrawerView.swift in Sources */,
+				F3B397542A08E5100060974D /* ContentDetail.swift in Sources */,
 				30D8C5F324E77DDE00CB0858 /* UIColorExt.swift in Sources */,
 				30F0AF8E24E92E360084CE6E /* AuthService.swift in Sources */,
 				30DDE0BF24EC2A7C00208D32 /* HomeView.swift in Sources */,
 				30A39BED24DF999900EE7E2E /* SignUpViewModel.swift in Sources */,
 				30F0AF9024E967920084CE6E /* StatusViewModel.swift in Sources */,
+				F3B397522A08E5000060974D /* boardmain.swift in Sources */,
 				30D8C60224E818D400CB0858 /* SignUpView.swift in Sources */,
+				F3B397562A08E51A0060974D /* ContentRow.swift in Sources */,
 				30127DCD24DE506300576F65 /* SceneDelegate.swift in Sources */,
 				3C203BE12A06EF9600137D5C /* CollectionScheme.swift in Sources */,
 				30D8C5F124E77CFB00CB0858 /* UIConfiguration.swift in Sources */,
