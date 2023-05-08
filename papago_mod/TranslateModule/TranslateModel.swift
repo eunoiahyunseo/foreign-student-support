@@ -9,61 +9,72 @@ import AlamofireObjectMapper
 import Foundation
 
 
-func exec(SendText: String, completion: @escaping (String?) -> Void) -> String {
-    //API URL
+func TranslateKORtoENG(OriginalText: String, completion: @escaping (String?) -> Void) -> Void {
+    //네이버 파파고 API
     let url = "https://openapi.naver.com/v1/papago/n2mt"
-    var Trans_Res: String?
-    //파라미터
+    var TranslatedClosureReturn: String?
     let params: Parameters = [
-        //번역 전 언어(한국어)
         "source":"ko",
-        
-        //번역 후 언어(영어)
         "target":"en",
-        
-        //번역요청 텍스트
-        "text": SendText
+        "text": OriginalText
     ]
     
-    //헤더정보
-    let header: HTTPHeaders = [
+    let POSTHeader: HTTPHeaders = [
         "Content-Type":"application/x-www-form-urlencoded; charset=UTF-8",
-        
-        //Client-Id(꼭 본인 값으로 변경해서 사용해주세요.)
+        //이 앱의 클라이언트 ID: 앱 통합 시 변경될 수 있습니다.
         "X-Naver-Client-Id":"utq2O9PRJiRFuaINttfG",
-        
-        //Client-Secret(꼭 본인 값으로 변경해서 사용해주세요.)
+        //이 부분도 앱이 통합될 경우 통합된 앱에 맞게 수정해주세요.
         "X-Naver-Client-Secret":"UrSs9sdNOE"
     ]
     
-    //Alamofire 요청
-    let alamo = Alamofire.request(url, method: .post, parameters: params, encoding: URLEncoding.default, headers: header)
-        
-    
-
-    
-    let k = alamo.responseObject {(response:DataResponse<PAPAGO_RESULT>) ->Void in
-
-
+    let alamo = Alamofire.request(url, method: .post, parameters: params, encoding: URLEncoding.default, headers: POSTHeader)
+    alamo.responseObject {(response:DataResponse<PAPAGO_RESULT>) ->Void in
         switch response.result
             {
-            //통신성공
+            //번역 텍스트 받아오기에 성공한 경우
             case .success(let value):
-                let TRANS_TEXT = (value.message?.result?.translatedText)!
-                print("번역 텍스트는 '\(TRANS_TEXT)' 입니다.")
-                Trans_Res = TRANS_TEXT
-                completion(Trans_Res)
-            //통신실패
+                let TranslatedText = (value.message?.result?.translatedText)!
+                TranslatedClosureReturn = TranslatedText
+                completion(TranslatedClosureReturn)
+            //텍스트 수신 실패
             case .failure(let error):
-                print("error: \(String(describing: error.localizedDescription))")
                 completion(nil)
             }
-        
-
     }
     
+}
+
+func TranslateENGtoKOR(OriginalText: String, completion: @escaping (String?) -> Void) -> Void {
+    //네이버 파파고 API
+    let url = "https://openapi.naver.com/v1/papago/n2mt"
+    var TranslatedClosureReturn: String?
+    let params: Parameters = [
+        "source":"en",
+        "target":"ko",
+        "text": OriginalText
+    ]
     
-    print("Trans_Res의 값은 \(Trans_Res) 입니다.")
-    return "test"
+    let POSTHeader: HTTPHeaders = [
+        "Content-Type":"application/x-www-form-urlencoded; charset=UTF-8",
+        //이 앱의 클라이언트 ID: 앱 통합 시 변경될 수 있습니다.
+        "X-Naver-Client-Id":"utq2O9PRJiRFuaINttfG",
+        //이 부분도 앱이 통합될 경우 통합된 앱에 맞게 수정해주세요.
+        "X-Naver-Client-Secret":"UrSs9sdNOE"
+    ]
+    
+    let alamo = Alamofire.request(url, method: .post, parameters: params, encoding: URLEncoding.default, headers: POSTHeader)
+    alamo.responseObject {(response:DataResponse<PAPAGO_RESULT>) ->Void in
+        switch response.result
+            {
+            //번역 텍스트 받아오기에 성공한 경우
+            case .success(let value):
+                let TranslatedText = (value.message?.result?.translatedText)!
+                TranslatedClosureReturn = TranslatedText
+                completion(TranslatedClosureReturn)
+            //텍스트 수신 실패
+            case .failure(let error):
+                completion(nil)
+            }
+    }
     
 }

@@ -9,7 +9,9 @@ import SwiftUI
 
 struct ContentView: View {
     @State var Result = "초기값"
-    @State var cap = "초기값"
+    @State var KORTOENG = "초기값"
+    @State var ENGTOKOR = "초기값2"
+
     var body: some View {
        
         VStack {
@@ -17,11 +19,11 @@ struct ContentView: View {
                 .imageScale(.large)
                 .foregroundColor(.accentColor)
             Text("Translate to English").onTapGesture {
-                Result = exec(SendText: "오늘은 7일입니다."){
+                TranslateKORtoENG(OriginalText: "오늘은 7일입니다."){
                     translated in
                     if let text = translated{
                         print(text)
-                        cap = text
+                        KORTOENG = text
                     }else {
                         print("fail")
                     }
@@ -31,9 +33,20 @@ struct ContentView: View {
                 
                 
             }
-            Text("Translate to Korean")
+            Text("Translate to Korean").onTapGesture {
+                TranslateENGtoKOR(OriginalText: "Wow! Don't hesitate challenge"){
+                    translated in
+                    if let text = translated{
+                        print(text)
+                        ENGTOKOR = text
+                    }else {
+                        print("fail")
+                    }
+                }
+            }
             
-            Text(verbatim: cap)
+            Text(verbatim: KORTOENG)
+            Text(verbatim: ENGTOKOR)
         }
         .padding()
         
