@@ -36,6 +36,7 @@
 		3C203BE12A06EF9600137D5C /* CollectionScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C203BE02A06EF9600137D5C /* CollectionScheme.swift */; };
 		D86C249AD9B318D7EDABE111 /* Pods_FirebaseStarterSwiftUIApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33EF7DB6D4437A5CDC876808 /* Pods_FirebaseStarterSwiftUIApp.framework */; };
 		DA4A4BB52A06352700D5BA11 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DA4A4BB42A06352700D5BA11 /* GoogleService-Info.plist */; };
+		F3B3974D2A08DBD00060974D /* comBaord in Resources */ = {isa = PBXBuildFile; fileRef = F3B3974C2A08DBD00060974D /* comBaord */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,6 +86,7 @@
 		7BDA8AF3125E28867EFB0E98 /* Pods-SwiftUIChatAppKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftUIChatAppKit.debug.xcconfig"; path = "Target Support Files/Pods-SwiftUIChatAppKit/Pods-SwiftUIChatAppKit.debug.xcconfig"; sourceTree = "<group>"; };
 		8445C9E02BCD321F08E7E9E0 /* Pods-FirebaseStarterSwiftUIApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FirebaseStarterSwiftUIApp.debug.xcconfig"; path = "Target Support Files/Pods-FirebaseStarterSwiftUIApp/Pods-FirebaseStarterSwiftUIApp.debug.xcconfig"; sourceTree = "<group>"; };
 		DA4A4BB42A06352700D5BA11 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		F3B3974C2A08DBD00060974D /* comBaord */ = {isa = PBXFileReference; lastKnownFileType = folder; name = comBaord; path = "../../../../SwiftProject-MAP2/SwiftProject-Team6/comBaord"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -168,6 +170,7 @@
 		30F0AF9324E985240084CE6E /* View */ = {
 			isa = PBXGroup;
 			children = (
+				F3B3974C2A08DBD00060974D /* comBaord */,
 				30F0AF9124E976410084CE6E /* SplashView.swift */,
 				30D8C60124E818D300CB0858 /* SignUpView.swift */,
 				30127DCE24DE506300576F65 /* SignInView.swift */,
@@ -344,6 +347,7 @@
 				DA4A4BB52A06352700D5BA11 /* GoogleService-Info.plist in Resources */,
 				30127DD424DE506500576F65 /* Preview Assets.xcassets in Resources */,
 				30127DD124DE506500576F65 /* Assets.xcassets in Resources */,
+				F3B3974D2A08DBD00060974D /* comBaord in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
