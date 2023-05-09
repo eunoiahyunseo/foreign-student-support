@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentRow: View {
-    let content: Content
+    let content: Content2
     var body: some View {
         VStack(alignment: .leading){
             Text(content.title)

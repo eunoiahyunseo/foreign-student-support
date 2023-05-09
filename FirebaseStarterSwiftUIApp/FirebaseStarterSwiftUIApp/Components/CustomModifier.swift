@@ -39,6 +39,8 @@ struct ShadowModifier: ViewModifier {
  Font, Color, textColor, width, height를 지정해 줄 수 있다.
  */
 struct ButtonModifier: ViewModifier {
+    
+    
     private let font: UIFont
     private let color: UIColor
     private let textColor: UIColor

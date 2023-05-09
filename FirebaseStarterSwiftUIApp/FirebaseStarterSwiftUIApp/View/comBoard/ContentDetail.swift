@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentDetail: View {
-    let content: Content
+    let content: Content2
     @State var isGood: Int = 0
     @State var comment: String = ""
     var body: some View {
