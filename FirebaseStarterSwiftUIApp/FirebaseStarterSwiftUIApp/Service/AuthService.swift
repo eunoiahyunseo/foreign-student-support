@@ -10,8 +10,6 @@ import Foundation
 import Combine
 import Firebase
 import FirebaseAuth
-import FBSDKCoreKit
-import FBSDKLoginKit
 import GoogleSignIn
 
 class AuthService: AuthAPI {
@@ -19,6 +17,7 @@ class AuthService: AuthAPI {
         guard let clientID = FirebaseApp.app()?.options.clientID else {
             return nil
         }
+        
         let config = GIDConfiguration(clientID: clientID)
         GIDSignIn.sharedInstance.configuration = config
 

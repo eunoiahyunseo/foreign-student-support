@@ -17,7 +17,6 @@ class FireStoreAPI {
     let db : Firestore
     
     private init() {
-        //FirebaseApp.configure()
         db = Firestore.firestore()
     }
     

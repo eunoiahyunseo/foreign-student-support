@@ -18,21 +18,22 @@ private enum FocusableField: Hashable {
 struct SignInView: View {
     @State var pushActive = false
     @ObservedObject private var viewModel: SignInViewModel
-    
     @FocusState private var focus: FocusableField?
-    
     @Environment(\.presentationMode) var presentationMode
-    
+
     @Binding var index: Int
     
 
     init(state: AppState, index: Binding<Int>) {
+        // viewmodel에 appstate가 전역적으로 관리된다.
         self.viewModel = SignInViewModel(authAPI: AuthService(), state: state)
         _index = index
     }
     
     var body: some View {
         VStack {
+            // 이 상태에서 HomeView에는 state정보가 들어있을 것임
+            // 여기에서 원천정보를 다시 설정해 주는게 맞다고 판단.
             NavigationLink(destination: HomeView(state: viewModel.state),
                            isActive: self.$pushActive) {
               EmptyView()

@@ -25,6 +25,7 @@ struct SignUpView: View {
     @Binding var index: Int
 
     init(state: AppState, index: Binding<Int>) {
+        // viewmodel이 초기화 됌
         self.viewModel = SignUpViewModel(authAPI: AuthService(), state: state)
         _index = index
     }

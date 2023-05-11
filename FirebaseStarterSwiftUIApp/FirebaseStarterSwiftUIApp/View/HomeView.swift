@@ -10,11 +10,17 @@ import SwiftUI
 
 struct HomeView: View {
     @State var isDrawerOpen: Bool = false
-    @ObservedObject var state: AppState
+    @ObservedObject private var viewModel: HomeViewModel
+
+    
+    init(state: AppState) {
+        self.viewModel = HomeViewModel(boardAPI: BoardService(), state: state)
+    }
+    
     var body: some View {
         ZStack {
             NavigationView {
-                Text("Welcome \(state.currentUser?.email ?? "Not found")")
+                Text("Welcome \(viewModel.state.currentUser?.email ?? "Not found")")
                     .navigationBarItems(leading: Button(action: {
                         self.isDrawerOpen.toggle()
                     }) {

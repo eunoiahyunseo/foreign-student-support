@@ -17,7 +17,6 @@ class SignInViewModel: ObservableObject {
     @Published var password: String = ""
     @Published var statusViewModel: StatusViewModel?
     @Published var state: AppState
-    
     @Published var isValid: Bool = false
     
     

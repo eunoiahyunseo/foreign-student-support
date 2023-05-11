@@ -13,5 +13,7 @@ struct User : CollectionScheme, Identifiable {
     static var collection_name: String = "users"
     @DocumentID var id : String?
     
+    
+    var name: String? // default value is annonymous
     var email: String?
 }
