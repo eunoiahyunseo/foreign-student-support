@@ -9,8 +9,8 @@ import SwiftUI
 
 struct ContentView: View {
     @State var Result = "초기값"
-    @State var KORTOENG = "초기값"
-    @State var ENGTOKOR = "초기값2"
+    @State var KORTOENG = "Korean to English"
+    @State var ENGTOKOR = "English to Korean"
 
     var body: some View {
        
@@ -19,7 +19,7 @@ struct ContentView: View {
                 .imageScale(.large)
                 .foregroundColor(.accentColor)
             Text("Translate to English").onTapGesture {
-                TranslateKORtoENG(OriginalText: "오늘은 7일입니다."){
+                TranslateKORtoENG(OriginalText: "모바일앱 프로그래밍 A+ 받기"){
                     translated in
                     if let text = translated{
                         print(text)
@@ -34,7 +34,7 @@ struct ContentView: View {
                 
             }
             Text("Translate to Korean").onTapGesture {
-                TranslateENGtoKOR(OriginalText: "Wow! Don't hesitate challenge"){
+                TranslateENGtoKOR(OriginalText: "Hello, How are you today?"){
                     translated in
                     if let text = translated{
                         print(text)
