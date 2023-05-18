@@ -15,7 +15,7 @@ import FirebaseFirestore
 struct Post: Codable, Identifiable {
     static var collection_name: String = "posts"
 
-    @DocumentID var id: String?
+    @DocumentID var id: String? // 
     var postedBy: String // 글을 쓴 사람
     var title: String // 게시글의 제목
     var content: String // 게시글의 내용

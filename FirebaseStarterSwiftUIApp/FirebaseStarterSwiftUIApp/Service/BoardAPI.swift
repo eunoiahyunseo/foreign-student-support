@@ -12,8 +12,9 @@ import FirebaseFirestore
 
 protocol BoardAPI {
     var db: Firestore { get }
-
-    func savePost(post: Post) -> String?
-    func saveUser(user: User) -> Void
-    func saveCommentByPostId(postId: String, comment: Comment) -> Void
+    
+    func createUser(user: User, completion: @escaping (Error?) -> Void)
+    func createPost(post: Post, completion: @escaping (Error?) -> Void)
+    func addCommentToPost(postId: String, comment: Comment, completion: @escaping (Error?) -> Void)
+    func readPostWithComments(postId: String, completion: @escaping (Post?, [Comment]?, Error?) -> Void)
 }

@@ -15,44 +15,70 @@ class BoardService: BoardAPI {
     // singleton firestore db instance
     var db = FireStoreAPI.inst.db
     
-    func saveUser(user: User) {
-        db.collection(type(of: user).collection_name)
-            .document(user.id!)
-            .setData([
-                "name": user.name ?? "annonymous",
-                "email": user.email!,
-            ])
-    }
-    
-    /**
-     사용자가 게시물을 하나 등록하는 API
-     */
-    func savePost(post: Post) -> String? {
-        // Cloud Firestore에서 자동으로 ID를 생성하도록 하는 것이다.
-        let postCollection = db.collection("posts")
-        
-        // post/(userid)/ -> (subcollection)comments/1
+    func createUser(user: User, completion: @escaping (Error?) -> Void) {
         do {
-            let postRef = try postCollection.addDocument(from: post)
-            return postRef.documentID
-        }
-        catch {
-            print(error)
-            return nil
+            let newUserRef = try db.collection(User.collection_name)
+                .addDocument(from: user)
+        } catch let error {
+            completion(error)
         }
     }
     
-    /**
-     사용자가 게시물에 댓글을 다는 API
-     */
-    func saveCommentByPostId(postId: String, comment: Comment) {
-        let postCollection = db.collection("posts").document(postId)
-        let commentCollection = postCollection.collection("comments")
-        
+    
+    func createPost(post: Post, completion: @escaping (Error?) -> Void) {
         do {
-           try commentCollection.addDocument(from: comment)
-        } catch {
-            print(error)
+            let newPostRef = try db.collection(Post.collection_name).addDocument(from: post)
+            
+            // Initialize an empty comments sub-collection for the new post
+            newPostRef.collection(Comment.collection_name).document().setData([:]) { error in
+                completion(error)
+            }
+        } catch let error {
+            completion(error)
+        }
+    }
+    
+
+    func addCommentToPost(postId: String, comment: Comment, completion: @escaping (Error?) -> Void) {
+        do {
+            let postRef = db.collection(Post.collection_name).document(postId)
+            
+            // Add a new comment document to the post's comments sub-collection
+            _ = try postRef.collection(Comment.collection_name).addDocument(from: comment) { error in
+                completion(error)
+            }
+        } catch let error {
+            completion(error)
+        }
+    }
+    
+    func readPostWithComments(postId: String, completion: @escaping (Post?, [Comment]?, Error?) -> Void) {
+        let postRef = db.collection(Post.collection_name).document(postId)
+        // First retrieve the post
+        postRef.getDocument { (postDocument, error) in
+            if let error = error {
+                completion(nil, nil, error)
+                return
+            }
+            
+            // Then retreve its comments sub-collection
+            postRef.collection(Comment.collection_name).getDocuments() {
+                (querySnapshot, error) in
+                if let error = error {
+                    completion(nil, nil, error)
+                    return
+                }
+                
+                if let postDocument = postDocument, postDocument.exists {
+                    let post = try? postDocument.data(as: Post.self)
+                    
+                    if let documents = querySnapshot?.documents {
+                        let comments = documents.compactMap {
+                            try? $0.data(as: Comment.self) }
+                        completion(post, comments, nil)
+                    }
+                }
+            }
         }
     }
 }

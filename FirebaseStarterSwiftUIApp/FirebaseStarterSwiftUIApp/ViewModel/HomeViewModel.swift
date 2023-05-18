@@ -19,9 +19,9 @@ class HomeViewModel: ObservableObject {
         self.state = state
     }
     
-    func addPost(title: String, content: String) -> String {
-        return (boardAPI.savePost(post: Post(postedBy: (state.user?.id)!, title: title, content: content)))!
-    }
+//    func addPost(title: String, content: String) -> String {
+//        return (boardAPI.savePost(post: Post(postedBy: (state.user?.id)!, title: title, content: content)))!
+//    }
 }
 
 extension HomeViewModel {
