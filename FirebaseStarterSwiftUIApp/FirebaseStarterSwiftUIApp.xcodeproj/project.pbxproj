@@ -40,6 +40,7 @@
 		DA131E8D2A0B584C0033D67F /* BoardService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA131E8C2A0B584C0033D67F /* BoardService.swift */; };
 		DA131E8F2A0B5C220033D67F /* BoardCRUDTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA131E8E2A0B5C220033D67F /* BoardCRUDTest.swift */; };
 		DA4A4BB52A06352700D5BA11 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DA4A4BB42A06352700D5BA11 /* GoogleService-Info.plist */; };
+		DA892F802A1616F600BB159B /* TapBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA892F7F2A1616F600BB159B /* TapBar.swift */; };
 		DAFE5CE52A0CB84B001D0CAC /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFE5CE42A0CB84B001D0CAC /* HomeViewModel.swift */; };
 		F3B397502A08E4D40060974D /* Content.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B3974F2A08E4D40060974D /* Content.swift */; };
 		F3B397522A08E5000060974D /* boardmain.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B397512A08E5000060974D /* boardmain.swift */; };
@@ -98,6 +99,7 @@
 		DA131E8C2A0B584C0033D67F /* BoardService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardService.swift; sourceTree = "<group>"; };
 		DA131E8E2A0B5C220033D67F /* BoardCRUDTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardCRUDTest.swift; sourceTree = "<group>"; };
 		DA4A4BB42A06352700D5BA11 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		DA892F7F2A1616F600BB159B /* TapBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TapBar.swift; sourceTree = "<group>"; };
 		DAFE5CE42A0CB84B001D0CAC /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		F3B3974F2A08E4D40060974D /* Content.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Content.swift; sourceTree = "<group>"; };
 		F3B397512A08E5000060974D /* boardmain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = boardmain.swift; sourceTree = "<group>"; };
@@ -194,6 +196,7 @@
 				30D8C5EC24E7755600CB0858 /* WelcomeView.swift */,
 				30DDE0BC24EC21E900208D32 /* DrawerView.swift */,
 				30DDE0BE24EC2A7C00208D32 /* HomeView.swift */,
+				DA892F7F2A1616F600BB159B /* TapBar.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -439,6 +442,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				30D8C5EF24E77C8000CB0858 /* CustomModifier.swift in Sources */,
+				DA892F802A1616F600BB159B /* TapBar.swift in Sources */,
 				30F0AF9224E976410084CE6E /* SplashView.swift in Sources */,
 				30DDE0C124EC2AD300208D32 /* AppState.swift in Sources */,
 				30D8C5ED24E7755600CB0858 /* WelcomeView.swift in Sources */,
