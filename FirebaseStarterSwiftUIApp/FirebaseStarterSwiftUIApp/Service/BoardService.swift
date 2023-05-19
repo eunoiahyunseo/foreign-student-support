@@ -10,19 +10,89 @@ import Foundation
 import FirebaseCore
 import FirebaseFirestore
 
+enum UserAPIError: Error {
+    case documentNotFound
+    case documentUpdateError
+    case generalError(Error)
+}
+
+let userCollection = "users"
+
 // 현재 접속해 있는
 class BoardService: BoardAPI {
     // singleton firestore db instance
     var db = FireStoreAPI.inst.db
     
     func createUser(user: User, completion: @escaping (Error?) -> Void) {
-        do {
-            let newUserRef = try db.collection(User.collection_name)
-                .addDocument(from: user)
-        } catch let error {
-            completion(error)
+        checkIfEmailExists(email: user.email!) { emailExists in
+            if !emailExists {
+                do {
+                    try self.db.collection(userCollection).addDocument(from: user)
+                    completion(nil)
+
+                } catch let error {
+                    completion(error)
+                }
+            } else {
+                self.updateUser(email: user.email!, user: user, completion: completion)
+            }
         }
     }
+    
+    
+    func updateUser(email: String, user: User, completion: @escaping (Error?) -> Void) {
+        db.collection("users")
+            .whereField("email", isEqualTo: email)
+            .getDocuments { (querySnapshot, error) in
+                // 조회하는데 에러가 발생한 경우
+                if let error = error {
+                    print("Error getting documents: \(error)")
+                    completion(error)
+                } else if let querySnapshot = querySnapshot, let document = querySnapshot.documents.first {
+                    self.db.collection("users").document(document.documentID).updateData([
+                        "name": user.nickname!,
+                        "country": user.country!,
+                        "region": user.region!,
+                        "language": user.language!,
+                        "age": user.age!,
+                        "nickname": user.nickname!
+                    ]) { error in
+                        if let error = error {
+                            // 업데이트 하다가 에러가 발생한 경우
+                            print("Error updating document: \(error)")
+                            completion(error)
+                        } else {
+                            // 성공적으로 조회하고 업데이트 된 경우
+                            print("Document successfully updated")
+                            completion(nil)
+                        }
+                    }
+                } else {
+                    // 이메일을 찾을 수 없는 경우
+                    print("No document found with provided email")
+                    completion(nil)
+                }
+            }
+    }
+        
+    func checkIfEmailExists(email: String, completion: @escaping (Bool) -> Void) {
+        db.collection("users")
+            .whereField("email", isEqualTo: email)
+            .getDocuments { (querySnapshot, error) in
+                if let error = error {
+                    print("Error getting documents: \(error)")
+                    completion(false)
+                } else if let querySnapshot = querySnapshot {
+                    if querySnapshot.documents.count > 0 {
+                        // 이미 이메일이 있는 경우
+                        completion(true)
+                    } else {
+                        completion(false)
+                    }
+                }
+            }
+    }
+   
     
     
     func createPost(post: Post, completion: @escaping (Error?) -> Void) {

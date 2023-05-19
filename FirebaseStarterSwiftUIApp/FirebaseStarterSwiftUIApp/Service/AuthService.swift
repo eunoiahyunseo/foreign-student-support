@@ -60,11 +60,12 @@ class AuthService: AuthAPI {
         return Future<User?, Never> { promise in
             Auth.auth().signIn(withEmail: email, password: password) {(authResult, _) in
                 // authResult.user.providerID, email이 있어야 한다. 
-                guard let id = authResult?.user.providerID,
+                guard let id = authResult?.user.uid,
                     let email = authResult?.user.email else {
                         promise(.success(nil))
                         return
                 }
+                
                 let user = User(id: id, email: email)
                 promise(.success(user))
             }
@@ -81,6 +82,25 @@ class AuthService: AuthAPI {
                 }
                 let user = User(id: id, email: email)
                 promise(.success(user))
+            }
+        }
+    }
+    
+    // 이미 있는 이메일인지 확인하는 API가 필요하다.
+    func checkIfEmailExists(email: String, completion: @escaping (Bool) -> Void) {
+        Auth.auth().fetchSignInMethods(forEmail: email) { (signInMethods, error) in
+            if let error = error {
+                print("Failed to check if email exists: \(error)")
+                completion(false)
+                return
+            }
+            
+            if let signInMethods = signInMethods, !signInMethods.isEmpty {
+                // Email exists
+                completion(true)
+            } else {
+                // Email does not exist
+                completion(false)
             }
         }
     }

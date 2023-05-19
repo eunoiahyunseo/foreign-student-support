@@ -33,4 +33,12 @@ class StatusViewModel: Identifiable, ObservableObject {
     static var passwordMatchErrorStatus: StatusViewModel {
         return StatusViewModel(title: "Error", message: "비밀번호가 같은지 다시한번 확인해 주세요.")
     }
+    
+    static var userConfigurationSuccessStatus: StatusViewModel {
+        return StatusViewModel(title: "Successful", message: "유저 정보가 성공적으로 등록되었습니다.")
+    }
+    
+    static var userConfigurationFailureStatus: StatusViewModel {
+        return StatusViewModel(title: "Error", message: "유저 정보에 문제가 발생하였습니다.")
+    }
 }

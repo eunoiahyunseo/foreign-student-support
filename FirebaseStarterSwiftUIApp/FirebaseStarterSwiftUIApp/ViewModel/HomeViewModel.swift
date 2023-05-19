@@ -7,9 +7,12 @@
 //
 
 import Foundation
+import FirebaseCore
+import FirebaseFirestore
 
 class HomeViewModel: ObservableObject {
     @Published var state: AppState
+    @Published var isInitialInfoSet: Bool = false
     
     public var boardAPI: BoardAPI
     
@@ -17,11 +20,33 @@ class HomeViewModel: ObservableObject {
     init(boardAPI: BoardAPI, state: AppState) {
         self.boardAPI = boardAPI
         self.state = state
+        fetchUserInitialInfo()
     }
     
-//    func addPost(title: String, content: String) -> String {
-//        return (boardAPI.savePost(post: Post(postedBy: (state.user?.id)!, title: title, content: content)))!
-//    }
+    private func fetchUserInitialInfo() {
+        guard let userID = state.currentUser?.id else { return }
+        print("check userId --> \(userID)")
+            
+        let docRef = Firestore.firestore().collection(User.collection_name).document(userID)
+            
+        docRef.getDocument { (document, error) in
+            if let document = document, document.exists {
+                let result = Result {
+                    try document.data(as: User.self)
+                }
+                switch result {
+                case .success(let user):
+                    DispatchQueue.main.async {
+                        self.isInitialInfoSet = user.isInitialInfoSet
+                    }
+                case .failure(let error):
+                    print("Error decoding user: \(error)")
+                }
+            } else {
+                print("Document does not exist in database")
+            }
+        }
+    }
 }
 
 extension HomeViewModel {

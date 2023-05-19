@@ -8,56 +8,29 @@
 
 import SwiftUI
 
-struct HomeTabView: View {
-    var body: some View {
-        Text("Home")
-    }
-}
 
-struct BulletinBoardTabView: View {
-    var body: some View {
-        Text("Bulletin Board")
-    }
-}
-
-struct NotificationsTabView: View {
-    var body: some View {
-        Text("Notifications")
-    }
-}
-
-struct TapBar<Content: View>: View {
-    let content: Content
+struct GeneralHomeTemplate<Content: View>: View {
+    var content: Content
     
     init(@ViewBuilder content: () -> Content) {
         self.content = content()
     }
-    
+     
     var body: some View {
-        TabView {
-            content
+        VStack {
+            TabView {
+                content
+            }
+            
         }
-        .accentColor(.pink)
     }
 }
 
 struct TapBar_Previews: PreviewProvider {
     static var previews: some View {
-        TapBar {
-            HomeTabView()
-                .tabItem {
-                    Label("Home", systemImage: "house")
-                }
-
-            BulletinBoardTabView()
-                .tabItem {
-                    Label("Board", systemImage: "doc.text")
-                }
-
-            NotificationsTabView()
-                .tabItem {
-                    Label("Notifications", systemImage: "bell")
-                }
+        GeneralHomeTemplate {
+            HomeView.GTabView(text: "Home", image: "house", tag: 1)
+            HomeView.GTabView(text: "Bar", image: "house", tag: 2)
         }
     }
 }

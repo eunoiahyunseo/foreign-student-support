@@ -9,11 +9,20 @@
 import Foundation
 import FirebaseFirestoreSwift
 
-struct User : CollectionScheme, Identifiable {
+
+struct User: CollectionScheme, Identifiable {
     static var collection_name: String = "users"
     @DocumentID var id : String?
+    var uid: String?
     
     
-    var name: String? // default value is annonymous
     var email: String?
+    
+    var country: String?
+    var region: String?
+    var language: String?
+    var age: String?
+    var nickname: String?
+    var school: String?
+    var isInitialInfoSet: Bool = false // Added new field
 }
