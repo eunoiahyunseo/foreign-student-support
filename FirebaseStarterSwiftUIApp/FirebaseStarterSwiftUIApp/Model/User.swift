@@ -10,11 +10,9 @@ import Foundation
 import FirebaseFirestoreSwift
 
 
-struct User: CollectionScheme, Identifiable {
+struct User: Codable, Identifiable {
     static var collection_name: String = "users"
     @DocumentID var id : String?
-    var uid: String?
-    
     
     var email: String?
     
