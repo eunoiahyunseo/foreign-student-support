@@ -8,11 +8,14 @@
 import SwiftUI
 
 struct ContentDetail: View {
-    let content: Content2
+    let content: Post
     @State var isGood: Int = 0
     @State var comment: String = ""
+    let board: String
+    @EnvironmentObject var userConfigViewModel: UserConfigViewModel
+
     var body: some View {
-        VStack(alignment: .leading){
+        VStack(alignment: .leading) {
             profile
             //.padding([.leading, .top], 15)
             //.padding([.trailing, .bottom], 5)
@@ -43,9 +46,35 @@ struct ContentDetail: View {
                 }
             }
         }
+        .navigationBarItems(trailing: Button(action: {
+            //설정 버튼액션
+        }, label: {
+            Image(systemName: "ellipsis")
+            .rotationEffect(.degrees(90))})
+            .foregroundColor(.black))
+        .navigationBarItems(trailing: Button(action: {
+            //검색 버튼액션
+        }, label: {
+            Image(systemName: "magnifyingglass")
+        }))
+        .toolbar {
+            ToolbarItem(placement: .principal) {
+                VStack {
+                    Text(board)
+                        .font(.headline)
+                    Text((userConfigViewModel.state.currentUser?.school)!)
+                        .font(.footnote)
+                        .foregroundColor(Color.secondary)
+
+                }
+            }
+        }
+        .navigationBarTitleDisplayMode(.inline)
         .padding(.leading, 15)
         .padding([.top, .trailing])
         .padding(.bottom, 7)
+        
+        
     }
 }
 
@@ -74,7 +103,7 @@ private extension ContentDetail{
                 .foregroundColor(.red)
                 .frame(width: 18, height: 18)
                 .padding(.trailing, -5)
-            Text(String(content.isGood))
+            Text(String(content.likes.count))
                 .font(.footnote)
                 .foregroundColor(.red)
             Image(systemName: "bubble.left")
@@ -83,7 +112,7 @@ private extension ContentDetail{
                 .frame(width: 18, height: 18)
                 .padding(.leading, 5)
                 .padding(.trailing, -5)
-            Text(String(content.comment))
+            Text(String((content.comments?.count)!))
                 .font(.footnote)
                 .foregroundColor(.blue)
             Image(systemName: "star")
@@ -133,6 +162,11 @@ private extension ContentDetail{
 
 struct ContentDetail_Previews: PreviewProvider {
     static var previews: some View {
-        ContentDetail(content: contentSamples[0])
+        let state = AppState()
+        state.currentUser = mockUser
+        
+        return ContentDetail(content: mockPosts[0], board: "대구캠 자유게시판")
+            .environmentObject(UserConfigViewModel(
+                boardAPI: BoardService(), userAPI: UserService(), state: state))
     }
 }

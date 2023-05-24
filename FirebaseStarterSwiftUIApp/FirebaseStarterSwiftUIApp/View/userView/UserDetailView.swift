@@ -146,7 +146,8 @@ struct NickNameModifyingCover: View {
                     isShownFullScreenCover = false
                 }
             }))
-        }    }
+        }
+    }
 }
 
 let mockUser = User(

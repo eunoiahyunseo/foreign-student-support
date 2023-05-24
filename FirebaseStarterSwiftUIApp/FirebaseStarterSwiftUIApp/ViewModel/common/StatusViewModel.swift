@@ -38,4 +38,12 @@ class StatusViewModel: Identifiable, ObservableObject {
     static var userConfigurationFailureStatus: StatusViewModel {
         return StatusViewModel(title: "Error", message: "유저 정보에 문제가 발생하였습니다.")
     }
+    
+    static var postCreationSuccessStatus: StatusViewModel {
+        return StatusViewModel(title: "Successful", message: "게시글이 성공적으로 등록되었습니다.")
+    }
+    
+    static var postCreationFailureStatus: StatusViewModel {
+        return StatusViewModel(title: "Error", message: "게시글 등록에 실패하였습니다. 정보를 확인해주세요.")
+    }
 }

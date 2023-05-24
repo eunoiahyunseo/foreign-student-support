@@ -17,8 +17,6 @@ class BoardService: BoardAPI {
     func createPost(post: Post, completion: @escaping (Error?) -> Void) {
         do {
             let newPostRef = try db.collection(Post.collection_name).addDocument(from: post)
-            
-            // Initialize an empty comments sub-collection for the new post
             newPostRef.collection(Comment.collection_name).document().setData([:]) { error in
                 completion(error)
             }
@@ -29,6 +27,7 @@ class BoardService: BoardAPI {
 
     func addCommentToPost(postId: String, comment: Comment, completion: @escaping (Error?) -> Void) {
         do {
+            // postId로 해당 post를 가져온다.
             let postRef = db.collection(Post.collection_name).document(postId)
             
             // Add a new comment document to the post's comments sub-collection
@@ -40,32 +39,41 @@ class BoardService: BoardAPI {
         }
     }
     
-    func readPostWithComments(postId: String, completion: @escaping (Post?, [Comment]?, Error?) -> Void) {
-        let postRef = db.collection(Post.collection_name).document(postId)
-        // First retrieve the post
-        postRef.getDocument { (postDocument, error) in
+    func getAllPosts(completion: @escaping (Result<[Post], Error>) -> Void) {
+        let db = Firestore.firestore()
+        
+        db.collection(Post.collection_name).getDocuments { (querySnapshot, error) in
             if let error = error {
-                completion(nil, nil, error)
-                return
+                completion(.failure(error))
+            } else if let querySnapshot = querySnapshot {
+                let posts = querySnapshot.documents.compactMap { try? $0.data(as: Post.self) }
+                completion(.success(posts))
             }
-            
-            // Then retreve its comments sub-collection
-            postRef.collection(Comment.collection_name).getDocuments() {
-                (querySnapshot, error) in
-                if let error = error {
-                    completion(nil, nil, error)
-                    return
-                }
-                
-                if let postDocument = postDocument, postDocument.exists {
-                    let post = try? postDocument.data(as: Post.self)
-                    
-                    if let documents = querySnapshot?.documents {
-                        let comments = documents.compactMap {
-                            try? $0.data(as: Comment.self) }
-                        completion(post, comments, nil)
+        }
+    }
+    
+    func getPostWithComments(postId: String, completion: @escaping (Result<Post, Error>) -> Void) {
+        let db = Firestore.firestore()
+        
+        // Fetch the post
+        let postRef = db.collection(Post.collection_name).document(postId)
+        postRef.getDocument { (document, error) in
+            if let error = error {
+                completion(.failure(error))
+            } else if let document = document, document.exists,
+                      var post = try? document.data(as: Post.self) {
+                // Fetch the comments
+                postRef.collection(Comment.collection_name).getDocuments { (querySnapshot, error) in
+                    if let error = error {
+                        completion(.failure(error))
+                    } else if let querySnapshot = querySnapshot {
+                        let comments = querySnapshot.documents.compactMap { try? $0.data(as: Comment.self) }
+                        post.comments = comments
+                        completion(.success(post))
                     }
                 }
+            } else {
+                completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Post not found"])))
             }
         }
     }

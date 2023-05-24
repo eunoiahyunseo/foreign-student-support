@@ -34,6 +34,7 @@
 		DA131E892A0B573F0033D67F /* Board.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA131E882A0B573F0033D67F /* Board.swift */; };
 		DA131E8B2A0B57E60033D67F /* BoardAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA131E8A2A0B57E60033D67F /* BoardAPI.swift */; };
 		DA131E8D2A0B584C0033D67F /* BoardService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA131E8C2A0B584C0033D67F /* BoardService.swift */; };
+		DA151A132A1DFE170007853C /* BoardTabInnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA151A122A1DFE170007853C /* BoardTabInnerView.swift */; };
 		DA3C0BCF2A17AF8A0033D2BD /* UserInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3C0BCE2A17AF8A0033D2BD /* UserInfoView.swift */; };
 		DA3C0BD12A17AF9D0033D2BD /* UserDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3C0BD02A17AF9D0033D2BD /* UserDetailView.swift */; };
 		DA3C0BE62A17CAD70033D2BD /* RootAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3C0BE52A17CAD70033D2BD /* RootAPI.swift */; };
@@ -44,6 +45,7 @@
 		DA7E45192A1795CA00AB1899 /* UserAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7E45182A1795CA00AB1899 /* UserAPI.swift */; };
 		DAA490532A1692C6009F0374 /* UserConfigViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA490522A1692C6009F0374 /* UserConfigViewModel.swift */; };
 		DAA497E52A1904DA001F888D /* UserConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA497E42A1904DA001F888D /* UserConfig.swift */; };
+		DAED40C22A1E5B5F0047C8E1 /* BoardConfigViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAED40C12A1E5B5F0047C8E1 /* BoardConfigViewModel.swift */; };
 		F3B397502A08E4D40060974D /* Content.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B3974F2A08E4D40060974D /* Content.swift */; };
 		F3B397522A08E5000060974D /* boardmain.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B397512A08E5000060974D /* boardmain.swift */; };
 		F3B397542A08E5100060974D /* ContentDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B397532A08E5100060974D /* ContentDetail.swift */; };
@@ -90,6 +92,7 @@
 		DA131E882A0B573F0033D67F /* Board.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Board.swift; sourceTree = "<group>"; };
 		DA131E8A2A0B57E60033D67F /* BoardAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardAPI.swift; sourceTree = "<group>"; };
 		DA131E8C2A0B584C0033D67F /* BoardService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardService.swift; sourceTree = "<group>"; };
+		DA151A122A1DFE170007853C /* BoardTabInnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardTabInnerView.swift; sourceTree = "<group>"; };
 		DA3C0BCE2A17AF8A0033D2BD /* UserInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoView.swift; sourceTree = "<group>"; };
 		DA3C0BD02A17AF9D0033D2BD /* UserDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailView.swift; sourceTree = "<group>"; };
 		DA3C0BE52A17CAD70033D2BD /* RootAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootAPI.swift; sourceTree = "<group>"; };
@@ -102,6 +105,7 @@
 		DAA497E02A19017B001F888D /* FirebaseStarterSwiftUIApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FirebaseStarterSwiftUIApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAA497E12A19017B001F888D /* FireStoretest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FireStoretest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAA497E42A1904DA001F888D /* UserConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserConfig.swift; sourceTree = "<group>"; };
+		DAED40C12A1E5B5F0047C8E1 /* BoardConfigViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardConfigViewModel.swift; sourceTree = "<group>"; };
 		DB8C10DB8C90574AB4F8C3C3 /* Pods_FirebaseStarterSwiftUIApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FirebaseStarterSwiftUIApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFC04FC652303ADBA7DDA3FB /* Pods-FirebaseStarterSwiftUIApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FirebaseStarterSwiftUIApp.debug.xcconfig"; path = "Target Support Files/Pods-FirebaseStarterSwiftUIApp/Pods-FirebaseStarterSwiftUIApp.debug.xcconfig"; sourceTree = "<group>"; };
 		F3B3974F2A08E4D40060974D /* Content.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Content.swift; sourceTree = "<group>"; };
@@ -192,6 +196,7 @@
 		30F0AF9424E985390084CE6E /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				DAED40C02A1E5B390047C8E1 /* board */,
 				DA3C0BDE2A17B6B50033D2BD /* user */,
 				DA3C0BDD2A17B6A00033D2BD /* common */,
 				DA3C0BDC2A17B6960033D2BD /* auth */,
@@ -379,6 +384,14 @@
 			path = Configuration;
 			sourceTree = "<group>";
 		};
+		DAED40C02A1E5B390047C8E1 /* board */ = {
+			isa = PBXGroup;
+			children = (
+				DAED40C12A1E5B5F0047C8E1 /* BoardConfigViewModel.swift */,
+			);
+			path = board;
+			sourceTree = "<group>";
+		};
 		F3B3974E2A08E2D70060974D /* comBoard */ = {
 			isa = PBXGroup;
 			children = (
@@ -386,6 +399,7 @@
 				F3B397532A08E5100060974D /* ContentDetail.swift */,
 				F3B397512A08E5000060974D /* boardmain.swift */,
 				F3B3974F2A08E4D40060974D /* Content.swift */,
+				DA151A122A1DFE170007853C /* BoardTabInnerView.swift */,
 			);
 			path = comBoard;
 			sourceTree = "<group>";
@@ -536,6 +550,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA151A132A1DFE170007853C /* BoardTabInnerView.swift in Sources */,
 				DA3C0BD12A17AF9D0033D2BD /* UserDetailView.swift in Sources */,
 				30D8C5EF24E77C8000CB0858 /* CustomModifier.swift in Sources */,
 				30F0AF9224E976410084CE6E /* SplashView.swift in Sources */,
@@ -559,6 +574,7 @@
 				30A39BED24DF999900EE7E2E /* SignUpViewModel.swift in Sources */,
 				DA7E45172A1795C200AB1899 /* UserService.swift in Sources */,
 				DA3C0BE62A17CAD70033D2BD /* RootAPI.swift in Sources */,
+				DAED40C22A1E5B5F0047C8E1 /* BoardConfigViewModel.swift in Sources */,
 				30F0AF9024E967920084CE6E /* StatusViewModel.swift in Sources */,
 				F3B397522A08E5000060974D /* boardmain.swift in Sources */,
 				DA131E8D2A0B584C0033D67F /* BoardService.swift in Sources */,

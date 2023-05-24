@@ -15,5 +15,6 @@ protocol BoardAPI {
     
     func createPost(post: Post, completion: @escaping (Error?) -> Void)
     func addCommentToPost(postId: String, comment: Comment, completion: @escaping (Error?) -> Void)
-    func readPostWithComments(postId: String, completion: @escaping (Post?, [Comment]?, Error?) -> Void)
+    func getAllPosts(completion: @escaping (Result<[Post], Error>) -> Void)
+    func getPostWithComments(postId: String, completion: @escaping (Result<Post, Error>) -> Void)
 }

@@ -8,38 +8,32 @@
 import SwiftUI
 
 struct ContentRow: View {
-    let content: Content2
+    var content: Post
+    @EnvironmentObject var userConfigViewModel: UserConfigViewModel
+
     var body: some View {
-        VStack(alignment: .leading){
-            Text(content.title)
-                .font(.headline)
-                .fontWeight(.medium)
-                .padding(.bottom, 3)
-            Text(content.content)
-                .font(.footnote)
-                .foregroundColor(.secondary)
-            footView
+        VStack(alignment: .leading) {
+            Group {
+                Text(content.title)
+                    .font(.headline)
+                    .fontWeight(.medium)
+                    .padding(.bottom, 3)
+                Text(content.content)
+                    .font(.footnote)
+                    .foregroundColor(.secondary)
+                footView
+            }.frame(maxWidth: .infinity, alignment: .leading)
         }
+        .frame(maxWidth: .infinity)
         .padding(.leading, 15)
         .padding([.top, .trailing])
         .padding(.bottom, 7)
-        //.border(Color.gray)
-//        .overlay(
-//            VStack {
-//                Rectangle()
-//                    .frame(height: 1)
-//                    .foregroundColor(Color.gray)
-//                Spacer()
-//                Rectangle()
-//                    .frame(height: 1)
-//                    .foregroundColor(Color.gray)
-//            }
-//        )
         .frame(height: 130)
+
     }
 }
 
-private extension ContentRow{
+extension ContentRow{
     var footView: some View{
         HStack{
             Image(systemName: "hand.thumbsup")
@@ -47,7 +41,7 @@ private extension ContentRow{
                 .foregroundColor(.red)
                 .frame(width: 18, height: 18)
                 .padding(.trailing, -5)
-            Text(String(content.isGood))
+            Text(String(content.likes.count))
                 .font(.footnote)
                 .foregroundColor(.red)
             Image(systemName: "bubble.left")
@@ -56,16 +50,48 @@ private extension ContentRow{
                 .frame(width: 18, height: 18)
                 .padding(.leading, 5)
                 .padding(.trailing, -5)
-            Text(String(content.comment))
+            Text(String((content.comments?.count)!))
                 .font(.footnote)
                 .foregroundColor(.blue)
+            
+            Group {
+                Text(content.postedUser)
+                Text("|")
+                Text(timeAgoDisplay(timestamp: content.timestamp))
+            }
+            .font(.footnote)
+            .foregroundColor(.secondary)
         }
         .padding(.bottom, 5)
+    }
+    
+    func timeAgoDisplay(timestamp: Date) -> String {
+        let now = Date()
+        let components = Calendar.current.dateComponents([.minute, .hour, .day], from: timestamp, to: now)
+        
+        if let day = components.day, day >= 1 {
+            return "\(day)일 전"
+        }
+        
+        if let hour = components.hour, hour >= 1 {
+            return "\(hour)시간 전"
+        }
+        
+        if let minute = components.minute, minute >= 1 {
+            return "\(minute)분 전"
+        }
+        
+        return "방금"
     }
 }
 
 struct ContentRow_Previews: PreviewProvider {
     static var previews: some View {
-        ContentRow(content: contentSamples[0])
+        let state = AppState()
+        state.currentUser = mockUser
+        
+        return ContentRow(content: mockPosts[0])
+            .environmentObject(UserConfigViewModel(
+                boardAPI: BoardService(), userAPI: UserService(), state: state))
     }
 }

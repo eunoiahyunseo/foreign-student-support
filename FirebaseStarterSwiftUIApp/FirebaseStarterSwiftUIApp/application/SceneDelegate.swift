@@ -28,6 +28,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             .environmentObject(SignInViewModel(authAPI: authAPI, state: initialState))
             .environmentObject(UserConfigViewModel(
                 boardAPI: boardAPI, userAPI: userAPI, state: initialState))
+            .environmentObject(BoardConfigViewModel(
+                boardAPI: boardAPI, userAPI: userAPI, state: initialState))
         
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
