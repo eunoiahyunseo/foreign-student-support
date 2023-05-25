@@ -16,6 +16,10 @@ class BoardConfigViewModel: ObservableObject {
     @Published var title = ""
     @Published var content = ""
     
+    // 댓글을 달기 위해 CurrentBoard의 ID가 필요하다.
+    @Published var selectedPost: Post?
+    @Published var comment = ""
+    
     @Published var state: AppState
     @Published var statusViewModel: StatusViewModel?
     @Published var isValid: Bool = false
@@ -43,6 +47,10 @@ class BoardConfigViewModel: ObservableObject {
     func initField() {
         self.title = ""
         self.content = ""
+    }
+    
+    func initComment() {
+        self.comment = ""
     }
     
     func createPost() {
@@ -83,4 +91,43 @@ class BoardConfigViewModel: ObservableObject {
             }
         }
     }
+    
+    func addCommentToPost() {
+        let comment: Comment = Comment(
+            commentedBy: (self.state.currentUser?.id)!,
+            commentedUser: (self.state.currentUser?.nickname)!,
+            content: self.comment,
+            timestamp: Date()
+        )
+        boardAPI.addCommentToPost(postId: (selectedPost?.id)!, comment: comment) { error in
+            if let error = error {
+                print("Error creating comment to post: \(error)")
+                self.statusViewModel = .commentCreationFailureStatus
+            } else {
+                self.statusViewModel = .commentCreationSuccessStatus
+            }
+        }
+        
+    }
+    
+    func fetchAllCommentsRelatedWithCurrentPost() {
+        isLoading = true
+        boardAPI.getPostWithComments(postId: (selectedPost?.id)!) { [weak self] result in
+            DispatchQueue.main.async {
+                sleep(1)
+                switch result {
+                case .success(var post):
+                    
+                    if let comments = post.comments {
+                        post.comments = comments.sorted(by: { $0.timestamp < $1.timestamp })
+                    }
+                    self?.selectedPost = post
+                case .failure(let error):
+                    print("Error fetching post: \(error)")
+                }
+                self?.isLoading = false
+            }
+        }
+    }
+    
 }

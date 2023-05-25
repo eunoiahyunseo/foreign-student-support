@@ -181,10 +181,12 @@ struct HomeView_Previews: PreviewProvider {
         let state = AppState()
         state.currentUser = mockUser
         
-        return HomeView()
+        return NavigationView {
+            HomeView()
                 .environmentObject(UserConfigViewModel(
                     boardAPI: BoardService(), userAPI: UserService(), state: state))
-            }
+        }
+    }
         
         
 }
