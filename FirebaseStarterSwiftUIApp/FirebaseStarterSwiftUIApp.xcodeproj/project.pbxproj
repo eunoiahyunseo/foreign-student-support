@@ -46,6 +46,8 @@
 		DAA490532A1692C6009F0374 /* UserConfigViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA490522A1692C6009F0374 /* UserConfigViewModel.swift */; };
 		DAA497E52A1904DA001F888D /* UserConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA497E42A1904DA001F888D /* UserConfig.swift */; };
 		DAED40C22A1E5B5F0047C8E1 /* BoardConfigViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAED40C12A1E5B5F0047C8E1 /* BoardConfigViewModel.swift */; };
+		F3690BD02A1F8775006556D8 /* ChatGPTAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3690BCE2A1F8774006556D8 /* ChatGPTAPI.swift */; };
+		F3690BD12A1F8775006556D8 /* GPT_API_Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3690BCF2A1F8774006556D8 /* GPT_API_Models.swift */; };
 		F3B397502A08E4D40060974D /* Content.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B3974F2A08E4D40060974D /* Content.swift */; };
 		F3B397522A08E5000060974D /* boardmain.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B397512A08E5000060974D /* boardmain.swift */; };
 		F3B397542A08E5100060974D /* ContentDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B397532A08E5100060974D /* ContentDetail.swift */; };
@@ -108,6 +110,8 @@
 		DAED40C12A1E5B5F0047C8E1 /* BoardConfigViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardConfigViewModel.swift; sourceTree = "<group>"; };
 		DB8C10DB8C90574AB4F8C3C3 /* Pods_FirebaseStarterSwiftUIApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FirebaseStarterSwiftUIApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFC04FC652303ADBA7DDA3FB /* Pods-FirebaseStarterSwiftUIApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FirebaseStarterSwiftUIApp.debug.xcconfig"; path = "Target Support Files/Pods-FirebaseStarterSwiftUIApp/Pods-FirebaseStarterSwiftUIApp.debug.xcconfig"; sourceTree = "<group>"; };
+		F3690BCE2A1F8774006556D8 /* ChatGPTAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatGPTAPI.swift; sourceTree = "<group>"; };
+		F3690BCF2A1F8774006556D8 /* GPT_API_Models.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPT_API_Models.swift; sourceTree = "<group>"; };
 		F3B3974F2A08E4D40060974D /* Content.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Content.swift; sourceTree = "<group>"; };
 		F3B397512A08E5000060974D /* boardmain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = boardmain.swift; sourceTree = "<group>"; };
 		F3B397532A08E5100060974D /* ContentDetail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentDetail.swift; sourceTree = "<group>"; };
@@ -148,6 +152,7 @@
 		30127DC924DE506300576F65 /* FirebaseStarterSwiftUIApp */ = {
 			isa = PBXGroup;
 			children = (
+				F3690BCD2A1F8774006556D8 /* openAI */,
 				DAA497E22A1904BA001F888D /* Data */,
 				30127DD824DE506500576F65 /* Info.plist */,
 				DA4A4BB42A06352700D5BA11 /* GoogleService-Info.plist */,
@@ -392,6 +397,15 @@
 			path = board;
 			sourceTree = "<group>";
 		};
+		F3690BCD2A1F8774006556D8 /* openAI */ = {
+			isa = PBXGroup;
+			children = (
+				F3690BCE2A1F8774006556D8 /* ChatGPTAPI.swift */,
+				F3690BCF2A1F8774006556D8 /* GPT_API_Models.swift */,
+			);
+			path = openAI;
+			sourceTree = "<group>";
+		};
 		F3B3974E2A08E2D70060974D /* comBoard */ = {
 			isa = PBXGroup;
 			children = (
@@ -552,6 +566,7 @@
 			files = (
 				DA151A132A1DFE170007853C /* BoardTabInnerView.swift in Sources */,
 				DA3C0BD12A17AF9D0033D2BD /* UserDetailView.swift in Sources */,
+				F3690BD12A1F8775006556D8 /* GPT_API_Models.swift in Sources */,
 				30D8C5EF24E77C8000CB0858 /* CustomModifier.swift in Sources */,
 				30F0AF9224E976410084CE6E /* SplashView.swift in Sources */,
 				30DDE0C124EC2AD300208D32 /* AppState.swift in Sources */,
@@ -584,6 +599,7 @@
 				30D8C5F124E77CFB00CB0858 /* UIConfiguration.swift in Sources */,
 				30127DCF24DE506300576F65 /* SignInView.swift in Sources */,
 				30F0AF9824E9868D0084CE6E /* SignInViewModel.swift in Sources */,
+				F3690BD02A1F8775006556D8 /* ChatGPTAPI.swift in Sources */,
 				30F0AF9B24E989020084CE6E /* CustomTextField.swift in Sources */,
 				DAA490532A1692C6009F0374 /* UserConfigViewModel.swift in Sources */,
 				DA131E892A0B573F0033D67F /* Board.swift in Sources */,
