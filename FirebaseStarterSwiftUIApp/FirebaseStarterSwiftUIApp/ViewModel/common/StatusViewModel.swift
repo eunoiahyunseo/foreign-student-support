@@ -46,4 +46,13 @@ class StatusViewModel: Identifiable, ObservableObject {
     static var postCreationFailureStatus: StatusViewModel {
         return StatusViewModel(title: "Error", message: "게시글 등록에 실패하였습니다. 정보를 확인해주세요.")
     }
+    
+    static var commentCreationSuccessStatus: StatusViewModel {
+        return StatusViewModel(title: "Successful", message: "댓글이 성공적으로 등록되었습니다.")
+    }
+    
+    static var commentCreationFailureStatus: StatusViewModel {
+        return StatusViewModel(title: "Error", message: "댓글의 등록에 실패하였습니다. 정보를 확인해주세요.")
+    }
+    
 }

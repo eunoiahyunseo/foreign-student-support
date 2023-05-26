@@ -2,12 +2,12 @@ import SwiftUI
 
 struct boardmain: View {
     let board: String
-    let contentSamples: [Post] = mockPosts
+//    let contentSamples: [Post] = mockPosts
     @EnvironmentObject var userConfigViewModel: UserConfigViewModel
-    @State var selectedPost: Post = mockPosts[0]
+//    @State var selectedPost: Post = mockPosts[0]
     @EnvironmentObject var boardConfigViewModel: BoardConfigViewModel
 
-    @State var isActivated: Bool = false
+    @State var isActive: Bool = false
     @State var isShownFullScreenCover = false
     
     var body: some View {
@@ -20,12 +20,28 @@ struct boardmain: View {
                         if let posts = boardConfigViewModel.posts {
                             List {
                                 ForEach(posts) { content in
-                                    NavigationLink(destination: ContentDetail(content: content, board: board)) {
+                                    Button(action: {
+                                        boardConfigViewModel.selectedPost = content
+                                        self.isActive = true
+                                        
+                                    }) {
                                         ContentRow(content: content)
                                     }
+                                    
                                 }
                             }
                             .listStyle(PlainListStyle())
+                            .background(
+                                Group {
+                                    if let selectedPost = boardConfigViewModel.selectedPost {
+                                        NavigationLink(destination: ContentDetail(content: selectedPost, board: board), isActive: $isActive) {
+
+                                            EmptyView()
+                                        }
+                                        .hidden()
+                                    }
+                                }
+                            )
                         }
                     }
                 }
