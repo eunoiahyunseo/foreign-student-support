@@ -274,6 +274,7 @@ class OpenSiriKitIntentHandler: NSString, OpenSiriKitIntentAIntentHandling {
             Task{
                 
                 self.Answ = try? await getAnswer(question: question)
+
                 completion(OpenSiriKitIntentAIntentResponse.success(answer: NSString(string: self.Answ ?? "nr") as String))
             }
             
@@ -284,7 +285,7 @@ class OpenSiriKitIntentHandler: NSString, OpenSiriKitIntentAIntentHandling {
             //IntentViewController.Answer = question
             //IntentViewController.Answ = Answer
             //print(Answer)
-            //completion(OpenSiriKitIntentAIntentResponse.success(answer: NSString(string: self.Answ ?? "nr") as String))
+           
         }
     }
     
@@ -294,10 +295,10 @@ class OpenSiriKitIntentHandler: NSString, OpenSiriKitIntentAIntentHandling {
     }
     func getAnswer(question: String) async->String {
         //self.Answ = question
-        let ChatAPI = ChatGPTAPI(apiKey: "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")
+        let ChatAPI = ChatGPTAPI(apiKey: "//본인의 키 입력")
        
         do{
-            self.Answ = try? await ChatAPI.sendMessage("How do you think about iOS?")
+            self.Answ = try? await ChatAPI.sendMessage(question)
             
             let Answera = "OpenAI SAYS THIS. The question is \(self.Answ)"
             UserDefaults.standard.set(Answera, forKey: "asr")
