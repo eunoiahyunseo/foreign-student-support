@@ -69,8 +69,8 @@ class IntentViewController: UIViewController, INUIHostedViewControlling {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        LblText = UILabel(frame: CGRect(x: 0, y: 0, width: 500, height: 30))
-
+        LblText = UILabel(frame: CGRect(x: 0, y: 0, width: 370, height: 300))
+        LblText.numberOfLines = 0
         
             //let Answ = OpenSiriKitIntentAIntentResponse
         //let Answer = UserDefaults.standard.object(forKey: "asr") as? String
