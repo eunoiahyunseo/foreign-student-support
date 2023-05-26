@@ -9,7 +9,7 @@ struct boardmain: View {
 
     @State var isActivated: Bool = false
     @State var isShownFullScreenCover = false
-
+    
     var body: some View {
         GeometryReader { geometry in
             ZStack {
@@ -87,6 +87,10 @@ struct PostCreatingCover: View {
     @EnvironmentObject var userConfigViewModel: UserConfigViewModel
     @EnvironmentObject var boardConfigViewModel: BoardConfigViewModel
     @Binding var isShownFullScreenCover: Bool
+    @State var isShownCultureAlert : Bool = false
+    @State var sensitive_res : String = "응답을 기다리는 중..."
+    
+    var chatGPT = ChatGPTAPI(apiKey : "secret-key")
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -122,9 +126,6 @@ struct PostCreatingCover: View {
 
                     .cornerRadius(20)
                     .shadow(color: .primary.opacity(0.33), radius: 1.4, x: 1, y: 1)
-
-
-
                 }
                 .padding()
 
@@ -161,8 +162,21 @@ struct PostCreatingCover: View {
             }))
         }
 
+        Button {
+            isShownCultureAlert = true
+            sensitive_res = "응답을 기다리는 중..."
+            Task() {
+                var question : String = "영어권, 불어권, 일본, 한국, 아랍에서 문화적으로 문제가 될만한 내용을 알려줘 '" + boardConfigViewModel.content + "'"
+                sensitive_res = try! await chatGPT.sendMessage(question)
+            }
+        } label: {
+            Image(systemName: "person.crop.circle.badge.exclamationmark.fill")
+        }
+        .alert(isPresented: $isShownCultureAlert) {
+            Alert(title: Text("문화적 민감정보 확인"), message: Text(sensitive_res),
+                  dismissButton: .default(Text("확인")))
+        }
     }
-
 }
 
 struct boardmain_Previews: PreviewProvider {
