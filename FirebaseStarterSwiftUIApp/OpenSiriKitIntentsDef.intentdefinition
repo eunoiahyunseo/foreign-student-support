@@ -21,6 +21,8 @@
 			<string>generic</string>
 			<key>INIntentConfigurable</key>
 			<true/>
+			<key>INIntentDescription</key>
+			<string>Ask OpenAI via Foreigner Application</string>
 			<key>INIntentDescriptionID</key>
 			<string>1PbjF9</string>
 			<key>INIntentInput</key>
@@ -36,7 +38,7 @@
 					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
 					<true/>
 					<key>INIntentParameterCombinationTitle</key>
-					<string>Ask OpenAI with ${ThingsToAsk}</string>
+					<string>Ask KNU with: ${ThingsToAsk}</string>
 					<key>INIntentParameterCombinationTitleID</key>
 					<string>neMfQK</string>
 					<key>INIntentParameterCombinationUpdatesLinked</key>
@@ -56,7 +58,7 @@
 					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
 					<true/>
 					<key>INIntentParameterCombinationTitle</key>
-					<string>Ask OpenAI with ${ThingsToAsk}</string>
+					<string>Ask KNU with: ${ThingsToAsk}</string>
 					<key>INIntentParameterCombinationTitleID</key>
 					<string>eBKxom</string>
 				</dict>
@@ -93,7 +95,7 @@
 							<key>INIntentParameterPromptDialogCustom</key>
 							<true/>
 							<key>INIntentParameterPromptDialogFormatString</key>
-							<string>Ask Foreigner App</string>
+							<string>What is the Question?</string>
 							<key>INIntentParameterPromptDialogFormatStringID</key>
 							<string>JPH5lr</string>
 							<key>INIntentParameterPromptDialogType</key>
@@ -118,7 +120,7 @@
 						<key>INIntentResponseCodeConciseFormatStringID</key>
 						<string>QLU3yd</string>
 						<key>INIntentResponseCodeFormatString</key>
-						<string>The answer of OpenAI via KNU Foreigner Applicationis ${answer}.</string>
+						<string>${answer}.</string>
 						<key>INIntentResponseCodeFormatStringID</key>
 						<string>OmKhHy</string>
 						<key>INIntentResponseCodeName</key>
@@ -141,6 +143,8 @@
 				</array>
 				<key>INIntentResponseLastParameterTag</key>
 				<integer>1</integer>
+				<key>INIntentResponseOutput</key>
+				<string>answer</string>
 				<key>INIntentResponseParameters</key>
 				<array>
 					<dict>
@@ -160,7 +164,7 @@
 				</array>
 			</dict>
 			<key>INIntentTitle</key>
-			<string>Ask Foreigner App</string>
+			<string>Chat with AI</string>
 			<key>INIntentTitleID</key>
 			<string>zXgy08</string>
 			<key>INIntentType</key>
