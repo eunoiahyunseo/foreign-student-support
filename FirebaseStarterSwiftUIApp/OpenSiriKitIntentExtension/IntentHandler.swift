@@ -296,7 +296,8 @@ class OpenSiriKitIntentHandler: NSString, OpenSiriKitIntentAIntentHandling {
     func getAnswer(question: String) async->String {
         //self.Answ = question
         let ChatAPI = ChatGPTAPI(apiKey: "//본인의 키 입력")
-       
+       //키 입력부(Github에 올리지 마시오)
+        
         do{
             self.Answ = try? await ChatAPI.sendMessage(question)
             
