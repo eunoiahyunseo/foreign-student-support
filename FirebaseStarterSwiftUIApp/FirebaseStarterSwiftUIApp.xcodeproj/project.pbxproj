@@ -132,6 +132,7 @@
 		30F0AF9A24E989020084CE6E /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		3C203BD22A06DED300137D5C /* FireStoretest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireStoretest.swift; sourceTree = "<group>"; };
 		605659B60AC36406DB1250BF /* Pods-FirebaseStarterSwiftUIApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FirebaseStarterSwiftUIApp.release.xcconfig"; path = "Target Support Files/Pods-FirebaseStarterSwiftUIApp/Pods-FirebaseStarterSwiftUIApp.release.xcconfig"; sourceTree = "<group>"; };
+		AE5F30022A207A4600E593CC /* FirebaseStarterSwiftUIAppDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FirebaseStarterSwiftUIAppDebug.entitlements; sourceTree = "<group>"; };
 		AEA70DF32A1DE46900966118 /* OpenSiriKitIntentsDef.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = OpenSiriKitIntentsDef.intentdefinition; sourceTree = "<group>"; };
 		AEA70DF82A1DE4A800966118 /* OpenSiriKitIntentExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = OpenSiriKitIntentExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		AEA70DF92A1DE4A800966118 /* Intents.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Intents.framework; path = System/Library/Frameworks/Intents.framework; sourceTree = SDKROOT; };
@@ -224,6 +225,7 @@
 		30127DC924DE506300576F65 /* FirebaseStarterSwiftUIApp */ = {
 			isa = PBXGroup;
 			children = (
+				AE5F30022A207A4600E593CC /* FirebaseStarterSwiftUIAppDebug.entitlements */,
 				F3690BCD2A1F8774006556D8 /* openAI */,
 				DAA497E22A1904BA001F888D /* Data */,
 				30127DD824DE506500576F65 /* Info.plist */,
@@ -948,6 +950,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = FirebaseStarterSwiftUIApp/FirebaseStarterSwiftUIAppDebug.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "";
 				ENABLE_PREVIEWS = YES;
