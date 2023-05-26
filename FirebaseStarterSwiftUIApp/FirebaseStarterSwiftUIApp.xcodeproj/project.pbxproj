@@ -31,6 +31,18 @@
 		30F0AF9B24E989020084CE6E /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F0AF9A24E989020084CE6E /* CustomTextField.swift */; };
 		3C203BD32A06DED300137D5C /* FireStoretest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C203BD22A06DED300137D5C /* FireStoretest.swift */; };
 		56B401D3083432E1950758D7 /* Pods_FirebaseStarterSwiftUIApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB8C10DB8C90574AB4F8C3C3 /* Pods_FirebaseStarterSwiftUIApp.framework */; };
+		AE41CE422A1E265E00B04424 /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA70DFC2A1DE4A800966118 /* IntentHandler.swift */; };
+		AE41CE442A1E26EC00B04424 /* IntentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA70E102A1E145200966118 /* IntentViewController.swift */; };
+		AEA70DFA2A1DE4A800966118 /* Intents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEA70DF92A1DE4A800966118 /* Intents.framework */; };
+		AEA70DFD2A1DE4A800966118 /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA70DFC2A1DE4A800966118 /* IntentHandler.swift */; };
+		AEA70E012A1DE4A800966118 /* OpenSiriKitIntentExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = AEA70DF82A1DE4A800966118 /* OpenSiriKitIntentExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		AEA70E062A1DE7AD00966118 /* OpenSiriKitIntentsDef.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = AEA70DF32A1DE46900966118 /* OpenSiriKitIntentsDef.intentdefinition */; };
+		AEA70E072A1DE81C00966118 /* OpenSiriKitIntentsDef.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = AEA70DF32A1DE46900966118 /* OpenSiriKitIntentsDef.intentdefinition */; };
+		AEA70E0E2A1E145200966118 /* IntentsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEA70E0D2A1E145200966118 /* IntentsUI.framework */; };
+		AEA70E112A1E145200966118 /* IntentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA70E102A1E145200966118 /* IntentViewController.swift */; };
+		AEA70E142A1E145200966118 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AEA70E122A1E145200966118 /* MainInterface.storyboard */; };
+		AEA70E182A1E145200966118 /* OpenSiriKitUI.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = AEA70E0C2A1E145200966118 /* OpenSiriKitUI.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		AEA70E1C2A1E145F00966118 /* OpenSiriKitIntentsDef.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = AEA70DF32A1DE46900966118 /* OpenSiriKitIntentsDef.intentdefinition */; };
 		DA131E892A0B573F0033D67F /* Board.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA131E882A0B573F0033D67F /* Board.swift */; };
 		DA131E8B2A0B57E60033D67F /* BoardAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA131E8A2A0B57E60033D67F /* BoardAPI.swift */; };
 		DA131E8D2A0B584C0033D67F /* BoardService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA131E8C2A0B584C0033D67F /* BoardService.swift */; };
@@ -62,7 +74,36 @@
 			remoteGlobalIDString = 30127DC624DE506300576F65;
 			remoteInfo = FirebaseStarterSwiftUIApp;
 		};
+		AEA70DFF2A1DE4A800966118 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 30127DBF24DE506300576F65 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AEA70DF72A1DE4A800966118;
+			remoteInfo = OpenSiriKitIntentExtension;
+		};
+		AEA70E162A1E145200966118 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 30127DBF24DE506300576F65 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AEA70E0B2A1E145200966118;
+			remoteInfo = OpenSiriKitUI;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		AEA70E052A1DE4A800966118 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				AEA70E182A1E145200966118 /* OpenSiriKitUI.appex in Embed Foundation Extensions */,
+				AEA70E012A1DE4A800966118 /* OpenSiriKitIntentExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		171629672913603100CFB356 /* FBSDKCoreKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = FBSDKCoreKit.xcframework; path = Pods/FBSDKCoreKit/XCFrameworks/FBSDKCoreKit.xcframework; sourceTree = "<group>"; };
@@ -91,6 +132,16 @@
 		30F0AF9A24E989020084CE6E /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		3C203BD22A06DED300137D5C /* FireStoretest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireStoretest.swift; sourceTree = "<group>"; };
 		605659B60AC36406DB1250BF /* Pods-FirebaseStarterSwiftUIApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FirebaseStarterSwiftUIApp.release.xcconfig"; path = "Target Support Files/Pods-FirebaseStarterSwiftUIApp/Pods-FirebaseStarterSwiftUIApp.release.xcconfig"; sourceTree = "<group>"; };
+		AEA70DF32A1DE46900966118 /* OpenSiriKitIntentsDef.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = OpenSiriKitIntentsDef.intentdefinition; sourceTree = "<group>"; };
+		AEA70DF82A1DE4A800966118 /* OpenSiriKitIntentExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = OpenSiriKitIntentExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		AEA70DF92A1DE4A800966118 /* Intents.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Intents.framework; path = System/Library/Frameworks/Intents.framework; sourceTree = SDKROOT; };
+		AEA70DFC2A1DE4A800966118 /* IntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentHandler.swift; sourceTree = "<group>"; };
+		AEA70DFE2A1DE4A800966118 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AEA70E0C2A1E145200966118 /* OpenSiriKitUI.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = OpenSiriKitUI.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		AEA70E0D2A1E145200966118 /* IntentsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IntentsUI.framework; path = System/Library/Frameworks/IntentsUI.framework; sourceTree = SDKROOT; };
+		AEA70E102A1E145200966118 /* IntentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentViewController.swift; sourceTree = "<group>"; };
+		AEA70E132A1E145200966118 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		AEA70E152A1E145200966118 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DA131E882A0B573F0033D67F /* Board.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Board.swift; sourceTree = "<group>"; };
 		DA131E8A2A0B57E60033D67F /* BoardAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardAPI.swift; sourceTree = "<group>"; };
 		DA131E8C2A0B584C0033D67F /* BoardService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardService.swift; sourceTree = "<group>"; };
@@ -134,18 +185,39 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AEA70DF52A1DE4A800966118 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AEA70DFA2A1DE4A800966118 /* Intents.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AEA70E092A1E145200966118 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AEA70E0E2A1E145200966118 /* IntentsUI.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		30127DBE24DE506300576F65 = {
 			isa = PBXGroup;
 			children = (
+				AEA70DF32A1DE46900966118 /* OpenSiriKitIntentsDef.intentdefinition */,
 				30127DC924DE506300576F65 /* FirebaseStarterSwiftUIApp */,
 				3C203BD12A06DED300137D5C /* FireStoretest */,
 				8BB326AC4AD1A45FA13BD7DE /* Pods */,
+				AEA70DFB2A1DE4A800966118 /* OpenSiriKitIntentExtension */,
+				AEA70E0F2A1E145200966118 /* OpenSiriKitUI */,
 				B113BEC14339CA90855842E2 /* Frameworks */,
 				DAA497E02A19017B001F888D /* FirebaseStarterSwiftUIApp.app */,
 				DAA497E12A19017B001F888D /* FireStoretest.xctest */,
+				AEA70DF82A1DE4A800966118 /* OpenSiriKitIntentExtension.appex */,
+				AEA70E0C2A1E145200966118 /* OpenSiriKitUI.appex */,
 			);
 			sourceTree = "<group>";
 		};
@@ -257,11 +329,32 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		AEA70DFB2A1DE4A800966118 /* OpenSiriKitIntentExtension */ = {
+			isa = PBXGroup;
+			children = (
+				AEA70DFC2A1DE4A800966118 /* IntentHandler.swift */,
+				AEA70DFE2A1DE4A800966118 /* Info.plist */,
+			);
+			path = OpenSiriKitIntentExtension;
+			sourceTree = "<group>";
+		};
+		AEA70E0F2A1E145200966118 /* OpenSiriKitUI */ = {
+			isa = PBXGroup;
+			children = (
+				AEA70E102A1E145200966118 /* IntentViewController.swift */,
+				AEA70E122A1E145200966118 /* MainInterface.storyboard */,
+				AEA70E152A1E145200966118 /* Info.plist */,
+			);
+			path = OpenSiriKitUI;
+			sourceTree = "<group>";
+		};
 		B113BEC14339CA90855842E2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				171629672913603100CFB356 /* FBSDKCoreKit.xcframework */,
 				DB8C10DB8C90574AB4F8C3C3 /* Pods_FirebaseStarterSwiftUIApp.framework */,
+				AEA70DF92A1DE4A800966118 /* Intents.framework */,
+				AEA70E0D2A1E145200966118 /* IntentsUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -430,10 +523,13 @@
 				30127DC424DE506300576F65 /* Frameworks */,
 				30127DC524DE506300576F65 /* Resources */,
 				E059528AF1B5B07599510137 /* [CP] Embed Pods Frameworks */,
+				AEA70E052A1DE4A800966118 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				AEA70E002A1DE4A800966118 /* PBXTargetDependency */,
+				AEA70E172A1E145200966118 /* PBXTargetDependency */,
 			);
 			name = FirebaseStarterSwiftUIApp;
 			productName = SwiftUIChatAppKit;
@@ -458,6 +554,40 @@
 			productReference = DAA497E12A19017B001F888D /* FireStoretest.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		AEA70DF72A1DE4A800966118 /* OpenSiriKitIntentExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AEA70E022A1DE4A800966118 /* Build configuration list for PBXNativeTarget "OpenSiriKitIntentExtension" */;
+			buildPhases = (
+				AEA70DF42A1DE4A800966118 /* Sources */,
+				AEA70DF52A1DE4A800966118 /* Frameworks */,
+				AEA70DF62A1DE4A800966118 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OpenSiriKitIntentExtension;
+			productName = OpenSiriKitIntentExtension;
+			productReference = AEA70DF82A1DE4A800966118 /* OpenSiriKitIntentExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		AEA70E0B2A1E145200966118 /* OpenSiriKitUI */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AEA70E192A1E145200966118 /* Build configuration list for PBXNativeTarget "OpenSiriKitUI" */;
+			buildPhases = (
+				AEA70E082A1E145200966118 /* Sources */,
+				AEA70E092A1E145200966118 /* Frameworks */,
+				AEA70E0A2A1E145200966118 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OpenSiriKitUI;
+			productName = OpenSiriKitUI;
+			productReference = AEA70E0C2A1E145200966118 /* OpenSiriKitUI.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -474,6 +604,12 @@
 					3C203BCF2A06DED300137D5C = {
 						CreatedOnToolsVersion = 14.2;
 						TestTargetID = 30127DC624DE506300576F65;
+					};
+					AEA70DF72A1DE4A800966118 = {
+						CreatedOnToolsVersion = 14.2;
+					};
+					AEA70E0B2A1E145200966118 = {
+						CreatedOnToolsVersion = 14.2;
 					};
 				};
 			};
@@ -492,6 +628,8 @@
 			targets = (
 				30127DC624DE506300576F65 /* FirebaseStarterSwiftUIApp */,
 				3C203BCF2A06DED300137D5C /* FireStoretest */,
+				AEA70DF72A1DE4A800966118 /* OpenSiriKitIntentExtension */,
+				AEA70E0B2A1E145200966118 /* OpenSiriKitUI */,
 			);
 		};
 /* End PBXProject section */
@@ -512,6 +650,21 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AEA70DF62A1DE4A800966118 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AEA70E0A2A1E145200966118 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AEA70E142A1E145200966118 /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -591,6 +744,7 @@
 				DA3C0BE62A17CAD70033D2BD /* RootAPI.swift in Sources */,
 				DAED40C22A1E5B5F0047C8E1 /* BoardConfigViewModel.swift in Sources */,
 				30F0AF9024E967920084CE6E /* StatusViewModel.swift in Sources */,
+				AEA70E072A1DE81C00966118 /* OpenSiriKitIntentsDef.intentdefinition in Sources */,
 				F3B397522A08E5000060974D /* boardmain.swift in Sources */,
 				DA131E8D2A0B584C0033D67F /* BoardService.swift in Sources */,
 				30D8C60224E818D400CB0858 /* SignUpView.swift in Sources */,
@@ -614,6 +768,26 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AEA70DF42A1DE4A800966118 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AEA70E062A1DE7AD00966118 /* OpenSiriKitIntentsDef.intentdefinition in Sources */,
+				AEA70DFD2A1DE4A800966118 /* IntentHandler.swift in Sources */,
+				AE41CE442A1E26EC00B04424 /* IntentViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AEA70E082A1E145200966118 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AEA70E1C2A1E145F00966118 /* OpenSiriKitIntentsDef.intentdefinition in Sources */,
+				AE41CE422A1E265E00B04424 /* IntentHandler.swift in Sources */,
+				AEA70E112A1E145200966118 /* IntentViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -621,6 +795,16 @@
 			isa = PBXTargetDependency;
 			target = 30127DC624DE506300576F65 /* FirebaseStarterSwiftUIApp */;
 			targetProxy = 3C203BD42A06DED300137D5C /* PBXContainerItemProxy */;
+		};
+		AEA70E002A1DE4A800966118 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AEA70DF72A1DE4A800966118 /* OpenSiriKitIntentExtension */;
+			targetProxy = AEA70DFF2A1DE4A800966118 /* PBXContainerItemProxy */;
+		};
+		AEA70E172A1E145200966118 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AEA70E0B2A1E145200966118 /* OpenSiriKitUI */;
+			targetProxy = AEA70E162A1E145200966118 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -631,6 +815,14 @@
 				30127DD624DE506500576F65 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		AEA70E122A1E145200966118 /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AEA70E132A1E145200966118 /* Base */,
+			);
+			name = MainInterface.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -754,6 +946,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = EFC04FC652303ADBA7DDA3FB /* Pods-FirebaseStarterSwiftUIApp.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "";
@@ -775,6 +968,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 605659B60AC36406DB1250BF /* Pods-FirebaseStarterSwiftUIApp.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "";
@@ -838,6 +1032,114 @@
 			};
 			name = Release;
 		};
+		AEA70E032A1DE4A800966118 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = OpenSiriKitIntentExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = OpenSiriKitIntentExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2023 iOS App Templates. All rights reserved.";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = iosapptemplate.tutorial.StarterSwiftUIApp.OpenSiriKitIntentExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		AEA70E042A1DE4A800966118 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = OpenSiriKitIntentExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = OpenSiriKitIntentExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2023 iOS App Templates. All rights reserved.";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = iosapptemplate.tutorial.StarterSwiftUIApp.OpenSiriKitIntentExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		AEA70E1A2A1E145200966118 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = OpenSiriKitUI/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = OpenSiriKitUI;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2023 iOS App Templates. All rights reserved.";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = iosapptemplate.tutorial.StarterSwiftUIApp.OpenSiriKitUI;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		AEA70E1B2A1E145200966118 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = OpenSiriKitUI/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = OpenSiriKitUI;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2023 iOS App Templates. All rights reserved.";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = iosapptemplate.tutorial.StarterSwiftUIApp.OpenSiriKitUI;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -864,6 +1166,24 @@
 			buildConfigurations = (
 				3C203BD72A06DED300137D5C /* Debug */,
 				3C203BD82A06DED300137D5C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AEA70E022A1DE4A800966118 /* Build configuration list for PBXNativeTarget "OpenSiriKitIntentExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AEA70E032A1DE4A800966118 /* Debug */,
+				AEA70E042A1DE4A800966118 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AEA70E192A1E145200966118 /* Build configuration list for PBXNativeTarget "OpenSiriKitUI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AEA70E1A2A1E145200966118 /* Debug */,
+				AEA70E1B2A1E145200966118 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
