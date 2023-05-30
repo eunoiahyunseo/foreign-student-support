@@ -43,6 +43,7 @@
 		AEA70E142A1E145200966118 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AEA70E122A1E145200966118 /* MainInterface.storyboard */; };
 		AEA70E182A1E145200966118 /* OpenSiriKitUI.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = AEA70E0C2A1E145200966118 /* OpenSiriKitUI.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		AEA70E1C2A1E145F00966118 /* OpenSiriKitIntentsDef.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = AEA70DF32A1DE46900966118 /* OpenSiriKitIntentsDef.intentdefinition */; };
+		AEFD81192A265A2C006B079F /* logo-open-ai.png in Resources */ = {isa = PBXBuildFile; fileRef = AEFD81182A265A2C006B079F /* logo-open-ai.png */; };
 		DA131E892A0B573F0033D67F /* Board.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA131E882A0B573F0033D67F /* Board.swift */; };
 		DA131E8B2A0B57E60033D67F /* BoardAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA131E8A2A0B57E60033D67F /* BoardAPI.swift */; };
 		DA131E8D2A0B584C0033D67F /* BoardService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA131E8C2A0B584C0033D67F /* BoardService.swift */; };
@@ -143,6 +144,7 @@
 		AEA70E102A1E145200966118 /* IntentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentViewController.swift; sourceTree = "<group>"; };
 		AEA70E132A1E145200966118 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		AEA70E152A1E145200966118 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AEFD81182A265A2C006B079F /* logo-open-ai.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "logo-open-ai.png"; path = "../../../../../Downloads/logo-open-ai.png"; sourceTree = "<group>"; };
 		DA131E882A0B573F0033D67F /* Board.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Board.swift; sourceTree = "<group>"; };
 		DA131E8A2A0B57E60033D67F /* BoardAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardAPI.swift; sourceTree = "<group>"; };
 		DA131E8C2A0B584C0033D67F /* BoardService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardService.swift; sourceTree = "<group>"; };
@@ -343,6 +345,7 @@
 		AEA70E0F2A1E145200966118 /* OpenSiriKitUI */ = {
 			isa = PBXGroup;
 			children = (
+				AEFD81182A265A2C006B079F /* logo-open-ai.png */,
 				AEA70E102A1E145200966118 /* IntentViewController.swift */,
 				AEA70E122A1E145200966118 /* MainInterface.storyboard */,
 				AEA70E152A1E145200966118 /* Info.plist */,
@@ -666,6 +669,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AEFD81192A265A2C006B079F /* logo-open-ai.png in Resources */,
 				AEA70E142A1E145200966118 /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

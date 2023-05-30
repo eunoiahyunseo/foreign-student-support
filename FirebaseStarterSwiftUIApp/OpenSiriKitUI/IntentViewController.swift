@@ -64,11 +64,19 @@ import IntentsUI
 import SwiftUI
 class IntentViewController: UIViewController, INUIHostedViewControlling {
     @IBOutlet var LblText: UILabel!
-
+    @IBOutlet var OAILogoView: UIImageView!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let imageName = "logo-open-ai.png"
+        let image = UIImage(named: imageName)
+        
+        OAILogoView = UIImageView(image: image)
+        OAILogoView.frame = CGRect(x:0, y:0, width:100, height:50)
+        //OAILogoView.image = image
+        view.addSubview(OAILogoView)
+
         LblText = UILabel(frame: CGRect(x: 0, y: 0, width: 370, height: 300))
         LblText.numberOfLines = 0
         
@@ -78,8 +86,15 @@ class IntentViewController: UIViewController, INUIHostedViewControlling {
 
 //        LblText.text = "The OpenAI Says \(Answer)"
                LblText.textAlignment = .center
+        
+      
+        
+        
+        
                view.addSubview(LblText)
-    
+                
+        
+        
         LblText.setNeedsLayout()
         LblText.setNeedsDisplay()
         
