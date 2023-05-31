@@ -79,9 +79,11 @@ class IntentViewController: UIViewController, INUIHostedViewControlling {
         view.addSubview(OAILogoView)
 
         LblText = UILabel(frame: CGRect(x: 0, y: 50, width: 370, height: 300))
+        LblText.center = CGPoint(x:self.view.frame.width / 2, y:230)
+        LblText.textColor = UIColor.black
         LblText.font = UIFont.systemFont(ofSize: 20)
         LblText.numberOfLines = 0
-        
+        LblText.alpha = 0
             //let Answ = OpenSiriKitIntentAIntentResponse
         //let Answer = UserDefaults.standard.object(forKey: "asr") as? String
 
@@ -93,8 +95,15 @@ class IntentViewController: UIViewController, INUIHostedViewControlling {
         
         
         
+        
                view.addSubview(LblText)
                 
+        UIView.animate(withDuration: 2.0, delay: 0, options: .curveEaseInOut, animations: {
+            self.LblText.center = CGPoint(x: self.view.frame.width / 2, y: 200)
+            self.LblText.alpha = 1
+        })
+        
+      
         
         
         LblText.setNeedsLayout()
