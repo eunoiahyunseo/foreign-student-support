@@ -295,13 +295,19 @@ class OpenSiriKitIntentHandler: NSString, OpenSiriKitIntentAIntentHandling {
     }
     func getAnswer(question: String) async->String {
         //self.Answ = question
-        let ChatAPI = ChatGPTAPI(apiKey: //apiKey)
+        let ChatAPI = ChatGPTAPI(apiKey:"//apikey")
        //키 입력부(Github에 올리지 마시오)
         
         do{
+            var Answera = ""
             self.Answ = try? await ChatAPI.sendMessage(question)
+            if let ResultAnswer = self.Answ {
+                Answera = "OpenAI SAYS THIS. The Answer is \(ResultAnswer)"
+            } else {
+                Answera = "Sorry, An error occured. \nPlease check the internet connection."
+            }
             
-            let Answera = "OpenAI SAYS THIS. The question is \(self.Answ)"
+            
             UserDefaults.standard.set(Answera, forKey: "asr")
             
             return Answera

@@ -33,6 +33,7 @@
 		56B401D3083432E1950758D7 /* Pods_FirebaseStarterSwiftUIApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB8C10DB8C90574AB4F8C3C3 /* Pods_FirebaseStarterSwiftUIApp.framework */; };
 		AE41CE422A1E265E00B04424 /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA70DFC2A1DE4A800966118 /* IntentHandler.swift */; };
 		AE41CE442A1E26EC00B04424 /* IntentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA70E102A1E145200966118 /* IntentViewController.swift */; };
+		AE9852DA2A26F13C0092929B /* openai-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = AE9852D92A26F13C0092929B /* openai-logo.png */; };
 		AEA70DFA2A1DE4A800966118 /* Intents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AEA70DF92A1DE4A800966118 /* Intents.framework */; };
 		AEA70DFD2A1DE4A800966118 /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA70DFC2A1DE4A800966118 /* IntentHandler.swift */; };
 		AEA70E012A1DE4A800966118 /* OpenSiriKitIntentExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = AEA70DF82A1DE4A800966118 /* OpenSiriKitIntentExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -43,7 +44,6 @@
 		AEA70E142A1E145200966118 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AEA70E122A1E145200966118 /* MainInterface.storyboard */; };
 		AEA70E182A1E145200966118 /* OpenSiriKitUI.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = AEA70E0C2A1E145200966118 /* OpenSiriKitUI.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		AEA70E1C2A1E145F00966118 /* OpenSiriKitIntentsDef.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = AEA70DF32A1DE46900966118 /* OpenSiriKitIntentsDef.intentdefinition */; };
-		AEFD81192A265A2C006B079F /* logo-open-ai.png in Resources */ = {isa = PBXBuildFile; fileRef = AEFD81182A265A2C006B079F /* logo-open-ai.png */; };
 		DA131E892A0B573F0033D67F /* Board.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA131E882A0B573F0033D67F /* Board.swift */; };
 		DA131E8B2A0B57E60033D67F /* BoardAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA131E8A2A0B57E60033D67F /* BoardAPI.swift */; };
 		DA131E8D2A0B584C0033D67F /* BoardService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA131E8C2A0B584C0033D67F /* BoardService.swift */; };
@@ -134,6 +134,7 @@
 		3C203BD22A06DED300137D5C /* FireStoretest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireStoretest.swift; sourceTree = "<group>"; };
 		605659B60AC36406DB1250BF /* Pods-FirebaseStarterSwiftUIApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FirebaseStarterSwiftUIApp.release.xcconfig"; path = "Target Support Files/Pods-FirebaseStarterSwiftUIApp/Pods-FirebaseStarterSwiftUIApp.release.xcconfig"; sourceTree = "<group>"; };
 		AE5F30022A207A4600E593CC /* FirebaseStarterSwiftUIAppDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FirebaseStarterSwiftUIAppDebug.entitlements; sourceTree = "<group>"; };
+		AE9852D92A26F13C0092929B /* openai-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "openai-logo.png"; sourceTree = "<group>"; };
 		AEA70DF32A1DE46900966118 /* OpenSiriKitIntentsDef.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = OpenSiriKitIntentsDef.intentdefinition; sourceTree = "<group>"; };
 		AEA70DF82A1DE4A800966118 /* OpenSiriKitIntentExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = OpenSiriKitIntentExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		AEA70DF92A1DE4A800966118 /* Intents.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Intents.framework; path = System/Library/Frameworks/Intents.framework; sourceTree = SDKROOT; };
@@ -144,7 +145,6 @@
 		AEA70E102A1E145200966118 /* IntentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentViewController.swift; sourceTree = "<group>"; };
 		AEA70E132A1E145200966118 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		AEA70E152A1E145200966118 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		AEFD81182A265A2C006B079F /* logo-open-ai.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "logo-open-ai.png"; path = "../../../../../Downloads/logo-open-ai.png"; sourceTree = "<group>"; };
 		DA131E882A0B573F0033D67F /* Board.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Board.swift; sourceTree = "<group>"; };
 		DA131E8A2A0B57E60033D67F /* BoardAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardAPI.swift; sourceTree = "<group>"; };
 		DA131E8C2A0B584C0033D67F /* BoardService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardService.swift; sourceTree = "<group>"; };
@@ -345,7 +345,7 @@
 		AEA70E0F2A1E145200966118 /* OpenSiriKitUI */ = {
 			isa = PBXGroup;
 			children = (
-				AEFD81182A265A2C006B079F /* logo-open-ai.png */,
+				AE9852D92A26F13C0092929B /* openai-logo.png */,
 				AEA70E102A1E145200966118 /* IntentViewController.swift */,
 				AEA70E122A1E145200966118 /* MainInterface.storyboard */,
 				AEA70E152A1E145200966118 /* Info.plist */,
@@ -669,8 +669,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AEFD81192A265A2C006B079F /* logo-open-ai.png in Resources */,
 				AEA70E142A1E145200966118 /* MainInterface.storyboard in Resources */,
+				AE9852DA2A26F13C0092929B /* openai-logo.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

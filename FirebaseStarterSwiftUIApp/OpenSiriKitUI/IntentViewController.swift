@@ -69,7 +69,7 @@ class IntentViewController: UIViewController, INUIHostedViewControlling {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let imageName = "logo-open-ai.png"
+        let imageName = "openai-logo.png"
         let image = UIImage(named: imageName)
         
         OAILogoView = UIImageView(image: image)
