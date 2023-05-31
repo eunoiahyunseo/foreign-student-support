@@ -300,7 +300,7 @@ class OpenSiriKitIntentHandler: NSString, OpenSiriKitIntentAIntentHandling {
         
         do{
             var Answera = ""
-            self.Answ = try? await ChatAPI.sendMessage(question)
+            self.Answ = try? await ChatAPI.sendMessage(question+"\nRef. I'm a foreign student in Kyungpook National University. Think in the shoe of foreign student. Please answer in a 40 words.")
             if let ResultAnswer = self.Answ {
                 Answera = "\(ResultAnswer)"
             } else {
