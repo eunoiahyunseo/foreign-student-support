@@ -73,11 +73,13 @@ class IntentViewController: UIViewController, INUIHostedViewControlling {
         let image = UIImage(named: imageName)
         
         OAILogoView = UIImageView(image: image)
-        OAILogoView.frame = CGRect(x:0, y:0, width:100, height:50)
+        OAILogoView.frame = CGRect(x:18, y:10, width:90, height:90)
+        OAILogoView.contentMode = .scaleAspectFit
         //OAILogoView.image = image
         view.addSubview(OAILogoView)
 
-        LblText = UILabel(frame: CGRect(x: 0, y: 0, width: 370, height: 300))
+        LblText = UILabel(frame: CGRect(x: 0, y: 50, width: 370, height: 300))
+        LblText.font = UIFont.systemFont(ofSize: 20)
         LblText.numberOfLines = 0
         
             //let Answ = OpenSiriKitIntentAIntentResponse
@@ -114,9 +116,18 @@ class IntentViewController: UIViewController, INUIHostedViewControlling {
         //intent.ThingsToAsk
         UserDefaults.standard.object(forKey: "asr") as? String
         LblText.text = Answer
+        /*
+        let textArray = Answer?.components(separatedBy: "\n")
+        var curText = ""
+        for (index, line) in textArray?.enumerated() {
+            DispatchQueue.main.asyncAfter(deadline: .now()+Double(index)+1.0) {
+                curText+=(line+"\n")
+                LblText.text = curText
+            
+            }
+        }
         
-        
-        
+        */
         completion(true, parameters, self.desiredSize)
     }
     

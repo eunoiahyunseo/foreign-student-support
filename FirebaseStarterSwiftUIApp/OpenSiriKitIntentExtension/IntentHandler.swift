@@ -302,7 +302,7 @@ class OpenSiriKitIntentHandler: NSString, OpenSiriKitIntentAIntentHandling {
             var Answera = ""
             self.Answ = try? await ChatAPI.sendMessage(question)
             if let ResultAnswer = self.Answ {
-                Answera = "OpenAI SAYS THIS. The Answer is \(ResultAnswer)"
+                Answera = "\(ResultAnswer)"
             } else {
                 Answera = "Sorry, An error occured. \nPlease check the internet connection."
             }
