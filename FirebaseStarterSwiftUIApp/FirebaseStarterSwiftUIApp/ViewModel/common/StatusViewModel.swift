@@ -5,8 +5,12 @@
 //
 import Foundation
 
-class StatusViewModel: Identifiable, ObservableObject {
+class StatusViewModel: Identifiable, ObservableObject, Equatable {
+    static func == (lhs: StatusViewModel, rhs: StatusViewModel) -> Bool {
+        lhs.title == rhs.title && lhs.message == rhs.message && lhs.id == rhs.id
+    }
     
+    var id: UUID = UUID()
     var title: String
     var message: String
     
@@ -53,6 +57,18 @@ class StatusViewModel: Identifiable, ObservableObject {
     
     static var commentCreationFailureStatus: StatusViewModel {
         return StatusViewModel(title: "Error", message: "댓글의 등록에 실패하였습니다. 정보를 확인해주세요.")
+    }
+    
+    static var likeSuccessStatus: StatusViewModel {
+        return StatusViewModel(title: "Successful", message: "이 글을 좋아합니다.")
+    }
+    
+    static var likeFailureStatus: StatusViewModel {
+        return StatusViewModel(title: "Error", message: "좋아요에 실패하였습니다.")
+    }
+    
+    static var alreadylikedFailureStatus: StatusViewModel {
+        return StatusViewModel(title: "Error", message: "이미 좋아요를 누른 글입니다.")
     }
     
 }

@@ -1,10 +1,7 @@
 import SwiftUI
 
 struct boardmain: View {
-    let board: String
-//    let contentSamples: [Post] = mockPosts
     @EnvironmentObject var userConfigViewModel: UserConfigViewModel
-//    @State var selectedPost: Post = mockPosts[0]
     @EnvironmentObject var boardConfigViewModel: BoardConfigViewModel
 
     @State var isActive: Bool = false
@@ -27,15 +24,15 @@ struct boardmain: View {
                                     }) {
                                         ContentRow(content: content)
                                     }
-                                    
                                 }
                             }
                             .listStyle(PlainListStyle())
                             .background(
                                 Group {
                                     if let selectedPost = boardConfigViewModel.selectedPost {
-                                        NavigationLink(destination: ContentDetail(content: selectedPost, board: board), isActive: $isActive) {
-
+                                        NavigationLink(
+                                            destination: ContentDetail(),
+                                            isActive: $isActive) {
                                             EmptyView()
                                         }
                                         .hidden()
@@ -59,7 +56,7 @@ struct boardmain: View {
                 .toolbar {
                     ToolbarItem(placement: .principal) {
                         VStack {
-                            Text(board)
+                            Text((boardConfigViewModel.selectedBoard?.name)!)
                                 .font(.headline)
                             Text((userConfigViewModel.state.currentUser?.school)!)
                                 .font(.footnote)
@@ -94,7 +91,9 @@ struct boardmain: View {
             }
         }
         .onAppear {
-            boardConfigViewModel.fetchAllPosts()
+            // selectedBoard와 관련있는 것만 fetch해와야 한다.
+//            boardConfigViewModel.fetchAllPosts()
+            boardConfigViewModel.fetchAllPostsInBoard()
         }
     }
 }
@@ -106,7 +105,7 @@ struct PostCreatingCover: View {
     @State var isShownCultureAlert : Bool = false
     @State var sensitive_res : String = "응답을 기다리는 중..."
     
-    var chatGPT = ChatGPTAPI(apiKey : "secret-key")
+    var chatGPT = ChatGPTAPI(apiKey : "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")
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -129,6 +128,7 @@ struct PostCreatingCover: View {
                         if !boardConfigViewModel.isValid {
                             boardConfigViewModel.statusViewModel = .postCreationFailureStatus
                         } else {
+                            print("createPost Clicked")
                             boardConfigViewModel.createPost()
                         }
                     }) {
@@ -173,8 +173,9 @@ struct PostCreatingCover: View {
                 if status.title == "Successful" {
                     boardConfigViewModel.initField()
                     isShownFullScreenCover = false
-                    boardConfigViewModel.fetchAllPosts()
+                    boardConfigViewModel.fetchAllPostsInBoard()
                 }
+                boardConfigViewModel.statusViewModel = nil
             }))
         }
 
@@ -182,7 +183,7 @@ struct PostCreatingCover: View {
             isShownCultureAlert = true
             sensitive_res = "응답을 기다리는 중..."
             Task() {
-                var question : String = "영어권, 불어권, 일본, 한국, 아랍에서 문화적으로 문제가 될만한 내용을 알려줘 '" + boardConfigViewModel.content + "'"
+                let question : String = "영어권, 불어권, 일본, 한국, 아랍에서 문화적으로 문제가 될만한 내용을 알려줘 '" + boardConfigViewModel.content + "'"
                 sensitive_res = try! await chatGPT.sendMessage(question)
             }
         } label: {
@@ -199,8 +200,10 @@ struct boardmain_Previews: PreviewProvider {
     static var previews: some View {
         let state = AppState()
         state.currentUser = mockUser
-
-        return boardmain(board: "대구캠 자유게시판")
+        
+        let board = Board(name: "영어권 게시판", description: "영어권 게시판입니다.")
+        
+        return boardmain()
             .environmentObject(UserConfigViewModel(
                 boardAPI: BoardService(), userAPI: UserService(), state: state))
             .environmentObject(BoardConfigViewModel(

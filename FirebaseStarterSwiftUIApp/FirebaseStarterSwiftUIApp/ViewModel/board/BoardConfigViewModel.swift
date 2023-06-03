@@ -17,19 +17,27 @@ class BoardConfigViewModel: ObservableObject {
     @Published var content = ""
     
     // 댓글을 달기 위해 CurrentBoard의 ID가 필요하다.
-    @Published var selectedPost: Post?
+    @Published var selectedPost: PostDTO?
+    // 이건 선택된 Board정보
+    @Published var selectedBoard: Board?
+    
     @Published var comment = ""
     
     @Published var state: AppState
     @Published var statusViewModel: StatusViewModel?
     @Published var isValid: Bool = false
 
-
     public var userAPI: UserAPI
     public var boardAPI: BoardAPI
     
-    @Published var posts: [Post]?
+    // booard에 속한 posts들의 목록
+    @Published var posts: [PostDTO]?
+    
+    // 로딩?
     @Published var isLoading = false
+    
+    // board들의 목록
+    @Published var boards: [Board]?
     
     init(boardAPI: BoardAPI, userAPI: UserAPI, state: AppState) {
         self.userAPI = userAPI
@@ -59,17 +67,16 @@ class BoardConfigViewModel: ObservableObject {
             postedUser: (self.state.currentUser?.nickname)!,
             title: self.title,
             content: self.content,
-            comments: [],
-            timestamp: Date(),
-            likes: []
+            boardId: (self.selectedBoard?.id)!,
+            timestamp: Date()
         )
         
         boardAPI.createPost(post: post) { error in
             if let error = error {
-                print("Error creating post: \(error)")
                 self.statusViewModel = .postCreationFailureStatus
+                print("error: \(error)")
             } else {
-                // 성공했다면
+                print("success!")
                 self.statusViewModel = .postCreationSuccessStatus
             }
         }
@@ -82,12 +89,29 @@ class BoardConfigViewModel: ObservableObject {
                 switch result {
                 case .success(let posts):
                     print("posts: \(posts)")
+                
                     self?.posts = posts
                 case .failure(let error):
                     print("Error fetching posts: \(error)")
                 }
                 
                 self?.isLoading = false
+            }
+        }
+    }
+    
+    func fetchAllPostsInBoard() {
+        isLoading = true
+        boardAPI.getPostsInBoard(boardId: (selectedBoard?.id)!) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let posts):
+                    print("posts: \(posts)")
+                    self.posts = posts
+                case .failure(let error):
+                    print("Error fetching posts: \(error)")
+                }
+                self.isLoading = false
             }
         }
     }
@@ -110,11 +134,38 @@ class BoardConfigViewModel: ObservableObject {
         
     }
     
-    func fetchAllCommentsRelatedWithCurrentPost() {
+    func addLikeToPost() {
+        if let currentUser = state.currentUser {
+            let like: Like = Like(
+                likedBy: currentUser.id!,
+                likedUser: currentUser.nickname!,
+                timestamp: Date()
+            )
+            
+            if let selectedPost = selectedPost {
+                
+                if let likes = selectedPost.likes, likes.contains(where: { $0.likedBy == currentUser.id }) {
+                    print("The user already liked this post")
+                    self.statusViewModel = .alreadylikedFailureStatus
+                    return
+                }
+                
+                boardAPI.addLikeToPost(postId: selectedPost.id!, like: like) { error in
+                    if let error = error {
+                        print("Error creating like to post: \(error)")
+                        self.statusViewModel = .likeFailureStatus
+                    } else {
+                        self.statusViewModel = .likeSuccessStatus
+                    }
+                }
+            }
+        }
+    }
+    
+    func fetchAllCommentsAndLikesRelatedWithCurrentPost() {
         isLoading = true
-        boardAPI.getPostWithComments(postId: (selectedPost?.id)!) { [weak self] result in
+        boardAPI.getPostWithCommentsAndLikes(postId: (selectedPost?.id)!) { [weak self] result in
             DispatchQueue.main.async {
-                sleep(1)
                 switch result {
                 case .success(var post):
                     
@@ -130,4 +181,17 @@ class BoardConfigViewModel: ObservableObject {
         }
     }
     
+    func getAllBoards() {
+        isLoading = true
+        boardAPI.getAllBoards { result in
+            switch result {
+            case .success(let boards):
+                print("Fetched \(boards.count) boards.")
+                self.boards = boards
+            case .failure(let error):
+                print("Error fetching boards: \(error)")
+            }
+            self.isLoading = false
+        }
+    }
 }

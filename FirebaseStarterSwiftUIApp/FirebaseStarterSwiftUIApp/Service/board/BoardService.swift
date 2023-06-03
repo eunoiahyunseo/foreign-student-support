@@ -16,10 +16,10 @@ class BoardService: BoardAPI {
 
     func createPost(post: Post, completion: @escaping (Error?) -> Void) {
         do {
-            let newPostRef = try db.collection(Post.collection_name).addDocument(from: post)
-            newPostRef.collection(Comment.collection_name).document().setData([:]) { error in
+            let _ = try db.collection(Post.collection_name).addDocument(from: post) { error in
                 completion(error)
             }
+            
         } catch let error {
             completion(error)
         }
@@ -39,42 +39,151 @@ class BoardService: BoardAPI {
         }
     }
     
-    func getAllPosts(completion: @escaping (Result<[Post], Error>) -> Void) {
-        let db = Firestore.firestore()
+    func addLikeToPost(postId: String, like: Like, completion: @escaping (Error?) -> Void) {
+        do {
+            let postRef = db.collection(Post.collection_name).document(postId)
+            
+            try postRef.collection(Like.collection_name).addDocument(from: like) { error in
+                completion(error)
+            }
+        } catch let error {
+            completion(error)
+        }
         
+    }
+    
+    
+    
+    /**
+        DispatchGroup: 이건 여러개의 비동기 작업을 그룹화하고. 모든 작업이 완료되었음을 알 수 있게 도와주는 기능
+            
+        DispatchGroup().enter(): 를 통해 그룹에 작업을 추가
+        DispatchGroup().leave(): 를 통해 작업이 끝났음을 알린다.
+        DispatchGroup().notify(queue: .main): 는 그룹 내의 모든 작업이 완료되었을 때 호출되는 콜백함수이다.
+     */
+    func getAllPosts(completion: @escaping (Result<[PostDTO], Error>) -> Void) {
         db.collection(Post.collection_name).getDocuments { (querySnapshot, error) in
             if let error = error {
                 completion(.failure(error))
+                return
             } else if let querySnapshot = querySnapshot {
-                let posts = querySnapshot.documents.compactMap { try? $0.data(as: Post.self) }
-                completion(.success(posts))
+                var posts: [PostDTO] = []
+                // DispatchGroup은 모든 비동기 작업이 완료될때까지 기다린 후 완료 callback을 실행한다.
+                let dispatchGroup = DispatchGroup()
+                for document in querySnapshot.documents {
+                    if let post = try? document.data(as: Post.self), let postId = post.id {
+                        dispatchGroup.enter()
+                        
+                        self.getPostWithCommentsAndLikes(postId: postId) { result in
+                            // 현재 비동기 작업이 어떻게 끝날지에 대한 정의
+                            defer { dispatchGroup.leave() }
+                            switch result {
+                            case .success(let postDTO):
+                                posts.append(postDTO)
+                            case .failure(let error):
+                                completion(.failure(error))
+                                return
+                            }
+                        }
+                    }
+                }
+                
+                dispatchGroup.notify(queue: .main) {
+                    completion(.success(posts))
+                }
             }
         }
     }
     
-    func getPostWithComments(postId: String, completion: @escaping (Result<Post, Error>) -> Void) {
-        let db = Firestore.firestore()
-        
-        // Fetch the post
+    func getPostsInBoard(boardId: String, completion: @escaping (Result<[PostDTO], Error>) -> Void) {
+        db.collection(Post.collection_name)
+          .whereField("boardId", isEqualTo: boardId)
+          .getDocuments { (querySnapshot, error) in
+            if let error = error {
+                completion(.failure(error))
+                return
+            } else if let querySnapshot = querySnapshot {
+                var posts: [PostDTO] = []
+                let dispatchGroup = DispatchGroup()
+                for document in querySnapshot.documents {
+                    if let post = try? document.data(as: Post.self), let postId = post.id {
+                        dispatchGroup.enter()
+                        self.getPostWithCommentsAndLikes(postId: postId) { result in
+                            defer { dispatchGroup.leave() }
+                            switch result {
+                            case .success(let postDTO):
+                                posts.append(postDTO)
+                            case .failure(let error):
+                                completion(.failure(error))
+                                return
+                            }
+                        }
+                    }
+                }
+                dispatchGroup.notify(queue: .main) {
+                    completion(.success(posts))
+                }
+            }
+        }
+    }
+    
+    func getAllBoards(completion: @escaping (Result<[Board], Error>) -> Void) {
+        db.collection(Board.collection_name).getDocuments { (querySnapshot, error) in
+            if let error = error {
+                completion(.failure(error))
+                return
+            } else if let querySnapshot = querySnapshot {
+                let boards: [Board] = querySnapshot.documents.compactMap { document in
+                    try? document.data(as: Board.self)
+                }
+                completion(.success(boards))
+            }
+        }
+    }
+
+    func getPostWithCommentsAndLikes(postId: String, completion: @escaping (Result<PostDTO, Error>) -> Void) {
         let postRef = db.collection(Post.collection_name).document(postId)
         postRef.getDocument { (document, error) in
             if let error = error {
                 completion(.failure(error))
             } else if let document = document, document.exists,
-                      var post = try? document.data(as: Post.self) {
-                // Fetch the comments
+                      let post = try? document.data(as: Post.self) {
+
+                // Post to PostDTO conversion
+                var postDTO = Post.convertPostToPostDTO(post: post)
+
+                // DispatchGroup은 모든 비동기 작업이 완료될때까지 기다린 후 완료 callback을 실행한다.
+                let dispatchGroup = DispatchGroup()
+
+                dispatchGroup.enter()
                 postRef.collection(Comment.collection_name).getDocuments { (querySnapshot, error) in
+                    defer { dispatchGroup.leave() }
                     if let error = error {
                         completion(.failure(error))
                     } else if let querySnapshot = querySnapshot {
-                        let comments = querySnapshot.documents.compactMap { try? $0.data(as: Comment.self) }
-                        post.comments = comments
-                        completion(.success(post))
+                        postDTO.comments = querySnapshot.documents.compactMap { try? $0.data(as: Comment.self) }
                     }
                 }
+
+                dispatchGroup.enter()
+                postRef.collection(Like.collection_name).getDocuments { (querySnapshot, error) in
+                    defer { dispatchGroup.leave() }
+                    if let error = error {
+                        completion(.failure(error))
+                    } else if let querySnapshot = querySnapshot {
+                        postDTO.likes = querySnapshot.documents.compactMap { try? $0.data(as: Like.self) }
+                    }
+                }
+
+                
+                dispatchGroup.notify(queue: .main) {
+                    completion(.success(postDTO))
+                }
+                
             } else {
                 completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Post not found"])))
             }
         }
     }
+    
 }

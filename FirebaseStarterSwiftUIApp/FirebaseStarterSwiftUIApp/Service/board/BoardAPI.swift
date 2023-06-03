@@ -15,6 +15,9 @@ protocol BoardAPI {
     
     func createPost(post: Post, completion: @escaping (Error?) -> Void)
     func addCommentToPost(postId: String, comment: Comment, completion: @escaping (Error?) -> Void)
-    func getAllPosts(completion: @escaping (Result<[Post], Error>) -> Void)
-    func getPostWithComments(postId: String, completion: @escaping (Result<Post, Error>) -> Void)
+    func addLikeToPost(postId: String, like: Like, completion: @escaping (Error?) -> Void)
+    func getAllPosts(completion: @escaping (Result<[PostDTO], Error>) -> Void)
+    func getPostWithCommentsAndLikes(postId: String, completion: @escaping (Result<PostDTO, Error>) -> Void)
+    func getAllBoards(completion: @escaping (Result<[Board], Error>) -> Void)
+    func getPostsInBoard(boardId: String, completion: @escaping (Result<[PostDTO], Error>) -> Void)
 }

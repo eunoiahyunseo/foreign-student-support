@@ -21,40 +21,60 @@ enum tabInfo: String, CaseIterable {
 
 struct HomeView: View {
     @State var selection = 0
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @State private var selected = TabItems.Home
     @State var shwoingUserConfigModal = false
+    @State var isLogoutProcessing = false
 
     @EnvironmentObject var userConfigViewModel: UserConfigViewModel
-
+    @EnvironmentObject var boardConfigViewModel: BoardConfigViewModel
+    
+    init() {
+        UITabBar.appearance().scrollEdgeAppearance = .init()
+    }
+    
     var body: some View {
-//        NavigationView {
-            ZStack {
-                TabView(selection: $selected) {
-                    HomeTabView(text: "홈", image: "house", tag: .Home,
-                                shwoingUserConfigModal: $shwoingUserConfigModal)
-                    BoardTabView(text: "게시판", image: "list.bullet.clipboard", tag: .Board)
-                    GTabView(text: "지도", image: "map", tag: .User)
-                }
-                .accentColor(.red)
-                .font(.headline)
-                .onAppear() {
-                    UITabBar.appearance().barTintColor = .white
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        if !(userConfigViewModel.state.currentUser?.isInitialInfoSet)! {
-                            shwoingUserConfigModal = true
-                        }
+        ZStack {
+            TabView(selection: $selected) {
+                HomeTabView(text: "홈", image: "house", tag: .Home,
+                            shwoingUserConfigModal: $shwoingUserConfigModal,
+                            isLogoutProcessing: $isLogoutProcessing)
+                BoardTabView(text: "게시판", image: "list.bullet.clipboard", tag: .Board)
+                GTabView(text: "지도", image: "map", tag: .User)
+            }
+            .accentColor(.red)
+            .font(.headline)
+//            .background(Color.pink.opacity(0.5))
+            .onAppear() {
+                // board에 대한 정보도 불러온다.
+                boardConfigViewModel.getAllBoards()
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    if !(userConfigViewModel.state.currentUser?.isInitialInfoSet)! {
+                        shwoingUserConfigModal = true
                     }
                 }
             }
-            .navigationBarTitle("", displayMode: .inline)
-            .navigationBarHidden(true)
-            .sheet(isPresented: $shwoingUserConfigModal) {
-                UserInformationForm(
-                    showingModal: $shwoingUserConfigModal
-                )
-            }
-//        }
-//        .navigationViewStyle(.stack)
+        }
+        .alert(isPresented: $isLogoutProcessing) {
+            Alert(
+                title: Text("로그아웃"),
+                message: Text("정말로 로그아웃 하시겠습니까?"),
+                primaryButton: .default(Text("확인")) {
+                    presentationMode.wrappedValue.dismiss()
+                    userConfigViewModel.state.isLogoutProcessing = false
+                },
+                secondaryButton: .cancel(Text("취소"))
+            )
+        }
+        .navigationBarTitle("", displayMode: .inline)
+        .navigationBarHidden(true)
+        .sheet(isPresented: $shwoingUserConfigModal) {
+            UserInformationForm(
+                showingModal: $shwoingUserConfigModal
+            )
+        }
+        
     }
 }
 
@@ -82,6 +102,7 @@ struct HomeTabView: View {
     var tag: TabItems
     @EnvironmentObject var userConfigViewModel: UserConfigViewModel
     @Binding var shwoingUserConfigModal: Bool
+    @Binding var isLogoutProcessing: Bool
     
  
     var body: some View {
@@ -91,7 +112,12 @@ struct HomeTabView: View {
                     .imageScale(.medium)
                     .foregroundColor(.black)
                 
-                NavigationLink(destination: UserDetailView()) {
+                NavigationLink(destination: UserDetailView()
+                    .onDisappear(perform: {
+                        if userConfigViewModel.state.isLogoutProcessing {
+                            isLogoutProcessing = true
+                        }
+                    })) {
                     Image(systemName: "person")
                         .imageScale(.medium)
                         .foregroundColor(.black)
@@ -103,7 +129,7 @@ struct HomeTabView: View {
             Text("유학생 지원")
                 .foregroundColor(.red)
                 .fontWeight(.bold)
-            Text(userConfigViewModel.school)
+            Text((userConfigViewModel.state.currentUser?.school)!)
                 .font(.system(size: 20))
                 .fontWeight(.heavy)
         }
@@ -111,6 +137,8 @@ struct HomeTabView: View {
         return NavigationView {
             ScrollView {
                 Text(text)
+                // MARK: 실시간 인기글을 구현한다.
+                
             }
             .navigationBarItems(leading: HeaderLeadingItem, trailing: HeaderTailintItem)
             .navigationBarTitle("", displayMode: .inline)
@@ -133,12 +161,10 @@ struct BoardTabView: View {
     var tag: TabItems
     
     var body: some View {
-        
         VStack {
             if !isDetailViewVisible {
                 animate()
             }
-            
             BoardTabInnerView(tests: selectedPicker, isDetailViewVisible: $isDetailViewVisible
             )
         }
@@ -184,6 +210,8 @@ struct HomeView_Previews: PreviewProvider {
         return NavigationView {
             HomeView()
                 .environmentObject(UserConfigViewModel(
+                    boardAPI: BoardService(), userAPI: UserService(), state: state))
+                .environmentObject(BoardConfigViewModel(
                     boardAPI: BoardService(), userAPI: UserService(), state: state))
         }
     }

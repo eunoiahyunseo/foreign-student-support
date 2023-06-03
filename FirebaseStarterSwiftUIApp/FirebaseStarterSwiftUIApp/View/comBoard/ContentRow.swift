@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentRow: View {
-    var content: Post
+    var content: PostDTO
     @EnvironmentObject var userConfigViewModel: UserConfigViewModel
 
     var body: some View {
@@ -41,7 +41,7 @@ extension ContentRow{
                 .foregroundColor(.red)
                 .frame(width: 18, height: 18)
                 .padding(.trailing, -5)
-            Text(String(content.likes.count))
+            Text(String((content.likes?.count)!))
                 .font(.footnote)
                 .foregroundColor(.red)
             Image(systemName: "bubble.left")

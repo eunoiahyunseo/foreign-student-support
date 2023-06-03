@@ -48,7 +48,6 @@
 		DA131E8B2A0B57E60033D67F /* BoardAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA131E8A2A0B57E60033D67F /* BoardAPI.swift */; };
 		DA131E8D2A0B584C0033D67F /* BoardService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA131E8C2A0B584C0033D67F /* BoardService.swift */; };
 		DA151A132A1DFE170007853C /* BoardTabInnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA151A122A1DFE170007853C /* BoardTabInnerView.swift */; };
-		DA3C0BCF2A17AF8A0033D2BD /* UserInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3C0BCE2A17AF8A0033D2BD /* UserInfoView.swift */; };
 		DA3C0BD12A17AF9D0033D2BD /* UserDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3C0BD02A17AF9D0033D2BD /* UserDetailView.swift */; };
 		DA3C0BE62A17CAD70033D2BD /* RootAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3C0BE52A17CAD70033D2BD /* RootAPI.swift */; };
 		DA4A4BB52A06352700D5BA11 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DA4A4BB42A06352700D5BA11 /* GoogleService-Info.plist */; };
@@ -149,7 +148,6 @@
 		DA131E8A2A0B57E60033D67F /* BoardAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardAPI.swift; sourceTree = "<group>"; };
 		DA131E8C2A0B584C0033D67F /* BoardService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardService.swift; sourceTree = "<group>"; };
 		DA151A122A1DFE170007853C /* BoardTabInnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardTabInnerView.swift; sourceTree = "<group>"; };
-		DA3C0BCE2A17AF8A0033D2BD /* UserInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoView.swift; sourceTree = "<group>"; };
 		DA3C0BD02A17AF9D0033D2BD /* UserDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailView.swift; sourceTree = "<group>"; };
 		DA3C0BE52A17CAD70033D2BD /* RootAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootAPI.swift; sourceTree = "<group>"; };
 		DA4A4BB42A06352700D5BA11 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -396,7 +394,6 @@
 			children = (
 				DA3C0BD02A17AF9D0033D2BD /* UserDetailView.swift */,
 				DA5C176F2A168EB900CDCED1 /* UserInformation.swift */,
-				DA3C0BCE2A17AF8A0033D2BD /* UserInfoView.swift */,
 			);
 			path = userView;
 			sourceTree = "<group>";
@@ -731,7 +728,6 @@
 				30DDE0C124EC2AD300208D32 /* AppState.swift in Sources */,
 				DAA497E52A1904DA001F888D /* UserConfig.swift in Sources */,
 				30D8C5ED24E7755600CB0858 /* WelcomeView.swift in Sources */,
-				DA3C0BCF2A17AF8A0033D2BD /* UserInfoView.swift in Sources */,
 				30127DCB24DE506300576F65 /* AppDelegate.swift in Sources */,
 				DA7E45192A1795CA00AB1899 /* UserAPI.swift in Sources */,
 				30DDE0B924EABC9700208D32 /* User.swift in Sources */,

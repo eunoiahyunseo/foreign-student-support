@@ -10,4 +10,5 @@ import SwiftUI
 
 class AppState: ObservableObject {
     @Published var currentUser: User?
+    @Published var isLogoutProcessing: Bool = false
 }

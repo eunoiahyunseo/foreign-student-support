@@ -10,6 +10,9 @@ import SwiftUI
 
 struct UserDetailView: View {
     @EnvironmentObject var userConfigViewModel: UserConfigViewModel
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+
+
     @State var isShownSheet = false
     @State var isShownFullScreenCover = false
     var body: some View {
@@ -17,20 +20,25 @@ struct UserDetailView: View {
         
         VStack() {
             HStack(spacing: 10) {
-                Image("man")
+                Image(systemName: "person.crop.square.fill")
                     .resizable()
-                    .aspectRatio(contentMode: .fit)
+                    .scaledToFit()
                     .frame(width: 60, height: 60)
-                    .clipShape(RoundedRectangle(cornerRadius: 20))
-                    .padding(.trailing, 20)
+                    .foregroundColor(.gray)
 
                 VStack(alignment: .leading, spacing: 3) {
-                    Text(currentUser.email ?? "")
+                    
+                    Text(currentUser.nickname ?? "")
                         .font(.headline)
                     
                     Group {
-                        Text(currentUser.nickname ?? "")
-                            .font(.subheadline)
+                        HStack(spacing: 2) {
+                            Text(currentUser.school ?? "")
+                                .font(.subheadline)
+                            Text("/")
+                            Text(currentUser.email ?? "")
+                                .font(.subheadline)
+                        }
                         HStack(spacing: 2) {
                             Text(currentUser.region ?? "")
                                 .font(.subheadline)
@@ -67,6 +75,17 @@ struct UserDetailView: View {
                         .fullScreenCover(isPresented: $isShownFullScreenCover) {
                             NickNameModifyingCover(isShownFullScreenCover: $isShownFullScreenCover,
                                                    initialNickname: (userConfigViewModel.state.currentUser?.nickname)!)
+                        }
+                }
+                
+                
+                VStack(spacing: 20) {
+                    Text("로그아웃")
+                        .font(.system(size: 17))
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .onTapGesture {
+                            self.userConfigViewModel.state.isLogoutProcessing = true
+                            presentationMode.wrappedValue.dismiss()
                         }
                 }
                 
