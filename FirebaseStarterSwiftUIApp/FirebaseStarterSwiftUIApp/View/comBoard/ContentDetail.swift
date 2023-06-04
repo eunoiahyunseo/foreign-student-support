@@ -69,7 +69,7 @@ struct ContentDetail: View {
                 .toolbar {
                     ToolbarItem(placement: .principal) {
                         VStack {
-                            Text((boardConfigViewModel.selectedBoard?.name)!)
+                            Text((boardConfigViewModel.selectedPost?.board.name)!)
                                 .font(.headline)
                             Text((userConfigViewModel.state.currentUser?.school)!)
                                 .font(.footnote)
@@ -102,6 +102,13 @@ struct ContentDetail: View {
     }
 }
 
+func dateConversion(targetDate: Date) -> String {
+    let formmater = DateFormatter()
+    formmater.dateFormat = "MM-dd HH:mm"
+    let dateString = formmater.string(from: targetDate)
+    return dateString
+}
+
 private extension ContentDetail{
     var commentTextFieldView: some View {
         ZStack {
@@ -130,7 +137,7 @@ private extension ContentDetail{
     }
 
     var commentView: some View {
-        ForEach((boardConfigViewModel.selectedPost?.comments)!) { comment in
+        ForEach((boardConfigViewModel.selectedPost?.comments) ?? [CommentDTO]()) { comment in
             VStack(alignment: .leading) {
                 HStack {
                     HStack {
@@ -139,7 +146,7 @@ private extension ContentDetail{
                             .scaledToFit()
                             .frame(width: 20, height: 20)
                             .foregroundColor(.gray)
-                        Text(comment.commentedUser)
+                        Text((comment.user?.nickname)!)
                             .font(.system(size: 14))
                     }
                     Spacer()
@@ -183,12 +190,7 @@ private extension ContentDetail{
         .padding(.top, 10)
     }
 
-    func dateConversion(targetDate: Date) -> String {
-        let formmater = DateFormatter()
-        formmater.dateFormat = "MM-dd HH:mm"
-        let dateString = formmater.string(from: targetDate)
-        return dateString
-    }
+    
 
     var profile: some View{
         HStack{
@@ -197,7 +199,7 @@ private extension ContentDetail{
                 .frame(width: 50, height: 50)
                 .foregroundColor(.gray)
             VStack(alignment: .leading) {
-                Text((boardConfigViewModel.selectedPost?.postedUser)!)
+                Text((boardConfigViewModel.selectedPost?.user?.nickname)!)
                     .font(.headline)
                     .fontWeight(.heavy)
                 Text(dateConversion(targetDate: (boardConfigViewModel.selectedPost?.timestamp)!))

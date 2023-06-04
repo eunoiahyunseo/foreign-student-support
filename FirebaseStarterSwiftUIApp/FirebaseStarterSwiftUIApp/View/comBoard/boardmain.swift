@@ -29,7 +29,7 @@ struct boardmain: View {
                             .listStyle(PlainListStyle())
                             .background(
                                 Group {
-                                    if let selectedPost = boardConfigViewModel.selectedPost {
+                                    if let _ = boardConfigViewModel.selectedPost {
                                         NavigationLink(
                                             destination: ContentDetail(),
                                             isActive: $isActive) {
@@ -91,8 +91,8 @@ struct boardmain: View {
             }
         }
         .onAppear {
-            // selectedBoard와 관련있는 것만 fetch해와야 한다.
-//            boardConfigViewModel.fetchAllPosts()
+            // selectedBoard와 관련있는 것만 fetch해와야 한다. 이는 당연히 boardDetail에도 뿌려줄 것이라
+            // PostDTO로 가져와야 한다.
             boardConfigViewModel.fetchAllPostsInBoard()
         }
     }

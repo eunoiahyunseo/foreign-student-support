@@ -57,6 +57,7 @@
 		DA7E45192A1795CA00AB1899 /* UserAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7E45182A1795CA00AB1899 /* UserAPI.swift */; };
 		DAA490532A1692C6009F0374 /* UserConfigViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA490522A1692C6009F0374 /* UserConfigViewModel.swift */; };
 		DAA497E52A1904DA001F888D /* UserConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA497E42A1904DA001F888D /* UserConfig.swift */; };
+		DAB423D82A2CB75D00420121 /* RefreshView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB423D72A2CB75D00420121 /* RefreshView.swift */; };
 		DAED40C22A1E5B5F0047C8E1 /* BoardConfigViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAED40C12A1E5B5F0047C8E1 /* BoardConfigViewModel.swift */; };
 		F3690BD02A1F8775006556D8 /* ChatGPTAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3690BCE2A1F8774006556D8 /* ChatGPTAPI.swift */; };
 		F3690BD12A1F8775006556D8 /* GPT_API_Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3690BCF2A1F8774006556D8 /* GPT_API_Models.swift */; };
@@ -159,6 +160,7 @@
 		DAA497E02A19017B001F888D /* FirebaseStarterSwiftUIApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FirebaseStarterSwiftUIApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAA497E12A19017B001F888D /* FireStoretest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FireStoretest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAA497E42A1904DA001F888D /* UserConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserConfig.swift; sourceTree = "<group>"; };
+		DAB423D72A2CB75D00420121 /* RefreshView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshView.swift; sourceTree = "<group>"; };
 		DAED40C12A1E5B5F0047C8E1 /* BoardConfigViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardConfigViewModel.swift; sourceTree = "<group>"; };
 		DB8C10DB8C90574AB4F8C3C3 /* Pods_FirebaseStarterSwiftUIApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FirebaseStarterSwiftUIApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFC04FC652303ADBA7DDA3FB /* Pods-FirebaseStarterSwiftUIApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FirebaseStarterSwiftUIApp.debug.xcconfig"; path = "Target Support Files/Pods-FirebaseStarterSwiftUIApp/Pods-FirebaseStarterSwiftUIApp.debug.xcconfig"; sourceTree = "<group>"; };
@@ -377,6 +379,7 @@
 				30D8C5EC24E7755600CB0858 /* WelcomeView.swift */,
 				30DDE0BC24EC21E900208D32 /* DrawerView.swift */,
 				30F0AF9124E976410084CE6E /* SplashView.swift */,
+				DAB423D72A2CB75D00420121 /* RefreshView.swift */,
 			);
 			path = commonView;
 			sourceTree = "<group>";
@@ -726,6 +729,7 @@
 				30D8C5EF24E77C8000CB0858 /* CustomModifier.swift in Sources */,
 				30F0AF9224E976410084CE6E /* SplashView.swift in Sources */,
 				30DDE0C124EC2AD300208D32 /* AppState.swift in Sources */,
+				DAB423D82A2CB75D00420121 /* RefreshView.swift in Sources */,
 				DAA497E52A1904DA001F888D /* UserConfig.swift in Sources */,
 				30D8C5ED24E7755600CB0858 /* WelcomeView.swift in Sources */,
 				30127DCB24DE506300576F65 /* AppDelegate.swift in Sources */,

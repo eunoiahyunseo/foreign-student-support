@@ -39,6 +39,8 @@ class BoardConfigViewModel: ObservableObject {
     // board들의 목록
     @Published var boards: [Board]?
     
+    @Published var topRatedPosts: [PostDTO]?
+    
     init(boardAPI: BoardAPI, userAPI: UserAPI, state: AppState) {
         self.userAPI = userAPI
         self.boardAPI = boardAPI
@@ -64,9 +66,9 @@ class BoardConfigViewModel: ObservableObject {
     func createPost() {
         let post: Post = Post(
             postedBy: (self.state.currentUser?.id)!,
-            postedUser: (self.state.currentUser?.nickname)!,
             title: self.title,
             content: self.content,
+            board: (self.selectedBoard)!, // 그냥 boardId말고 board를 넘기는게 트래픽 관점에서 좋을듯,,?
             boardId: (self.selectedBoard?.id)!,
             timestamp: Date()
         )
@@ -119,7 +121,6 @@ class BoardConfigViewModel: ObservableObject {
     func addCommentToPost() {
         let comment: Comment = Comment(
             commentedBy: (self.state.currentUser?.id)!,
-            commentedUser: (self.state.currentUser?.nickname)!,
             content: self.comment,
             timestamp: Date()
         )
@@ -138,7 +139,6 @@ class BoardConfigViewModel: ObservableObject {
         if let currentUser = state.currentUser {
             let like: Like = Like(
                 likedBy: currentUser.id!,
-                likedUser: currentUser.nickname!,
                 timestamp: Date()
             )
             
@@ -164,7 +164,7 @@ class BoardConfigViewModel: ObservableObject {
     
     func fetchAllCommentsAndLikesRelatedWithCurrentPost() {
         isLoading = true
-        boardAPI.getPostWithCommentsAndLikes(postId: (selectedPost?.id)!) { [weak self] result in
+        boardAPI.getPostWithCommentsAndLikesDTO(postId: (selectedPost?.id)!) { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(var post):
@@ -190,6 +190,20 @@ class BoardConfigViewModel: ObservableObject {
                 self.boards = boards
             case .failure(let error):
                 print("Error fetching boards: \(error)")
+            }
+            self.isLoading = false
+        }
+    }
+    
+    // 갱신되는 실시간 인기글을 조회해온다.
+    func getTopPosts() {
+        isLoading = true
+        boardAPI.fetchTopPosts { result in
+            switch result {
+            case .success(let posts):
+                self.topRatedPosts = posts
+            case .failure(let error):
+                print("error: \(error)")
             }
             self.isLoading = false
         }

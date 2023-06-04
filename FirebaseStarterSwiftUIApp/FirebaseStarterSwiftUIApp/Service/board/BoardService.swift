@@ -52,15 +52,6 @@ class BoardService: BoardAPI {
         
     }
     
-    
-    
-    /**
-        DispatchGroup: 이건 여러개의 비동기 작업을 그룹화하고. 모든 작업이 완료되었음을 알 수 있게 도와주는 기능
-            
-        DispatchGroup().enter(): 를 통해 그룹에 작업을 추가
-        DispatchGroup().leave(): 를 통해 작업이 끝났음을 알린다.
-        DispatchGroup().notify(queue: .main): 는 그룹 내의 모든 작업이 완료되었을 때 호출되는 콜백함수이다.
-     */
     func getAllPosts(completion: @escaping (Result<[PostDTO], Error>) -> Void) {
         db.collection(Post.collection_name).getDocuments { (querySnapshot, error) in
             if let error = error {
@@ -74,7 +65,7 @@ class BoardService: BoardAPI {
                     if let post = try? document.data(as: Post.self), let postId = post.id {
                         dispatchGroup.enter()
                         
-                        self.getPostWithCommentsAndLikes(postId: postId) { result in
+                        self.getPostWithCommentsAndLikesDTO(postId: postId) { result in
                             // 현재 비동기 작업이 어떻게 끝날지에 대한 정의
                             defer { dispatchGroup.leave() }
                             switch result {
@@ -108,10 +99,11 @@ class BoardService: BoardAPI {
                 for document in querySnapshot.documents {
                     if let post = try? document.data(as: Post.self), let postId = post.id {
                         dispatchGroup.enter()
-                        self.getPostWithCommentsAndLikes(postId: postId) { result in
+                        self.getPostWithCommentsAndLikesDTO(postId: postId) { result in
                             defer { dispatchGroup.leave() }
                             switch result {
                             case .success(let postDTO):
+                                print("sucess!!!!!: \(postDTO)")
                                 posts.append(postDTO)
                             case .failure(let error):
                                 completion(.failure(error))
@@ -140,8 +132,8 @@ class BoardService: BoardAPI {
             }
         }
     }
-
-    func getPostWithCommentsAndLikes(postId: String, completion: @escaping (Result<PostDTO, Error>) -> Void) {
+    
+    func getPostWithCommentsAndLikesDTO(postId: String, completion: @escaping (Result<PostDTO, Error>) -> Void) {
         let postRef = db.collection(Post.collection_name).document(postId)
         postRef.getDocument { (document, error) in
             if let error = error {
@@ -156,34 +148,106 @@ class BoardService: BoardAPI {
                 let dispatchGroup = DispatchGroup()
 
                 dispatchGroup.enter()
+                self.db.collection(User.collection_name).document(post.postedBy).getDocument { (userSnapshot, error) in
+                    defer { dispatchGroup.leave() }
+                    postDTO.user =  try? userSnapshot?.data(as: User.self)
+                }
+
+                // 서브컬렉션들에 대해 순회를 돌아야 한다.
+                let commentFetchGroup = DispatchGroup()
+                dispatchGroup.enter() // move it here
                 postRef.collection(Comment.collection_name).getDocuments { (querySnapshot, error) in
-                    defer { dispatchGroup.leave() }
+
                     if let error = error {
                         completion(.failure(error))
                     } else if let querySnapshot = querySnapshot {
-                        postDTO.comments = querySnapshot.documents.compactMap { try? $0.data(as: Comment.self) }
+                        var commentDTOs: [CommentDTO] = []
+                        for document in querySnapshot.documents {
+
+                            // comment를 가져온다음에 이를 commentDTO로 변환하는게 최종 목표
+                            guard let comment = try? document.data(as: Comment.self) else {
+                                continue
+                            }
+                            var commentDTO = Comment.convertCommentToCommentDTO(comment: comment)
+                            commentFetchGroup.enter()
+                            // comment.commentedBy를 통해 user를 조회해온다.
+                            self.db.collection(User.collection_name).document(comment.commentedBy).getDocument { (userDocument, error) in
+                                defer { commentFetchGroup.leave() }
+                                if let error = error {
+                                    completion(.failure(error))
+                                } else if let userDocument = userDocument,
+                                          let user = try? userDocument.data(as: User.self) {
+                                    commentDTO.user = user
+                                    commentDTOs.append(commentDTO)
+                                }
+                            }
+                        }
+                        commentFetchGroup.notify(queue: .main) {
+                            postDTO.comments = commentDTOs
+                            dispatchGroup.leave() // move it here
+                        }
+                    } else {
+                        dispatchGroup.leave() // if querySnapshot is nil, leave the group
                     }
                 }
 
-                dispatchGroup.enter()
+                let likeFetchGroup = DispatchGroup()
+                dispatchGroup.enter() // move it here
                 postRef.collection(Like.collection_name).getDocuments { (querySnapshot, error) in
-                    defer { dispatchGroup.leave() }
                     if let error = error {
                         completion(.failure(error))
                     } else if let querySnapshot = querySnapshot {
-                        postDTO.likes = querySnapshot.documents.compactMap { try? $0.data(as: Like.self) }
+                        var likeDTOs: [LikeDTO] = []
+                        for document in querySnapshot.documents {
+                            guard let like = try? document.data(as: Like.self) else {
+                                continue
+                            }
+                            var likeDTO = Like.convertLikeToLikeDTO(like: like)
+                            likeFetchGroup.enter()
+                            self.db.collection(User.collection_name).document(like.likedBy)
+                                .getDocument { (userDocument, error) in
+                                    defer { likeFetchGroup.leave() }
+                                    if let error = error {
+                                        completion(.failure(error))
+                                    } else if let userDocument = userDocument,
+                                              let user = try? userDocument.data(as: User.self) {
+                                        likeDTO.user = user
+                                        likeDTOs.append(likeDTO)
+                                    }
+                                }
+                        }
+                        likeFetchGroup.notify(queue: .main) {
+                            postDTO.likes = likeDTOs
+                            dispatchGroup.leave() // move it here
+                        }
+                    } else {
+                        dispatchGroup.leave() // if querySnapshot is nil, leave the group
                     }
                 }
 
-                
                 dispatchGroup.notify(queue: .main) {
                     completion(.success(postDTO))
                 }
-                
             } else {
                 completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Post not found"])))
             }
         }
     }
-    
+
+    func fetchTopPosts(completion: @escaping (Result<[PostDTO], Error>) -> Void) {
+        let db = Firestore.firestore()
+        db.collection("topPosts").getDocuments { (querySnapshot, error) in
+            if let error = error {
+                completion(.failure(error))
+                return
+            } else if let querySnapshot = querySnapshot {
+                var boards: [PostDTO] = querySnapshot.documents.compactMap { document in
+                    try? document.data(as: PostDTO.self)
+                }
+                boards = boards.sorted { $0.score > $1.score }
+
+                completion(.success(boards))
+            }
+        }
+    }
 }

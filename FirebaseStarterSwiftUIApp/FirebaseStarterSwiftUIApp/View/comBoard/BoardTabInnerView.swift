@@ -46,6 +46,7 @@ struct BoardTabInnerView: View {
                                 }
                                 .navigationBarTitle("", displayMode: .inline)
                                 .listRowSeparator(.hidden)
+                                .foregroundColor(.black)
                             }
                         }
                     }

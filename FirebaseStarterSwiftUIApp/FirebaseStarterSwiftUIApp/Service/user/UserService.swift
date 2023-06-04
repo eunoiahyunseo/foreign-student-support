@@ -63,4 +63,18 @@ class UserService: UserAPI {
             }
         }
     }
+    
+    func getUser(userID: String, completion: @escaping (Result<User, Error>) -> Void) {
+        db.collection(userCollection).document(userID).getDocument { (document, error) in
+            if let error = error {
+                completion(.failure(error))
+            } else if let document = document, document.exists,
+                      let user = try? document.data(as: User.self) {
+                completion(.success(user))
+            } else {
+                completion(.failure(UserAPIError.documentNotFound))
+            }
+        }
+    }
+    
 }

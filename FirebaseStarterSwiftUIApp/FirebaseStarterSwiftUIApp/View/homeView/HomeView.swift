@@ -34,46 +34,47 @@ struct HomeView: View {
     }
     
     var body: some View {
-        ZStack {
-            TabView(selection: $selected) {
-                HomeTabView(text: "홈", image: "house", tag: .Home,
-                            shwoingUserConfigModal: $shwoingUserConfigModal,
-                            isLogoutProcessing: $isLogoutProcessing)
-                BoardTabView(text: "게시판", image: "list.bullet.clipboard", tag: .Board)
-                GTabView(text: "지도", image: "map", tag: .User)
-            }
-            .accentColor(.red)
-            .font(.headline)
-//            .background(Color.pink.opacity(0.5))
-            .onAppear() {
-                // board에 대한 정보도 불러온다.
-                boardConfigViewModel.getAllBoards()
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    if !(userConfigViewModel.state.currentUser?.isInitialInfoSet)! {
-                        shwoingUserConfigModal = true
+        
+            ZStack {
+                TabView(selection: $selected) {
+                    HomeTabView(text: "홈", image: "house", tag: .Home,
+                                shwoingUserConfigModal: $shwoingUserConfigModal,
+                                isLogoutProcessing: $isLogoutProcessing)
+                    BoardTabView(text: "게시판", image: "list.bullet.clipboard", tag: .Board)
+                    GTabView(text: "지도", image: "map", tag: .User)
+                }
+                .accentColor(.red)
+                .font(.headline)
+                .onAppear() {
+                    // board에 대한 정보도 불러온다.
+                    boardConfigViewModel.getAllBoards()
+                    boardConfigViewModel.getTopPosts()
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        if !(userConfigViewModel.state.currentUser?.isInitialInfoSet)! {
+                            shwoingUserConfigModal = true
+                        }
                     }
                 }
             }
-        }
-        .alert(isPresented: $isLogoutProcessing) {
-            Alert(
-                title: Text("로그아웃"),
-                message: Text("정말로 로그아웃 하시겠습니까?"),
-                primaryButton: .default(Text("확인")) {
-                    presentationMode.wrappedValue.dismiss()
-                    userConfigViewModel.state.isLogoutProcessing = false
-                },
-                secondaryButton: .cancel(Text("취소"))
-            )
-        }
-        .navigationBarTitle("", displayMode: .inline)
-        .navigationBarHidden(true)
-        .sheet(isPresented: $shwoingUserConfigModal) {
-            UserInformationForm(
-                showingModal: $shwoingUserConfigModal
-            )
-        }
+            .alert(isPresented: $isLogoutProcessing) {
+                Alert(
+                    title: Text("로그아웃"),
+                    message: Text("정말로 로그아웃 하시겠습니까?"),
+                    primaryButton: .default(Text("확인")) {
+                        presentationMode.wrappedValue.dismiss()
+                        userConfigViewModel.state.isLogoutProcessing = false
+                    },
+                    secondaryButton: .cancel(Text("취소"))
+                )
+            }
+            .navigationBarTitle("", displayMode: .inline)
+            .navigationBarHidden(true)
+            .sheet(isPresented: $shwoingUserConfigModal) {
+                UserInformationForm(
+                    showingModal: $shwoingUserConfigModal
+                )
+            }
         
     }
 }
@@ -96,14 +97,92 @@ extension HomeView {
     }
 }
 
+func truncateStringToTwoLines(_ str: String) -> String {
+    let lines = str.split(separator: "\n", maxSplits: 2, omittingEmptySubsequences: false)
+
+    switch lines.count {
+    case 0, 1:
+        return str
+    case 2:
+        return lines.joined(separator: "\n")
+    default:
+        return lines.prefix(2).joined(separator: "\n") + "..."
+    }
+}
+
+
+struct TopRatedView: View {
+    var post: PostDTO
+    
+    var body: some View {
+        return VStack(alignment: .leading) {
+            HStack {
+                Image(systemName: "person.crop.square.fill")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 20, height: 20)
+                    .foregroundColor(.gray)
+                
+                Text((post.user?.nickname)!)
+                    .font(.system(size: 16))
+                
+                Spacer()
+                
+                Text(dateConversion(targetDate: post.timestamp))
+                    .font(.system(size: 12))
+                    .foregroundColor(.gray)
+            }
+            
+            Text(post.title)
+                .font(.system(size: 16))
+                .bold()
+            
+            Text(truncateStringToTwoLines(post.content))
+                .font(.system(size: 16))
+            
+            HStack {
+                Text(post.board.name)
+                
+                Spacer()
+                
+                Image(systemName: "hand.thumbsup")
+                    .imageScale(.small)
+                    .foregroundColor(.red)
+                    .frame(width: 18, height: 18)
+                    .padding(.trailing, -5)
+                Text(String((post.likes?.count)!))
+                    .font(.footnote)
+                    .foregroundColor(.red)
+                
+                Image(systemName: "bubble.left")
+                    .imageScale(.small)
+                    .foregroundColor(.blue)
+                    .frame(width: 18, height: 18)
+                    .padding(.leading, 5)
+                    .padding(.trailing, -5)
+                Text(String((post.comments?.count)!))
+                    .font(.footnote)
+                    .foregroundColor(.blue)
+                
+            }
+        }
+        .padding(.bottom, 7)
+    }
+}
+
+
 struct HomeTabView: View {
     var text: String
     var image: String
     var tag: TabItems
     @EnvironmentObject var userConfigViewModel: UserConfigViewModel
+    @EnvironmentObject var boardConfigViewModel: BoardConfigViewModel
+
     @Binding var shwoingUserConfigModal: Bool
     @Binding var isLogoutProcessing: Bool
     
+    @State var isActive: Bool = false
+    @State private var isRefreshing = false // For refresh control
  
     var body: some View {
         let HeaderTailintItem = VStack {
@@ -135,13 +214,62 @@ struct HomeTabView: View {
         }
         
         return NavigationView {
-            ScrollView {
-                Text(text)
-                // MARK: 실시간 인기글을 구현한다.
+            if !boardConfigViewModel.isLoading,
+               let topRatedPosts = boardConfigViewModel.topRatedPosts {
+            RefreshableScrollView(onRefresh: {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    boardConfigViewModel.getAllBoards()
+                    boardConfigViewModel.getTopPosts()
+                    self.isRefreshing = false
+                    print("Refresh Done!")
+                }
+            }) {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("실시간 인기글")
+                        .font(.system(size: 20))
+                        .bold()
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    
+                    List {
+                        ForEach(topRatedPosts) { post in
+                            Button(action: {
+                                boardConfigViewModel.selectedPost = post
+                                self.isActive = true
+                            }) {
+                                TopRatedView(post: post)
+                                    .foregroundColor(.black)
+                            }
+                        }
+                    }
+                    .background(
+                        Group {
+                            if let _ = boardConfigViewModel.selectedPost {
+                                NavigationLink(
+                                    destination: ContentDetail(),
+                                    isActive: $isActive) {
+                                        EmptyView()
+                                    }
+                                    .hidden()
+                            }
+                        }
+                    )
+                    .frame(height: 400)
+                }
+                .frame(maxWidth: .infinity)
+                .padding(10)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(Color.gray, lineWidth: 1)
+                )
+                .padding(20)
                 
             }
             .navigationBarItems(leading: HeaderLeadingItem, trailing: HeaderTailintItem)
             .navigationBarTitle("", displayMode: .inline)
+            } else {
+                ProgressView()
+            }
+            
         }
         .tabItem {
             Label(text, systemImage: image)
@@ -165,8 +293,7 @@ struct BoardTabView: View {
             if !isDetailViewVisible {
                 animate()
             }
-            BoardTabInnerView(tests: selectedPicker, isDetailViewVisible: $isDetailViewVisible
-            )
+            BoardTabInnerView(tests: selectedPicker, isDetailViewVisible: $isDetailViewVisible)
         }
         .tabItem {
             Label(text, systemImage: image)
@@ -181,7 +308,7 @@ struct BoardTabView: View {
                 VStack {
                     Text(item.rawValue)
                         .font(.title3)
-                        .frame(maxWidth: .infinity / 4, minHeight: 30)
+                        .frame(maxWidth: .infinity / 4, minHeight: 20)
                         .foregroundColor(selectedPicker == item ? .red : .gray)
                     
                     if selectedPicker == item {
@@ -207,14 +334,16 @@ struct HomeView_Previews: PreviewProvider {
         let state = AppState()
         state.currentUser = mockUser
         
+        let boardConfigViewModel = BoardConfigViewModel(
+            boardAPI: BoardService(), userAPI: UserService(), state: state)
+        
+        boardConfigViewModel.topRatedPosts = mockPosts
+        
         return NavigationView {
             HomeView()
                 .environmentObject(UserConfigViewModel(
                     boardAPI: BoardService(), userAPI: UserService(), state: state))
-                .environmentObject(BoardConfigViewModel(
-                    boardAPI: BoardService(), userAPI: UserService(), state: state))
+                .environmentObject(boardConfigViewModel)
         }
     }
-        
-        
 }

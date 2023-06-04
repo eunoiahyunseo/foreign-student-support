@@ -55,7 +55,7 @@ extension ContentRow{
                 .foregroundColor(.blue)
             
             Group {
-                Text(content.postedUser)
+                Text((content.user?.nickname)!)
                 Text("|")
                 Text(timeAgoDisplay(timestamp: content.timestamp))
             }
