@@ -302,7 +302,7 @@ class OpenSiriKitIntentHandler: NSString, OpenSiriKitIntentAIntentHandling {
             var Answera = ""
             self.Answ = try? await ChatAPI.sendMessage(question+"\nRef. I'm a foreign student in Kyungpook National University. Think in the shoe of foreign student. Please answer in a 40 words.")
             if let ResultAnswer = self.Answ {
-                Answera = "\(ResultAnswer)"
+                Answera = "\(ResultAnswer) GPT is a generative model, and this information may be old or wrong, so make sure to check the information again through official sources."
             } else {
                 Answera = "Sorry, An error occured. \nPlease check the internet connection."
             }

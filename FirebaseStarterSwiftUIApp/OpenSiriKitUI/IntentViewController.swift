@@ -65,20 +65,35 @@ import SwiftUI
 class IntentViewController: UIViewController, INUIHostedViewControlling {
     @IBOutlet var LblText: UILabel!
     @IBOutlet var OAILogoView: UIImageView!
-    
+    @IBOutlet var QuestionLbl: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         let imageName = "openai-logo.png"
         let image = UIImage(named: imageName)
         
+        
+        
+        //        let intent  = interaction.intent as! OpenSiriKitIntentAIntent
+        
+        
+        
         OAILogoView = UIImageView(image: image)
         OAILogoView.frame = CGRect(x:18, y:10, width:90, height:90)
         OAILogoView.contentMode = .scaleAspectFit
         //OAILogoView.image = image
         view.addSubview(OAILogoView)
-
-        LblText = UILabel(frame: CGRect(x: 0, y: 50, width: 370, height: 300))
+        
+        
+        QuestionLbl = UILabel(frame: CGRect(x:0, y:20, width: 360, height: 300))
+        QuestionLbl.center = CGPoint(x:self.view.frame.width / 2, y:170)
+        QuestionLbl.textColor = UIColor.black
+        QuestionLbl.font = UIFont.systemFont(ofSize: 30)        
+        QuestionLbl.numberOfLines = 0
+        QuestionLbl.textAlignment = .center
+        
+        
+        LblText = UILabel(frame: CGRect(x: 0, y: 50, width: 360, height: 300))
         LblText.center = CGPoint(x:self.view.frame.width / 2, y:350)
         LblText.textColor = UIColor.black
         LblText.font = UIFont.systemFont(ofSize: 20)
@@ -95,7 +110,7 @@ class IntentViewController: UIViewController, INUIHostedViewControlling {
         
         
         
-        
+        view.addSubview(QuestionLbl)
                view.addSubview(LblText)
                 
         UIView.animate(withDuration: 2.0, delay: 0, options: .curveEaseInOut, animations: {
@@ -125,6 +140,10 @@ class IntentViewController: UIViewController, INUIHostedViewControlling {
         //intent.ThingsToAsk
         UserDefaults.standard.object(forKey: "asr") as? String
         LblText.text = Answer
+        
+        let Question = intent.ThingsToAsk
+        QuestionLbl.text = Question
+        
         /*
         let textArray = Answer?.components(separatedBy: "\n")
         var curText = ""
