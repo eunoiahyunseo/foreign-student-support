@@ -15,6 +15,7 @@ struct UserDetailView: View {
 
     @State var isShownSheet = false
     @State var isShownFullScreenCover = false
+    @State var isShownTxtFeild: Bool = false
     var body: some View {
         let currentUser: User = userConfigViewModel.state.currentUser!
         
@@ -97,11 +98,52 @@ struct UserDetailView: View {
                 RoundedRectangle(cornerRadius: 10)
                     .stroke(Color.gray, lineWidth: 1)
             )
-            .padding(10)
+            .padding(.top, 10)
+            .padding(.horizontal, 10)
+            
+            //noticeIf(currentUser.isAdmin, notice)
+            
+            Text("next setting")
             
             Spacer()
         }
         .navigationTitle("내 정보")
+    }
+    
+    var notice: some View{
+        VStack(alignment: .leading, spacing: 20) {
+            Text("공지사항")
+                .font(.system(size: 20))
+                .bold()
+                .frame(maxWidth: .infinity, alignment: .leading)
+                //.padding(15)
+            Text("공지사항 글쓰기")
+                .font(.system(size: 17))
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .onTapGesture {
+                    self.isShownTxtFeild.toggle()
+                }
+                .fullScreenCover(isPresented: $isShownTxtFeild) {
+                    WriteNoticeView(isShownTxtFeild: $isShownTxtFeild)
+                }
+            Text("내가 쓴글")
+                .font(.system(size: 17))
+                .frame(maxWidth: .infinity, alignment: .leading)
+//            HStack {
+//                Text("공지사항 글쓰기")
+//                    .font(.body)
+//                    .fontWeight(.light)
+//                Spacer()
+//            }
+        }
+        .frame(maxWidth: .infinity)
+        .padding(10)
+        .overlay(
+            RoundedRectangle(cornerRadius: 10)
+                .stroke(Color.gray, lineWidth: 1)
+        )
+        .padding(.top, 10)
+        .padding(.horizontal, 10)
     }
 }
 

@@ -59,6 +59,11 @@
 		DAA497E52A1904DA001F888D /* UserConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA497E42A1904DA001F888D /* UserConfig.swift */; };
 		DAB423D82A2CB75D00420121 /* RefreshView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB423D72A2CB75D00420121 /* RefreshView.swift */; };
 		DAED40C22A1E5B5F0047C8E1 /* BoardConfigViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAED40C12A1E5B5F0047C8E1 /* BoardConfigViewModel.swift */; };
+		F32A5DE92A38D3CC008EB168 /* FavorBoardHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F32A5DE82A38D3CC008EB168 /* FavorBoardHomeView.swift */; };
+		F32A5DEB2A38D3DE008EB168 /* SendMsgView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F32A5DEA2A38D3DE008EB168 /* SendMsgView.swift */; };
+		F32A5DED2A38DE08008EB168 /* UserInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F32A5DEC2A38DE08008EB168 /* UserInfoView.swift */; };
+		F32A5DEF2A38DE11008EB168 /* adminAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = F32A5DEE2A38DE11008EB168 /* adminAuth.swift */; };
+		F32A5DF12A38DE18008EB168 /* WriteNoticeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F32A5DF02A38DE18008EB168 /* WriteNoticeView.swift */; };
 		F3690BD02A1F8775006556D8 /* ChatGPTAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3690BCE2A1F8774006556D8 /* ChatGPTAPI.swift */; };
 		F3690BD12A1F8775006556D8 /* GPT_API_Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3690BCF2A1F8774006556D8 /* GPT_API_Models.swift */; };
 		F3B397502A08E4D40060974D /* Content.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B3974F2A08E4D40060974D /* Content.swift */; };
@@ -164,6 +169,11 @@
 		DAED40C12A1E5B5F0047C8E1 /* BoardConfigViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardConfigViewModel.swift; sourceTree = "<group>"; };
 		DB8C10DB8C90574AB4F8C3C3 /* Pods_FirebaseStarterSwiftUIApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FirebaseStarterSwiftUIApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFC04FC652303ADBA7DDA3FB /* Pods-FirebaseStarterSwiftUIApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FirebaseStarterSwiftUIApp.debug.xcconfig"; path = "Target Support Files/Pods-FirebaseStarterSwiftUIApp/Pods-FirebaseStarterSwiftUIApp.debug.xcconfig"; sourceTree = "<group>"; };
+		F32A5DE82A38D3CC008EB168 /* FavorBoardHomeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavorBoardHomeView.swift; sourceTree = "<group>"; };
+		F32A5DEA2A38D3DE008EB168 /* SendMsgView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendMsgView.swift; sourceTree = "<group>"; };
+		F32A5DEC2A38DE08008EB168 /* UserInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfoView.swift; sourceTree = "<group>"; };
+		F32A5DEE2A38DE11008EB168 /* adminAuth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = adminAuth.swift; sourceTree = "<group>"; };
+		F32A5DF02A38DE18008EB168 /* WriteNoticeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WriteNoticeView.swift; sourceTree = "<group>"; };
 		F3690BCE2A1F8774006556D8 /* ChatGPTAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatGPTAPI.swift; sourceTree = "<group>"; };
 		F3690BCF2A1F8774006556D8 /* GPT_API_Models.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPT_API_Models.swift; sourceTree = "<group>"; };
 		F3B3974F2A08E4D40060974D /* Content.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Content.swift; sourceTree = "<group>"; };
@@ -397,6 +407,9 @@
 			children = (
 				DA3C0BD02A17AF9D0033D2BD /* UserDetailView.swift */,
 				DA5C176F2A168EB900CDCED1 /* UserInformation.swift */,
+				F32A5DEC2A38DE08008EB168 /* UserInfoView.swift */,
+				F32A5DEE2A38DE11008EB168 /* adminAuth.swift */,
+				F32A5DF02A38DE18008EB168 /* WriteNoticeView.swift */,
 			);
 			path = userView;
 			sourceTree = "<group>";
@@ -512,6 +525,8 @@
 				F3B397512A08E5000060974D /* boardmain.swift */,
 				F3B3974F2A08E4D40060974D /* Content.swift */,
 				DA151A122A1DFE170007853C /* BoardTabInnerView.swift */,
+				F32A5DEA2A38D3DE008EB168 /* SendMsgView.swift */,
+				F32A5DE82A38D3CC008EB168 /* FavorBoardHomeView.swift */,
 			);
 			path = comBoard;
 			sourceTree = "<group>";
@@ -725,17 +740,22 @@
 			files = (
 				DA151A132A1DFE170007853C /* BoardTabInnerView.swift in Sources */,
 				DA3C0BD12A17AF9D0033D2BD /* UserDetailView.swift in Sources */,
+				F32A5DE92A38D3CC008EB168 /* FavorBoardHomeView.swift in Sources */,
 				F3690BD12A1F8775006556D8 /* GPT_API_Models.swift in Sources */,
 				30D8C5EF24E77C8000CB0858 /* CustomModifier.swift in Sources */,
+				F32A5DF12A38DE18008EB168 /* WriteNoticeView.swift in Sources */,
+				F32A5DEF2A38DE11008EB168 /* adminAuth.swift in Sources */,
 				30F0AF9224E976410084CE6E /* SplashView.swift in Sources */,
 				30DDE0C124EC2AD300208D32 /* AppState.swift in Sources */,
 				DAB423D82A2CB75D00420121 /* RefreshView.swift in Sources */,
 				DAA497E52A1904DA001F888D /* UserConfig.swift in Sources */,
+				F32A5DED2A38DE08008EB168 /* UserInfoView.swift in Sources */,
 				30D8C5ED24E7755600CB0858 /* WelcomeView.swift in Sources */,
 				30127DCB24DE506300576F65 /* AppDelegate.swift in Sources */,
 				DA7E45192A1795CA00AB1899 /* UserAPI.swift in Sources */,
 				30DDE0B924EABC9700208D32 /* User.swift in Sources */,
 				DA131E8B2A0B57E60033D67F /* BoardAPI.swift in Sources */,
+				F32A5DEB2A38D3DE008EB168 /* SendMsgView.swift in Sources */,
 				F3B397502A08E4D40060974D /* Content.swift in Sources */,
 				DA5C176E2A16846F00CDCED1 /* NavigationBarModifier.swift in Sources */,
 				30F0AF8C24E92D160084CE6E /* AuthAPI.swift in Sources */,

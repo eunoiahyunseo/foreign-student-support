@@ -39,7 +39,7 @@ struct HomeView: View {
                 TabView(selection: $selected) {
                     HomeTabView(text: "홈", image: "house", tag: .Home,
                                 shwoingUserConfigModal: $shwoingUserConfigModal,
-                                isLogoutProcessing: $isLogoutProcessing)
+                                isLogoutProcessing: $isLogoutProcessing, selected: $selected)
                     BoardTabView(text: "게시판", image: "list.bullet.clipboard", tag: .Board)
                     GTabView(text: "지도", image: "map", tag: .User)
                 }
@@ -79,21 +79,37 @@ struct HomeView: View {
     }
 }
 
-extension HomeView {
-    struct GTabView: View {
-        var text: String
-        var image: String
-        var tag: TabItems
-        
-        var body: some View {
-            ScrollView {
-                Text(text)
-            }
-            .tabItem {
-                Label(text, systemImage: image)
-            }
-            .tag(tag)
+//extension HomeView {
+//    struct GTabView: View {
+//        var text: String
+//        var image: String
+//        var tag: TabItems
+//
+//        var body: some View {
+//            ScrollView {
+//                Text(text)
+//            }
+//            .tabItem {
+//                Label(text, systemImage: image)
+//            }
+//            .tag(tag)
+//        }
+//    }
+//}
+
+struct GTabView: View {
+    var text: String
+    var image: String
+    var tag: TabItems
+    
+    var body: some View {
+        ScrollView {
+            Text(text)
         }
+        .tabItem {
+            Label(text, systemImage: image)
+        }
+        .tag(tag)
     }
 }
 
@@ -180,9 +196,16 @@ struct HomeTabView: View {
 
     @Binding var shwoingUserConfigModal: Bool
     @Binding var isLogoutProcessing: Bool
+    @Binding var selected: TabItems
     
     @State var isActive: Bool = false
     @State private var isRefreshing = false // For refresh control
+    @State private var isLinkActive = false
+    
+//    let initialState = AppState()
+//    let authAPI = AuthService()
+//    let boardAPI = BoardService()
+//    let userAPI = UserService()
  
     var body: some View {
         let HeaderTailintItem = VStack {
@@ -215,7 +238,8 @@ struct HomeTabView: View {
         
         return NavigationView {
             if !boardConfigViewModel.isLoading,
-               let topRatedPosts = boardConfigViewModel.topRatedPosts {
+                let topRatedPosts = boardConfigViewModel.topRatedPosts,
+               let boardData = boardConfigViewModel.boards{
             RefreshableScrollView(onRefresh: {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                     boardConfigViewModel.getAllBoards()
@@ -230,39 +254,104 @@ struct HomeTabView: View {
                         .bold()
                         .frame(maxWidth: .infinity, alignment: .leading)
                     
-                    List {
-                        ForEach(topRatedPosts) { post in
-                            Button(action: {
-                                boardConfigViewModel.selectedPost = post
-                                self.isActive = true
-                            }) {
-                                TopRatedView(post: post)
-                                    .foregroundColor(.black)
-                            }
-                        }
-                    }
-                    .background(
-                        Group {
-                            if let _ = boardConfigViewModel.selectedPost {
-                                NavigationLink(
-                                    destination: ContentDetail(),
-                                    isActive: $isActive) {
-                                        EmptyView()
+                    GeometryReader { proxy in
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack {
+                                ForEach(topRatedPosts) { post in
+                                    Button(action: {
+                                        boardConfigViewModel.selectedPost = post
+                                        self.isActive = true
+                                    }) {
+                                        TopRatedView(post: post)
+                                            .foregroundColor(.black)
                                     }
-                                    .hidden()
+                                }
+                                .frame(width: proxy.size.width)
                             }
                         }
-                    )
-                    .frame(height: 400)
+                        .onAppear{ UIScrollView.appearance().isPagingEnabled = true }
+                        .background(
+                            Group {
+                                if let _ = boardConfigViewModel.selectedPost {
+                                    NavigationLink(
+                                        destination: ContentDetail(),
+                                        isActive: $isActive) {
+                                            EmptyView()
+                                        }
+                                        .hidden()
+                                }
+                            }
+                        )
+                        .frame(height: 200)
+                    }
                 }
-                .frame(maxWidth: .infinity)
+                .frame(maxWidth: .infinity, maxHeight: 200)
                 .padding(10)
                 .overlay(
                     RoundedRectangle(cornerRadius: 10)
-                        .stroke(Color.gray, lineWidth: 1)
+                        .stroke(Color.gray, lineWidth: 2)
                 )
                 .padding(20)
                 
+                //즐겨찾는 게시판 뷰
+                VStack(alignment: .leading) {
+                    HStack{
+                        Text("즐겨찾는 게시판")
+                            .font(.body)
+                            .fontWeight(.bold)
+                            .padding(.horizontal)
+                        Spacer()
+                        Button(action: {
+                            selected = TabItems.Board
+                        }) {
+                            HStack(spacing: 0){
+                                Text("더보기")
+                                    .font(.body)
+                                Image(systemName: "chevron.right")
+                            }
+                            .padding()
+                        }
+                    }
+                    .padding(.bottom, -5)
+                    
+                    if boardData.count < 5 {
+                        ForEach(boardData.indices, id: \.self) { idx in
+                            NavigationLink(destination: boardmain(), isActive: $isLinkActive) {
+                                favorRow(boardData: boardData[idx])
+                                    .padding(.bottom, idx == boardData.count-1 ? 12 : 0)
+                                    .foregroundColor(.black)
+                                    .onTapGesture {
+                                        isLinkActive = true
+                                        boardConfigViewModel.selectedBoard = boardData[idx]
+                                    }
+                            }
+                        }
+                    }else {
+                        ForEach(0..<4){ idx in
+                            NavigationLink(destination: boardmain(), isActive: $isLinkActive) {
+                                favorRow(boardData: boardData[idx])
+                                    .padding(.bottom, idx == 3 ? 12 : 0)
+                                    .foregroundColor(.black)
+                                    .onTapGesture {
+                                        isLinkActive = true
+                                        boardConfigViewModel.selectedBoard = boardData[idx]
+                                    }
+                            }
+                        }
+                    }
+                }
+                .overlay {
+                    RoundedRectangle(cornerRadius: 15)
+                        .stroke(lineWidth: 2)
+                        .foregroundColor(.gray)
+                }
+                .padding()
+                
+//                FavorBoardHomeView(selected: $selected)
+//                    .environmentObject(BoardConfigViewModel(
+//                    boardAPI: boardAPI, userAPI: userAPI, state: initialState))
+                
+                //FavorBoardHomeView(selected: $selected)
             }
             .navigationBarItems(leading: HeaderLeadingItem, trailing: HeaderTailintItem)
             .navigationBarTitle("", displayMode: .inline)
@@ -292,6 +381,7 @@ struct BoardTabView: View {
         VStack {
             if !isDetailViewVisible {
                 animate()
+                    .animation(.easeInOut(duration: 0.3))
             }
             BoardTabInnerView(tests: selectedPicker, isDetailViewVisible: $isDetailViewVisible)
         }
@@ -325,6 +415,7 @@ struct BoardTabView: View {
                 }
             }
         }
+        .transition(.slide)
     }
 }
 
