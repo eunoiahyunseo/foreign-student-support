@@ -64,13 +64,13 @@ struct FavorBoardHomeView: View {
 }
 
 struct favorRow: View{
-    var boardData: Board
+    var boardData: BoardDTO?
     //var boardName: String
     //var content: Post
     
     var body: some View{
         HStack{
-            Text(boardData.name)
+            Text(boardData?.name ?? "")
                 .font(.callout)
                 .padding(.horizontal)
                 .padding(.bottom, 5)

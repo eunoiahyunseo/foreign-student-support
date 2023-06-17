@@ -13,14 +13,11 @@ import FirebaseFirestore
 
 
 class MyPostsViewModel: ObservableObject {
-    
-    
-    
     @Published var state: AppState
 
     
     public var userAPI: UserAPI
-    public var allPostsService: AllPostsService
+    public var boardAPI: BoardAPI
     // booard에 속한 posts들의 목록
     @Published var posts: [PostDTO]?
     
@@ -28,17 +25,16 @@ class MyPostsViewModel: ObservableObject {
     @Published var isLoading = false
     
     
-    init(userAPI: UserAPI, allPostsService: AllPostsService, state: AppState) {
+    init(userAPI: UserAPI, boardAPI: BoardAPI, state: AppState) {
         self.userAPI = userAPI
+        self.boardAPI = boardAPI
         self.state = state
-        self.allPostsService = allPostsService
-        
     }
     
     
-    func fetchMyPosts(id: String?) {
+    func fetchMyPosts(id: String) {
         isLoading = true
-        allPostsService.getMyPosts(Pid: id) { [weak self] result in
+        boardAPI.getMyPosts(pid: id) { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let posts):

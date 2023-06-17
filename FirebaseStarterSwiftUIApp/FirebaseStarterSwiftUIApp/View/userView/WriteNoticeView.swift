@@ -20,16 +20,35 @@ struct WriteNoticeView: View {
     @State private var btnEnabled: Bool = false
     @FocusState private var focusField: Field?
     
-    init(isShownTxtFeild: Binding<Bool>) {
-            _isShownTxtFeild = isShownTxtFeild
+    @State private var showingAlert = false
+    
+    private var adminBoardService : AdminBoardService = AdminBoardService()
+    @Binding var postBefore : AdminBoard?
+
+    init(isShownTxtFeild: Binding<Bool>, postBefore : Binding<AdminBoard?>?) {
+        _isShownTxtFeild = isShownTxtFeild
+        if(postBefore != nil){
+            _postBefore = postBefore!
+        }
+        else{
+            _postBefore = Binding.constant(nil)
+        }
+        showingAlert = false
     }
     
     var body: some View {
         VStack{
             HStack {
-                Text("공지사항 쓰기")
-                    .font(.title)
-                    .fontWeight(.bold)
+                if(postBefore != nil){
+                    Text("공지사항 쓰기")
+                        .font(.title)
+                        .fontWeight(.bold)
+                }
+                else{
+                    Text("공지사항 수정")
+                        .font(.title)
+                        .fontWeight(.bold)
+                }
                 
                 Spacer()
                 
@@ -91,7 +110,30 @@ struct WriteNoticeView: View {
             }
             
             Button(action: {
-                //
+                let currentUser: User = userConfigViewModel.state.currentUser!
+                
+                if(postBefore == nil){
+                    let post = AdminBoard(postedBy: currentUser.nickname!, title: title, content: content, timestamp: Date())
+                    
+                    adminBoardService.createPost(post: post) { error in
+                        if let error = error {
+                            print("error: \(error)")
+                        } else {
+                            print("success!")
+                        }
+                    }
+                }
+                else{
+                    let post = AdminBoard(postedBy: postBefore!.postedBy, title: title, content: content, timestamp: Date())
+                    
+                    adminBoardService.updatePost(id: postBefore!.id!, post: post, completion: { error in
+                        if(error != nil){
+                            print("error occured! \(error)")
+                        }
+                    })
+                }
+
+                showingAlert = true
             }) {
                 Text("공지사항 등록하기")
                     .padding(.vertical, 8)
@@ -111,6 +153,23 @@ struct WriteNoticeView: View {
                 focusField = .content
             }
         }
+        .onAppear{
+            if(postBefore != nil){
+                title = postBefore!.title
+                content = postBefore!.content
+            }
+            else{
+                title = ""
+                content = ""
+            }
+        }
+        .alert(isPresented: $showingAlert) {
+            Alert(title: Text("완료"),
+                  message: Text("글이 등록되었습니다."),
+                  dismissButton: .default(Text("OK"), action: {
+                    isShownTxtFeild = false
+            }))
+        }
     }
 }
 
@@ -126,3 +185,9 @@ extension View {
 //        WriteNoticeView(isShownTxtFeild: $tmpnotice)
 //    }
 //}
+
+struct WriteNoticeView_Previews: PreviewProvider {
+    static var previews: some View {
+        WriteNoticeView(isShownTxtFeild: .constant(true), postBefore: Binding.constant(nil))
+    }
+}

@@ -82,12 +82,16 @@ struct SendMsgView: View {
         }
     }
 }
-
-struct SendMsgView_Previews: PreviewProvider {
-    static var previews: some View {
-        @State var tmpnotice = true
-        @State var fname = "친구1"
-        SendMsgView(sendMsg: $tmpnotice, name: $fname)
-    }
-}
+//
+//struct SendMsgView_Previews: PreviewProvider {
+//    static var previews: some View {
+//<<<<<<< HEAD
+//        SendMsgView(sendMsg: .constant(true))
+//=======
+//        @State var tmpnotice = true
+//        @State var fname = "친구1"
+//        SendMsgView(sendMsg: $tmpnotice, name: $fname)
+//>>>>>>> main
+//    }
+//}
 

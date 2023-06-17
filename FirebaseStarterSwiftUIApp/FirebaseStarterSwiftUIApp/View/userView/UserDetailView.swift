@@ -124,7 +124,10 @@ struct UserDetailView: View {
                 .padding(.top, 10)
                 .padding(.horizontal, 10)
                 
-                //noticeIf(currentUser.isAdmin, notice)
+//                if(currentUser.isAdmin == true){
+//                    notice
+//                }
+                noticeIf(currentUser.isAdmin, notice)
                 
                 Spacer()
                 
@@ -152,11 +155,17 @@ struct UserDetailView: View {
                     self.isShownTxtFeild.toggle()
                 }
                 .fullScreenCover(isPresented: $isShownTxtFeild) {
-                    WriteNoticeView(isShownTxtFeild: $isShownTxtFeild)
+                    WriteNoticeView(isShownTxtFeild: $isShownTxtFeild,
+                                    postBefore : nil)
                 }
-            Text("내가 쓴글")
-                .font(.system(size: 17))
-                .frame(maxWidth: .infinity, alignment: .leading)
+            
+            NavigationLink(destination: adminBoardposts()){
+                Text("내가 쓴글")
+                    .font(.system(size: 17))
+                    .foregroundColor(.black)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
+            
 //            HStack {
 //                Text("공지사항 글쓰기")
 //                    .font(.body)

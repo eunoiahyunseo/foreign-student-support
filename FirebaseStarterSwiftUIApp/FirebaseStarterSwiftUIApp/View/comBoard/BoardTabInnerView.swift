@@ -14,6 +14,7 @@ struct BoardTabInnerView: View {
     @State private var index = 1
     @State private var isShowing = false
     // NavigationLink를 타고 갈 떄 onAppear에서 true로 설정해주어야 함
+    // NavigationLink를 타고 갈 떄 onAppear에서 true로 설정해주어야 함
     @Binding var isDetailViewVisible: Bool
     @EnvironmentObject var boardConfigViewModel: BoardConfigViewModel
     @State private var isLinkActive = false
@@ -107,21 +108,31 @@ struct BoardTabInnerView: View {
 ////.onAppear { UITableView.appearance().separatorStyle = .none }
 
 struct BoardRow: View {
-    var boardData: Board
-    @State var isPinned: Bool = false // Added this line
+    var boardData: BoardDTO
+    
+    @EnvironmentObject var boardConfigViewModel: BoardConfigViewModel
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack(spacing: 0) {
                 Button(action: {
                     withAnimation {
-                        isPinned.toggle()
+                        // 우선 선택된 보드를 뷰모델에 반영해서 그 안에서 이 정보를 가지고 지지고복고를 해야할듯?
+                        boardConfigViewModel.selectedBoard = boardData
+                        
+                        if !boardData.isPinned {
+                            boardConfigViewModel.addPin()
+                        } else {
+                            boardConfigViewModel.removePin()
+                        }
+                        
+                        
                     }
                 }) {
-                    Image(systemName: isPinned ? "pin.fill" : "pin")
+                    Image(systemName: boardData.isPinned ? "pin.fill" : "pin")
                         .imageScale(.small)
-                        .rotationEffect(.degrees(isPinned ? 45 : 0))
-                        .foregroundColor(isPinned ? .red : .black)
+                        .rotationEffect(.degrees(boardData.isPinned ? 45 : 0))
+                        .foregroundColor(boardData.isPinned ? .red : .black)
                         .padding(.trailing)
                 }
                 Text(boardData.name)
@@ -136,7 +147,17 @@ struct BoardRow: View {
                     .foregroundColor(.gray)
             }
         }
-        .padding(.vertical, 15)
+        .alert(item: $boardConfigViewModel.statusViewModel) { status in
+            Alert(title: Text(status.title),
+                  message: Text(status.message),
+                  dismissButton: .default(Text("OK"), action: {
+                if status.title == "Successful" {
+                    boardConfigViewModel.getAllBoardsWithPinnedInfo() // 갱신해준다.
+                }
+                boardConfigViewModel.statusViewModel = nil
+            }))
+        }
+        .padding(.vertical, 10)
     }
 }
 

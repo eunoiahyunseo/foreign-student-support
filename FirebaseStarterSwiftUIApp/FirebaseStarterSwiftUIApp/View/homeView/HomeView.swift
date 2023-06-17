@@ -30,7 +30,7 @@ struct HomeView: View {
     @EnvironmentObject var userConfigViewModel: UserConfigViewModel
     @EnvironmentObject var boardConfigViewModel: BoardConfigViewModel
     
-    init() {
+    init(){
         UITabBar.appearance().scrollEdgeAppearance = .init()
     }
     
@@ -48,7 +48,8 @@ struct HomeView: View {
                 .font(.headline)
                 .onAppear() {
                     // board에 대한 정보도 불러온다.
-                    boardConfigViewModel.getAllBoards()
+//                    boardConfigViewModel.getAllBoards()
+                    boardConfigViewModel.getAllBoardsWithPinnedInfo()
                     boardConfigViewModel.getTopPosts()
                     
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
@@ -237,7 +238,7 @@ struct HomeTabView: View {
             Text("유학생 지원")
                 .foregroundColor(.red)
                 .fontWeight(.bold)
-            Text((userConfigViewModel.state.currentUser?.school)!)
+            Text((userConfigViewModel.state.currentUser?.school) ?? "unknown")
                 .font(.system(size: 20))
                 .fontWeight(.heavy)
         }
@@ -248,124 +249,135 @@ struct HomeTabView: View {
                let boardData = boardConfigViewModel.boards{
             RefreshableScrollView(onRefresh: {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    boardConfigViewModel.getAllBoards()
+                    boardConfigViewModel.getAllBoardsWithPinnedInfo()
                     boardConfigViewModel.getTopPosts()
                     self.isRefreshing = false
                     print("Refresh Done!")
                 }
             }) {
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("실시간 인기글")
-                        .font(.system(size: 20))
-                        .bold()
-                        .frame(maxWidth: .infinity, alignment: .leading)
+                List {
+                    adminPostsView()
+                        .padding(.top,8).padding(.leading, 8).padding(.trailing, 8)
+                        .listRowSeparator(.hidden)
                     
-                    GeometryReader { proxy in
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            HStack {
-                                ForEach(topRatedPosts) { post in
-                                    NavigationLink(destination: ContentDetail(), isActive: $isActive) {
-                                        TopRatedView(post: post)
-                                            .foregroundColor(.black)
-                                            .onTapGesture {
-                                                boardConfigViewModel.selectedPost = post
-                                                self.isActive = true
-                                            }
+                    LinkCollectionView()
+                        .padding(.leading, 8).padding(.trailing, 8)
+                        .listRowSeparator(.hidden)
+                    
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("실시간 인기글")
+                            .font(.system(size: 20))
+                            .bold()
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                        
+                        GeometryReader { proxy in
+                            ScrollView(.horizontal, showsIndicators: false) {
+                                HStack {
+                                    ForEach(topRatedPosts) { post in
+                                        NavigationLink(destination: ContentDetail(), isActive: $isActive) {
+                                            TopRatedView(post: post)
+                                                .foregroundColor(.black)
+                                                .onTapGesture {
+                                                    boardConfigViewModel.selectedPost = post
+                                                    self.isActive = true
+                                                }
+                                        }
                                     }
-//                                    Button(action: {
-//                                        boardConfigViewModel.selectedPost = post
-//                                        self.isActive = true
-//                                    }) {
-//                                        TopRatedView(post: post)
-//                                            .foregroundColor(.black)
-//                                    }
+                                    .frame(width: proxy.size.width)
                                 }
-                                .frame(width: proxy.size.width)
                             }
-                        }
-                        .onAppear{ UIScrollView.appearance().isPagingEnabled = true }
-//                        .background(
-//                            Group {
-//                                if let _ = boardConfigViewModel.selectedPost {
-//                                    NavigationLink(
-//                                        destination: ContentDetail(),
-//                                        isActive: $isActive) {
-//                                            EmptyView()
-//                                        }
-//                                        .hidden()
-//                                }
-//                            }
-//                        )
-                        .frame(height: 200)
-                    }
-                }
-                .frame(maxWidth: .infinity, maxHeight: 200)
-                .padding(10)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 10)
-                        .stroke(Color.gray, lineWidth: 2)
-                )
-                .padding(20)
-                
-                //즐겨찾는 게시판 뷰
-                VStack(alignment: .leading) {
-                    HStack{
-                        Text("즐겨찾는 게시판")
-                            .font(.body)
-                            .fontWeight(.bold)
-                            .padding(.horizontal)
-                        Spacer()
-                        Button(action: {
-                            selected = TabItems.Board
-                        }) {
-                            HStack(spacing: 0){
-                                Text("더보기")
-                                    .font(.body)
-                                Image(systemName: "chevron.right")
-                            }
-                            .padding()
+                            .onAppear{ UIScrollView.appearance().isPagingEnabled = true }
+                            .frame(height: 200)
                         }
                     }
-                    .padding(.bottom, -5)
+                    .frame(maxWidth: .infinity, maxHeight: 200)
+                    .padding(10)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(Color.gray, lineWidth: 2)
+                    )
+                    .padding(20)
+                    .listRowSeparator(.hidden)
                     
-                    if boardData.count < 5 {
-                        ForEach(boardData.indices, id: \.self) { idx in
-                            NavigationLink(destination: boardmain(), isActive: $isLinkActive) {
-                                favorRow(boardData: boardData[idx])
-                                    .padding(.bottom, idx == boardData.count-1 ? 12 : 0)
-                                    .foregroundColor(.black)
-                                    .onTapGesture {
-                                        isLinkActive = true
-                                        boardConfigViewModel.selectedBoard = boardData[idx]
-                                    }
+                    //즐겨찾는 게시판 뷰
+                    VStack(alignment: .leading) {
+                        HStack{
+                            Text("즐겨찾는 게시판")
+                                .font(.body)
+                                .fontWeight(.bold)
+                                .padding(.horizontal)
+                            Spacer()
+                            Button(action: {
+                                selected = TabItems.Board
+                            }) {
+                                HStack(spacing: 0){
+                                    Text("더보기")
+                                        .font(.body)
+                                    Image(systemName: "chevron.right")
+                                }
+                                .padding()
                             }
                         }
-                    }else {
-                        ForEach(0..<4){ idx in
-                            NavigationLink(destination: boardmain(), isActive: $isLinkActive) {
-                                favorRow(boardData: boardData[idx])
-                                    .padding(.bottom, idx == 3 ? 12 : 0)
-                                    .foregroundColor(.black)
-                                    .onTapGesture {
-                                        isLinkActive = true
-                                        boardConfigViewModel.selectedBoard = boardData[idx]
-                                    }
+                        .padding(.bottom, -5)
+                        
+                        if boardData.count < 5 {
+                            ForEach(boardData.indices, id: \.self) { idx in
+                                ZStack{
+                                    favorRow(boardData: boardData[idx])
+                                        .padding(.bottom, idx == boardData.count-1 ? 12 : 0)
+                                        .foregroundColor(.black)
+                                        .onTapGesture {
+                                            isLinkActive = true
+                                            boardConfigViewModel.selectedBoard = boardData[idx]
+                                        }
+                                    NavigationLink(destination: boardmain(), isActive: $isLinkActive) {
+                                    }.opacity(0.0)
+                                }
+                            }
+                        }else {
+                            ForEach(0..<4){ idx in
+                                ZStack{
+                                    favorRow(boardData: boardData[idx])
+                                        .padding(.bottom, idx == 3 ? 12 : 0)
+                                        .foregroundColor(.black)
+                                        .onTapGesture {
+                                            isLinkActive = true
+                                            boardConfigViewModel.selectedBoard = boardData[idx]
+                                        }
+                                    NavigationLink(destination: boardmain(), isActive: $isLinkActive){
+                                    }.opacity(0.0)
+                                }
+                                
                             }
                         }
                     }
-                }
-                .overlay {
-                    RoundedRectangle(cornerRadius: 15)
-                        .stroke(lineWidth: 2)
-                        .foregroundColor(.gray)
-                }
-                .padding()
-                
-//                FavorBoardHomeView(selected: $selected)
-//                    .environmentObject(BoardConfigViewModel(
-//                    boardAPI: boardAPI, userAPI: userAPI, state: initialState))
-                
-                //FavorBoardHomeView(selected: $selected)
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 15)
+                            .stroke(lineWidth: 2)
+                            .foregroundColor(.gray)
+                    }
+                    .padding()
+                    .listRowSeparator(.hidden)
+                    
+    //                FavorBoardHomeView(selected: $selected)
+    //                    .environmentObject(BoardConfigViewModel(
+    //                    boardAPI: boardAPI, userAPI: userAPI, state: initialState))
+                    
+                    //FavorBoardHomeView(selected: $selected)
+                    
+                    EmptyView().frame(height:200)
+                    
+                    AdLinkCollectionView()
+                        .frame(height : 300)
+                        .padding(10)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(Color.gray, lineWidth: 2)
+                        )
+                        .padding(20)
+                        .listRowSeparator(.hidden)
+                    
+                }.listStyle(PlainListStyle())
             }
             .navigationBarItems(leading: HeaderLeadingItem, trailing: HeaderTailintItem)
             .navigationBarTitle("", displayMode: .inline)
