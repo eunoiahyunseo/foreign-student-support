@@ -9,6 +9,7 @@
 import Foundation
 import FirebaseCore
 import FirebaseFirestore
+import FirebaseFirestoreSwift
 import FirebaseAuth
 
 class BoardService: BoardAPI {
@@ -49,7 +50,6 @@ class BoardService: BoardAPI {
         } catch let error {
             completion(error)
         }
-        
     }
     
     func getAllPosts(completion: @escaping (Result<[PostDTO], Error>) -> Void) {
@@ -247,6 +247,73 @@ class BoardService: BoardAPI {
                 boards = boards.sorted { $0.score > $1.score }
 
                 completion(.success(boards))
+            }
+        }
+    }
+    
+    
+    // User의 pin 서브 컬렉션에 게시판 추가
+    func addPinToBoard(userId: String, boardId: String, completion: @escaping (Error?) -> Void) {
+        let boardRef = db.collection(Board.collection_name).document(boardId)
+           boardRef.getDocument { (document, error) in
+               if let document = document, document.exists {
+                   do {
+                       let board = try document.data(as: Board.self)
+                       // Pin the fetched board to user
+                       let pinRef = self.db.collection(User.collection_name).document(userId).collection("pins").document(boardId)
+                       try pinRef.setData(from: board) { error in
+                           completion(error)
+                       }
+                   } catch let error {
+                       completion(error)
+                   }
+               } else {
+                   completion(error)
+               }
+           }
+    }
+    
+    
+    // User의 pin 서브 컬렉션에서 게시판 제거
+    func removePinFromBoard(userId: String, boardId: String, completion: @escaping (Error?) -> Void) {
+        let pinRef = db.collection(User.collection_name).document(userId).collection("pins").document(boardId)
+        pinRef.delete() { error in
+            completion(error)
+        }
+    }
+    
+    func getPinnedAndOtherBoards(userId: String, completion: @escaping ([BoardDTO]?, Error?) -> Void) {
+        // User DB에 있는, pins된 정보를 다 가져온다.
+        let pinnedRef = db.collection(User.collection_name).document(userId).collection("pins")
+        pinnedRef.getDocuments { (pinnedSnapshot, error) in
+            guard let pinnedDocs = pinnedSnapshot?.documents else {
+                completion(nil, error)
+                return
+            }
+            
+            // user의 pin 서브컬렉션에 있는 내용을 Board객체 형태로 가져오고 nil인거는 다 지워버린다.
+            var pinnedBoards = pinnedDocs.compactMap {
+                try? Board.convertBoardToBoardDTO(board: $0.data(as: Board.self), pin: true)}
+            
+            // Board배열에 있는, 모든 정보들을 그리고 가져온다.
+            let boardsRef = self.db.collection(Board.collection_name)
+            boardsRef.getDocuments { (boardsSnapshot, error) in
+                guard let boardDocs = boardsSnapshot?.documents else {
+                    completion(nil, error)
+                    return
+                }
+                var allBoards = boardDocs.compactMap {
+                    try? Board.convertBoardToBoardDTO(board: $0.data(as: Board.self), pin: false) }
+                
+                // 그리고 위에서 pin한 정보들을 지워버린다.
+                allBoards.removeAll(where: { board in
+                    pinnedBoards.contains(where: { $0.id == board.id })
+                })
+                
+                // 나머지 핀 안된걸 최종적으로 추가한ㄷ
+                pinnedBoards.append(contentsOf: allBoards)
+                
+                completion(pinnedBoards, nil)
             }
         }
     }

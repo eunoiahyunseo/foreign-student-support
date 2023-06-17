@@ -71,4 +71,18 @@ class StatusViewModel: Identifiable, ObservableObject, Equatable {
         return StatusViewModel(title: "Error", message: "이미 좋아요를 누른 글입니다.")
     }
     
+    static var pinAddSuccessStatus: StatusViewModel {
+        return StatusViewModel(title: "Successful", message: "게시판 즐겨찾기를 성공했습니다.")
+    }
+    
+    static var pinDeletedSuccessStatus: StatusViewModel {
+        return StatusViewModel(title: "Successful", message: "게시판 즐겨찾기를 성공적으로 해제했습니다.")
+    }
+    
+    
+    static var pinnedFailureStatus: StatusViewModel {
+        return StatusViewModel(title: "Error", message: "게시판 즐겨찾기에 실패하였습니다.")
+    }
+    
+    
 }

@@ -78,6 +78,7 @@ class AuthService: AuthAPI {
                         do {
                             print("document ---> \(document)")
                             let user = try document.data(as: User.self)
+                            print("user ---> \(user)")
                             promise(.success(user))
                         } catch let error {
                             promise(.failure(error))

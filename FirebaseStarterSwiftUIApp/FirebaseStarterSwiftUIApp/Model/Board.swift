@@ -42,7 +42,26 @@ struct Board: Identifiable, Codable {
     @DocumentID var id: String?
     var name: String
     var description: String
+    
+    static func convertBoardToBoardDTO(board: Board, pin isPinned: Bool) -> BoardDTO {
+        return BoardDTO(
+            id: board.id,
+            name: board.name,
+            description: board.description,
+            isPinned: isPinned
+        )
+    }
 }
+
+struct BoardDTO: Identifiable, Codable {
+    @DocumentID var id: String?
+    var name: String
+    var description: String
+    var isPinned: Bool = false
+    
+    
+}
+
 
 // 기본 Post에 그냥 boardId말고 Board객체를 그냥 집어 넣어버리자
 // 불필요한 쿼리들이 너무 많이 생성된다.
@@ -145,3 +164,5 @@ struct LikeDTO: Identifiable, Codable {
     
     var user: User?
 }
+
+

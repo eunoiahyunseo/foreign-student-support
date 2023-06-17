@@ -19,7 +19,7 @@ class BoardConfigViewModel: ObservableObject {
     // 댓글을 달기 위해 CurrentBoard의 ID가 필요하다.
     @Published var selectedPost: PostDTO?
     // 이건 선택된 Board정보
-    @Published var selectedBoard: Board?
+    @Published var selectedBoard: BoardDTO?
     
     @Published var comment = ""
     
@@ -37,7 +37,7 @@ class BoardConfigViewModel: ObservableObject {
     @Published var isLoading = false
     
     // board들의 목록
-    @Published var boards: [Board]?
+    @Published var boards: [BoardDTO]?
     
     @Published var topRatedPosts: [PostDTO]?
     
@@ -54,6 +54,7 @@ class BoardConfigViewModel: ObservableObject {
             .assign(to: &$isValid)
     }
     
+    
     func initField() {
         self.title = ""
         self.content = ""
@@ -64,11 +65,18 @@ class BoardConfigViewModel: ObservableObject {
     }
     
     func createPost() {
+        // 여기서 selectedBoard의 타입을 Board의 타입으로 바꾸는게 좋아보인다.
+        let selectedBoard: Board = Board(
+            id: (self.selectedBoard?.id)!,
+            name: (self.selectedBoard?.name)!,
+            description: (self.selectedBoard?.description)!
+        )
+        
         let post: Post = Post(
             postedBy: (self.state.currentUser?.id)!,
             title: self.title,
             content: self.content,
-            board: (self.selectedBoard)!, // 그냥 boardId말고 board를 넘기는게 트래픽 관점에서 좋을듯,,?
+            board: selectedBoard, // 그냥 boardId말고 board를 넘기는게 트래픽 관점에서 좋을듯,,?
             boardId: (self.selectedBoard?.id)!,
             timestamp: Date()
         )
@@ -180,16 +188,20 @@ class BoardConfigViewModel: ObservableObject {
             }
         }
     }
+
     
-    func getAllBoards() {
+    func getAllBoardsWithPinnedInfo() {
         isLoading = true
-        boardAPI.getAllBoards { result in
-            switch result {
-            case .success(let boards):
-                print("Fetched \(boards.count) boards.")
-                self.boards = boards
-            case .failure(let error):
-                print("Error fetching boards: \(error)")
+        
+        boardAPI.getPinnedAndOtherBoards(userId: (state.currentUser?.id)!) {
+            (result, error) in
+            if let error = error {
+                print("Error fetchingBoardWithInfo boards: \(error)")
+            } else {
+                if let boards = result {
+                    print("Fetched2 \(boards) boards.")
+                    self.boards = boards
+                }
             }
             self.isLoading = false
         }
@@ -206,6 +218,40 @@ class BoardConfigViewModel: ObservableObject {
                 print("error: \(error)")
             }
             self.isLoading = false
+        }
+    }
+    
+    // 핀 버튼토글 -> 핀을 추가한다.
+    func addPin() {
+        if let selectedBoard = selectedBoard {
+            boardAPI.addPinToBoard(
+                userId: (self.state.currentUser?.id)!,
+                boardId: selectedBoard.id!) { error in
+                    if let error = error {
+                        self.statusViewModel = .pinnedFailureStatus
+                        print("error: \(error)")
+                    } else {
+                        self.statusViewModel = .pinAddSuccessStatus
+                        print("success pinned: \(selectedBoard)")
+                    }
+                }
+        }
+    }
+    
+    // 핀 토글버튼 -> 핀을 해제한다.
+    func removePin() {
+        if let selectedBoard = selectedBoard {
+            boardAPI.removePinFromBoard(
+                userId: (self.state.currentUser?.id)!,
+                boardId: selectedBoard.id!) { error in
+                    if let error = error {
+                        self.statusViewModel = .pinnedFailureStatus
+                        print("error: \(error)")
+                    } else {
+                        self.statusViewModel = .pinDeletedSuccessStatus
+                        print("success pinned: \(selectedBoard)")
+                    }
+                }
         }
     }
 }

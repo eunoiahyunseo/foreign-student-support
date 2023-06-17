@@ -199,7 +199,7 @@ private extension ContentDetail{
                 .frame(width: 50, height: 50)
                 .foregroundColor(.gray)
             VStack(alignment: .leading) {
-                Text((boardConfigViewModel.selectedPost?.user?.nickname)!)
+                Text((boardConfigViewModel.selectedPost?.user?.nickname) ?? "annonymous")
                     .font(.headline)
                     .fontWeight(.heavy)
                 Text(dateConversion(targetDate: (boardConfigViewModel.selectedPost?.timestamp)!))

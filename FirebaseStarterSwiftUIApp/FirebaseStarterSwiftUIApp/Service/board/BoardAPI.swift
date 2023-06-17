@@ -21,4 +21,7 @@ protocol BoardAPI {
     func getAllBoards(completion: @escaping (Result<[Board], Error>) -> Void)
     func getPostsInBoard(boardId: String, completion: @escaping (Result<[PostDTO], Error>) -> Void)
     func fetchTopPosts(completion: @escaping (Result<[PostDTO], Error>) -> Void)
+    func addPinToBoard(userId: String, boardId: String, completion: @escaping (Error?) -> Void)
+    func removePinFromBoard(userId: String, boardId: String, completion: @escaping (Error?) -> Void)
+    func getPinnedAndOtherBoards(userId: String, completion: @escaping ([BoardDTO]?, Error?) -> Void)
 }

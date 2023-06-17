@@ -47,7 +47,8 @@ struct HomeView: View {
                 .font(.headline)
                 .onAppear() {
                     // board에 대한 정보도 불러온다.
-                    boardConfigViewModel.getAllBoards()
+//                    boardConfigViewModel.getAllBoards()
+                    boardConfigViewModel.getAllBoardsWithPinnedInfo()
                     boardConfigViewModel.getTopPosts()
                     
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
@@ -208,7 +209,7 @@ struct HomeTabView: View {
             Text("유학생 지원")
                 .foregroundColor(.red)
                 .fontWeight(.bold)
-            Text((userConfigViewModel.state.currentUser?.school)!)
+            Text((userConfigViewModel.state.currentUser?.school) ?? "unknown")
                 .font(.system(size: 20))
                 .fontWeight(.heavy)
         }
@@ -218,7 +219,7 @@ struct HomeTabView: View {
                let topRatedPosts = boardConfigViewModel.topRatedPosts {
             RefreshableScrollView(onRefresh: {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    boardConfigViewModel.getAllBoards()
+                    boardConfigViewModel.getAllBoardsWithPinnedInfo()
                     boardConfigViewModel.getTopPosts()
                     self.isRefreshing = false
                     print("Refresh Done!")
