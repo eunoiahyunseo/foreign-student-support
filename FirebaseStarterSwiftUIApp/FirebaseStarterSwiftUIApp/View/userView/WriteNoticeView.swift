@@ -178,6 +178,13 @@ extension View {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 } // 키보드 숨기는 코드
+//
+//struct WriteNoticeView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        @State var tmpnotice = true
+//        WriteNoticeView(isShownTxtFeild: $tmpnotice)
+//    }
+//}
 
 struct WriteNoticeView_Previews: PreviewProvider {
     static var previews: some View {

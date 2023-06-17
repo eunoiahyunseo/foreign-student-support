@@ -65,11 +65,14 @@ struct ContentDetail: View {
                         sendMsg = true
                     })
                     .fullScreenCover(isPresented: $sendMsg, onDismiss: nil) {
-                        SendMsgView(sendMsg: $sendMsg)
+                        //SendMsgView(sendMsg: $sendMsg)
                         //WriteNoticeView(isShownTxtFeild: $sendMsg)
                     }
+                    Button("친구로 추가", action: {
+                        //
+                    })
                     Button("신고", action: {
-                        doAccuse = true
+                        self.doAccuse = true
                     })
                     .alert(isPresented: $doAccuse) {
                         Alert(title: Text("이 이용자를 정말 신고하시겠습니까"), primaryButton: .destructive(Text("확인"), action: {
