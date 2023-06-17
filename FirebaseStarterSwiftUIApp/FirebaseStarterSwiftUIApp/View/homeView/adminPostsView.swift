@@ -13,7 +13,7 @@ struct adminPostsView: View {
     private var adminBoardService : AdminBoardService = AdminBoardService()
     
     var body: some View {
-        ScrollView(.horizontal){
+        ScrollView(.horizontal, showsIndicators: false){
             LazyHStack{
                 ForEach(posts) { post in
                     adminPost(title: post.title, content: post.content)
@@ -42,10 +42,15 @@ struct adminPost : View {
         HStack(alignment: .top){
             VStack(alignment: .leading){
                 HStack{
-                    Image(systemName: "person.wave.2").font(.system(size:18)).padding(.trailing, 8)
+                    Image(systemName: "person.wave.2")
+                        .font(.system(size:18))
+                        .padding(.trailing, 8)
                     
                     Text(title)
-                        .font(.system(size:18)).padding(.bottom, 8)
+                        .font(.system(size:18))
+                        .fontWeight(.bold)
+                        .padding(.top, 10)
+                        .padding(.bottom, 8)
                 }
                 
                 Text(content)
@@ -61,5 +66,20 @@ struct adminPost : View {
                 .stroke(Color.gray, lineWidth: 2)
         )
         .padding(10)
+    }
+}
+
+struct adminList: View{
+    var title : String
+    var content : String
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10){
+            Text(title)
+                .fontWeight(.bold)
+            Text(content)
+                .fontWeight(.medium)
+                .foregroundColor(.gray)
+        }
     }
 }

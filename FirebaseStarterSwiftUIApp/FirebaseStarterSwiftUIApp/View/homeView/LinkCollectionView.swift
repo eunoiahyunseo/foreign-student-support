@@ -10,7 +10,7 @@ import SwiftUI
 
 struct LinkCollectionView: View {
     var body: some View {
-        ScrollView(.horizontal){
+        ScrollView(.horizontal, showsIndicators: false){
             LazyHStack{
                 LinkButtonView(link: "https://www.knu.ac.kr/wbbs/wbbs/main/main.action",
                                iconname: "homekit", text: "홈 페이지")

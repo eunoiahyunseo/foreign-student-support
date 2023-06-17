@@ -72,6 +72,7 @@ struct favorRow: View{
         HStack{
             Text(boardData?.name ?? "")
                 .font(.callout)
+                //.foregroundColor(.gray)
                 .padding(.horizontal)
                 .padding(.bottom, 5)
             Spacer()

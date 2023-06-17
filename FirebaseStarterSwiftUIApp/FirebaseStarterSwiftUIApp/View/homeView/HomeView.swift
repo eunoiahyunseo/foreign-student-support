@@ -17,7 +17,7 @@ enum TabItems {
 enum tabInfo: String, CaseIterable {
     case board = "게시판"
     case info = "공지"
-    case community = "커뮤니티"
+    //case community = "커뮤니티"
 }
 
 struct HomeView: View {
@@ -82,7 +82,7 @@ struct HomeView: View {
 }
 
 //extension HomeView {
-//    struct GTabView: View {
+//    struct GTabView: View {               n
 //        var text: String
 //        var image: String
 //        var tag: TabItems
@@ -214,11 +214,6 @@ struct HomeTabView: View {
     @State var isActive: Bool = false
     @State private var isRefreshing = false // For refresh control
     @State private var isLinkActive = false
-    
-//    let initialState = AppState()
-//    let authAPI = AuthService()
-//    let boardAPI = BoardService()
-//    let userAPI = UserService()
  
     var body: some View {
         let HeaderTailintItem = VStack {
@@ -264,10 +259,18 @@ struct HomeTabView: View {
                     adminPostsView()
                         .padding(.top,8).padding(.leading, 8).padding(.trailing, 8)
                         .listRowSeparator(.hidden)
+                        .padding(.horizontal, -10)
+                        .padding(.bottom, -10)
+                    
+                    //Divider()
                     
                     LinkCollectionView()
-                        .padding(.leading, 8).padding(.trailing, 8)
+                        .padding(.horizontal, -10)
+                        //.padding(.top, -40)
+                        .padding(.bottom)
                         .listRowSeparator(.hidden)
+                    
+                    //Divider()
                     
                     VStack(alignment: .leading, spacing: 4) {
                         Text("실시간 인기글")
@@ -297,7 +300,7 @@ struct HomeTabView: View {
                                 
                             }
                         }
-                        .frame(height: 153)
+                        .frame(height: 150)
                     }
                     .frame(maxWidth: .infinity)
                     .padding(10)
@@ -305,7 +308,9 @@ struct HomeTabView: View {
                         RoundedRectangle(cornerRadius: 10)
                             .stroke(Color.gray, lineWidth: 2)
                     )
-                    .padding(20)
+                    .padding(.horizontal, -10)
+                    //.padding(.top, -20)
+                    .padding(.vertical, -2)
                     .listRowSeparator(.hidden)
                     
                     //즐겨찾는 게시판 뷰
@@ -368,7 +373,8 @@ struct HomeTabView: View {
                             .stroke(lineWidth: 2)
                             .foregroundColor(.gray)
                     }
-                    .padding()
+                    .padding(.horizontal, -10)
+                    .padding(.vertical, -2)
                     .listRowSeparator(.hidden)
 
                     EmptyView().frame(height:200)
@@ -380,7 +386,8 @@ struct HomeTabView: View {
                             RoundedRectangle(cornerRadius: 10)
                                 .stroke(Color.gray, lineWidth: 2)
                         )
-                        .padding(20)
+                        .padding(.horizontal, -10)
+                        .padding(.vertical, -2)
                         .listRowSeparator(.hidden)
                     
                 }.listStyle(PlainListStyle())
