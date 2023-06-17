@@ -25,6 +25,8 @@ class UserConfigViewModel: ObservableObject {
     public var userAPI: UserAPI
     public var boardAPI: BoardAPI
     
+    
+    
     init(boardAPI: BoardAPI, userAPI: UserAPI, state: AppState) {
         self.userAPI = userAPI
         self.boardAPI = boardAPI
@@ -43,6 +45,15 @@ class UserConfigViewModel: ObservableObject {
                 !($0.isEmpty || $1.isEmpty)
             }
             .assign(to: &$isValidSecondStep)
+    }
+    
+    func initField() {
+        self.country = ""
+        self.region = ""
+        self.language = "영어"
+        self.age = ""
+        self.nickname = ""
+        self.school = "경북대학교"
     }
     
     // 이제 유저 정보를 실제 유저 데이터에 등록하면 된다.

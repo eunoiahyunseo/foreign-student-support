@@ -129,6 +129,7 @@ struct SecondFormView: View {
                   dismissButton: .default(Text("OK"), action: {
                 if status.title == "Successful" {
                     showingModal = false
+                    userConfigViewModel.initField()
                 }
             }))
         }
