@@ -9,6 +9,16 @@ exports.calculateTopPosts = functions
   .region("asia-northeast3")
   .pubsub.schedule("every 1 minutes") // 1분마다 스케줄링 한다.
   .onRun(async (context) => {
+    const topPostsSnapshot = await admin
+      .firestore()
+      .collection("topPosts")
+      .get();
+
+    const deletePromises = topPostsSnapshot.docs.map((doc) =>
+      doc.ref.delete()
+    );
+    await Promise.all(deletePromises);
+
     const postsSnapshot = await admin
       .firestore()
       .collection("posts")
