@@ -317,4 +317,38 @@ class BoardService: BoardAPI {
             }
         }
     }
+    
+    func getMyPosts(pid: String?, completion: @escaping (Result<[PostDTO], Error>) -> Void) {
+        db.collection(Post.collection_name).whereField("postedBy", isEqualTo: pid as Any).getDocuments { (querySnapshot, error) in
+            if let error = error {
+                completion(.failure(error))
+                return
+            } else if let querySnapshot = querySnapshot {
+                var posts: [PostDTO] = []
+                // DispatchGroup은 모든 비동기 작업이 완료될때까지 기다린 후 완료 callback을 실행한다.
+                let dispatchGroup = DispatchGroup()
+                for document in querySnapshot.documents {
+                    if let post = try? document.data(as: Post.self), let postId = post.id {
+                        dispatchGroup.enter()
+                        
+                        self.getPostWithCommentsAndLikesDTO(postId: postId) { result in
+                            // 현재 비동기 작업이 어떻게 끝날지에 대한 정의
+                            defer { dispatchGroup.leave() }
+                            switch result {
+                            case .success(let postDTO):
+                                posts.append(postDTO)
+                            case .failure(let error):
+                                completion(.failure(error))
+                                return
+                            }
+                        }
+                    }
+                }
+                
+                dispatchGroup.notify(queue: .main) {
+                    completion(.success(posts))
+                }
+            }
+        }
+    }
 }
