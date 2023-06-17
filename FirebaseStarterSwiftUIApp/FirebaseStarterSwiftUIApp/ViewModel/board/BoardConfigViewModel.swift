@@ -112,7 +112,7 @@ class BoardConfigViewModel: ObservableObject {
     
     func fetchAllPostsInBoard() {
         isLoading = true
-        boardAPI.getPostsInBoard(boardId: (selectedBoard?.id)!) { result in
+        boardAPI.getPostsInBoard(boardId: (selectedBoard?.id) ?? "") { result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let posts):
@@ -172,7 +172,7 @@ class BoardConfigViewModel: ObservableObject {
     
     func fetchAllCommentsAndLikesRelatedWithCurrentPost() {
         isLoading = true
-        boardAPI.getPostWithCommentsAndLikesDTO(postId: (selectedPost?.id)!) { [weak self] result in
+        boardAPI.getPostWithCommentsAndLikesDTO(postId: (selectedPost?.id) ?? "") { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(var post):
@@ -214,6 +214,7 @@ class BoardConfigViewModel: ObservableObject {
             switch result {
             case .success(let posts):
                 self.topRatedPosts = posts
+                print("topRatedPosts: \(self.topRatedPosts)")
             case .failure(let error):
                 print("error: \(error)")
             }

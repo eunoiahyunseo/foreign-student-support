@@ -72,9 +72,9 @@ struct boardmain: View {
                 .toolbar {
                     ToolbarItem(placement: .principal) {
                         VStack {
-                            Text((boardConfigViewModel.selectedBoard?.name)!)
+                            Text((boardConfigViewModel.selectedBoard?.name) ?? "")
                                 .font(.headline)
-                            Text((userConfigViewModel.state.currentUser?.school)!)
+                            Text((userConfigViewModel.state.currentUser?.school) ?? "")
                                 .font(.footnote)
                                 .foregroundColor(Color.secondary)
 
