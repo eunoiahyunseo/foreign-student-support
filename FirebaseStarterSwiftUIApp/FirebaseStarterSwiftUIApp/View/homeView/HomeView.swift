@@ -81,7 +81,7 @@ struct HomeView: View {
 }
 
 //extension HomeView {
-//    struct GTabView: View {
+//    struct GTabView: View {               n
 //        var text: String
 //        var image: String
 //        var tag: TabItems

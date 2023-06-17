@@ -109,6 +109,9 @@ struct MapView: UIViewRepresentable {
         marker3.userInfo = ["friend": "친구3"]
         marker3.touchHandler = handler
         
+        let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: 35.887863, lng: 128.611808))
+        mapView.mapView.moveCamera(cameraUpdate)
+        
         //marker.iconImage = image
         marker.mapView = mapView.mapView
         marker2.mapView = mapView.mapView
