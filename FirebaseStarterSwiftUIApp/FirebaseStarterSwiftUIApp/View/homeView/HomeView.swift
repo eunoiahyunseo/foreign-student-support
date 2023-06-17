@@ -231,9 +231,11 @@ struct HomeTabView: View {
             Text("유학생 지원")
                 .foregroundColor(.red)
                 .fontWeight(.bold)
-            Text((userConfigViewModel.state.currentUser?.school)!)
-                .font(.system(size: 20))
-                .fontWeight(.heavy)
+            if let school = (userConfigViewModel.state.currentUser?.school) {
+                Text(school)
+                    .font(.system(size: 20))
+                    .fontWeight(.heavy)
+            }
         }
         
         return NavigationView {

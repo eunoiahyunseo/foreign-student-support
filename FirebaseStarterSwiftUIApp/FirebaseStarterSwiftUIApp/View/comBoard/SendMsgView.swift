@@ -76,7 +76,6 @@ struct SendMsgView: View {
 
 struct SendMsgView_Previews: PreviewProvider {
     static var previews: some View {
-        @State var tmpnotice = true
-        SendMsgView(sendMsg: $tmpnotice)
+        SendMsgView(sendMsg: .constant(true))
     }
 }

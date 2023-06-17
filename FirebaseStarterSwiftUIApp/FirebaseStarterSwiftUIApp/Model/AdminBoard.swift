@@ -7,3 +7,15 @@
 //
 
 import Foundation
+import FirebaseFirestoreSwift
+
+
+struct AdminBoard : Codable, Identifiable {
+    static var collection_name: String = "adminBoard"
+    @DocumentID var id : String?
+    
+    var postedBy: String // 이를 통해 User fetch
+    var title: String
+    var content: String
+    var timestamp: Date
+}
