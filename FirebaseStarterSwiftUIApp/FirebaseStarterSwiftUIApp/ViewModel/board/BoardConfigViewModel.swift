@@ -112,7 +112,7 @@ class BoardConfigViewModel: ObservableObject {
     
     func fetchAllPostsInBoard() {
         isLoading = true
-        boardAPI.getPostsInBoard(boardId: (selectedBoard?.id)!) { result in
+        boardAPI.getPostsInBoard(boardId: (selectedBoard?.id) ?? "") { result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let posts):

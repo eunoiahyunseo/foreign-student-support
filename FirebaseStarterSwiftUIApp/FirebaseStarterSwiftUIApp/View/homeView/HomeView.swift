@@ -261,7 +261,8 @@ struct HomeTabView: View {
                         .listRowSeparator(.hidden)
                     
                     LinkCollectionView()
-                        .padding(.leading, 8).padding(.trailing, 8)
+                        .padding(.horizontal, -10)
+                        .padding(.vertical, -2)
                         .listRowSeparator(.hidden)
                     
                     VStack(alignment: .leading, spacing: 4) {
@@ -296,7 +297,10 @@ struct HomeTabView: View {
                         RoundedRectangle(cornerRadius: 10)
                             .stroke(Color.gray, lineWidth: 2)
                     )
-                    .padding(20)
+                    .padding(.horizontal, -10)
+                    .padding(.bottom, 20)
+                    .padding(.top, -2)
+                    //.padding(.horizontal, -10)
                     .listRowSeparator(.hidden)
                     
                     //즐겨찾는 게시판 뷰
@@ -356,7 +360,9 @@ struct HomeTabView: View {
                             .stroke(lineWidth: 2)
                             .foregroundColor(.gray)
                     }
-                    .padding()
+                    .padding(.horizontal, -10)
+                    .padding(.top)
+                    .padding(.bottom, -2)
                     .listRowSeparator(.hidden)
                     
     //                FavorBoardHomeView(selected: $selected)
@@ -374,7 +380,8 @@ struct HomeTabView: View {
                             RoundedRectangle(cornerRadius: 10)
                                 .stroke(Color.gray, lineWidth: 2)
                         )
-                        .padding(20)
+                        .padding(.horizontal, -10)
+                        .padding(.vertical, -2)
                         .listRowSeparator(.hidden)
                     
                 }.listStyle(PlainListStyle())
