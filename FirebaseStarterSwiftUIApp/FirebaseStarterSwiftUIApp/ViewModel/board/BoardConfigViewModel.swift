@@ -41,6 +41,10 @@ class BoardConfigViewModel: ObservableObject {
     
     @Published var topRatedPosts: [PostDTO]?
     
+    @Published var selectedCommentId: String?
+    @Published var selectedCommentUserId: String?
+    @Published var isUserCommentOwner: Bool = false
+    
     init(boardAPI: BoardAPI, userAPI: UserAPI, state: AppState) {
         self.userAPI = userAPI
         self.boardAPI = boardAPI
@@ -214,7 +218,6 @@ class BoardConfigViewModel: ObservableObject {
             switch result {
             case .success(let posts):
                 self.topRatedPosts = posts
-                print("topRate]dPosts: \(self.topRatedPosts)")
             case .failure(let error):
                 print("error: \(error)")
             }
@@ -256,9 +259,6 @@ class BoardConfigViewModel: ObservableObject {
         }
     }
     
-    
-    
-    
     func fetchMyPosts(id: String) {
         isLoading = true
         boardAPI.getMyPosts(pid: id) { [weak self] result in
@@ -295,4 +295,24 @@ class BoardConfigViewModel: ObservableObject {
         
     }
     
+    func deleteComment() {
+        boardAPI.deleteComments(postId: (selectedPost?.id)!,
+                                commentId: selectedCommentId!) { error in
+            print("selectedPostId: \((self.selectedPost?.id)!)")
+            print("commentedId: \(self.selectedCommentId!)")
+            if let error = error {
+                print("Error deleting comment: \(error)")
+                self.statusViewModel = .commentDeletedFailureStatus
+            } else {
+                self.statusViewModel = .commentDeletedSuccessStatus
+                print("successfully deleted comment")
+            }
+        }
+    }
+    
+    func checkCommentOwner() {
+        self.isUserCommentOwner =
+        (state.currentUser?.id)! == selectedCommentUserId!
+        print("owner: \(self.isUserCommentOwner)")
+    }
 }

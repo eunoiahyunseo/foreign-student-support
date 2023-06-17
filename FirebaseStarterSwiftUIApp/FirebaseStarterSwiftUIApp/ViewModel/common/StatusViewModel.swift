@@ -84,5 +84,11 @@ class StatusViewModel: Identifiable, ObservableObject, Equatable {
         return StatusViewModel(title: "Error", message: "게시판 즐겨찾기에 실패하였습니다.")
     }
     
+    static var commentDeletedSuccessStatus: StatusViewModel {
+        return StatusViewModel(title: "Successful", message: "댓글 삭제에 성공하였습니다.")
+    }
     
+    static var commentDeletedFailureStatus: StatusViewModel {
+        return StatusViewModel(title: "Error", message: "댓글 삭제에 실패하였습니다.")
+    }
 }

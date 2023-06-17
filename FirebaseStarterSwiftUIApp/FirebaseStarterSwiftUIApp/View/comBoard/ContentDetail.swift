@@ -27,6 +27,7 @@ struct ContentDetail: View {
     @State var sendMsg = false
     @State var doAccuse = false
     @State private var alertType: AlertType?
+    @State private var showingActionSheet = false
     @EnvironmentObject var userConfigViewModel: UserConfigViewModel
     @EnvironmentObject var boardConfigViewModel: BoardConfigViewModel
 
@@ -84,8 +85,14 @@ struct ContentDetail: View {
                         .rotationEffect(.degrees(90))
                         .foregroundColor(.black)
                 })
+                .actionSheet(isPresented: $showingActionSheet) {
+                    ActionSheet(
+                        title: Text("댓글 메뉴"),
+                        buttons: createButtons())
+                }
                 .navigationBarItems(trailing: Button(action: {
                     //검색 버튼액션
+                    
                 }, label: {
                     Image(systemName: "magnifyingglass")
                         .foregroundColor(.black)
@@ -98,7 +105,6 @@ struct ContentDetail: View {
                             Text((userConfigViewModel.state.currentUser?.school)!)
                                 .font(.footnote)
                                 .foregroundColor(Color.secondary)
-
                         }
                     }
                 }
@@ -134,6 +140,24 @@ func dateConversion(targetDate: Date) -> String {
 }
 
 private extension ContentDetail{
+    func createButtons() -> [ActionSheet.Button] {
+        if self.boardConfigViewModel.isUserCommentOwner {
+            return [
+                .default(Text("삭제하기")){
+                    self.boardConfigViewModel.deleteComment()
+//                    DispatchQueue.main.async {
+//                        self.boardConfigViewModel.fetchAllCommentsAndLikesRelatedWithCurrentPost()
+//                    }
+                },
+                .cancel(Text("취소"))
+            ]
+        } else {
+            return [
+                .cancel(Text("취소"))
+            ]
+        }
+    }
+    
     var commentTextFieldView: some View {
         ZStack {
             TextField("댓글을 남겨보세요", text: $boardConfigViewModel.comment)
@@ -187,17 +211,20 @@ private extension ContentDetail{
 
                             Text("|")
 
-//                            Menu {
-//                                Button("삭제 하기", action: {
-//                                    print("delete!")
-//                                })
-//                            } label: {
-//                                Label("", systemName: "ellipsis")
-//                                    .resizable()
-//                                    .scaledToFit()
-//                                    .rotationEffect(.degrees(90))
-//                                    .frame(width: 10, height: 10)
-//                            }
+                            Button(action: {
+                                self.showingActionSheet = true
+                                // 자기 글인 것을 확인하는 로직이 필요하다.
+                                boardConfigViewModel.selectedCommentId = comment.id
+                                boardConfigViewModel.selectedCommentUserId = comment.commentedBy
+                                // boardConfigViewModel로 현재 선택한 유저가 댓글의 소유인지 알 수 있게 한다.
+                                boardConfigViewModel.checkCommentOwner()
+                            }) {
+                                Image(systemName: "ellipsis")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .rotationEffect(.degrees(90))
+                                    .frame(width: 10, height: 10)
+                            }
                         }
                         .foregroundColor(.gray)
                     }
@@ -316,6 +343,7 @@ private extension ContentDetail{
                             if status.title == "Successful" {
                                 boardConfigViewModel.initComment()
                                 boardConfigViewModel.fetchAllCommentsAndLikesRelatedWithCurrentPost()
+                                print("accasd;lfkja")
                             }
                             boardConfigViewModel.statusViewModel = nil
                     }))
@@ -323,22 +351,3 @@ private extension ContentDetail{
         }
     }
 }
-
-//struct ContentDetail_Previews: PreviewProvider {
-//    static var previews: some View {
-//        let state = AppState()
-//        state.currentUser = mockUser
-//
-//        let selectedPost = mockPosts[0]
-//        let boardConfigViewModel = BoardConfigViewModel(
-//            boardAPI: BoardService(), userAPI: UserService(), state: state)
-//        boardConfigViewModel.selectedPost = selectedPost
-//
-//        let board = Board(name: "영어권 게시판", description: "영어권 게시판입니다.")
-//
-//        return ContentDetail()
-//            .environmentObject(UserConfigViewModel(
-//                boardAPI: BoardService(), userAPI: UserService(), state: state))
-//            .environmentObject(boardConfigViewModel)
-//    }
-//}

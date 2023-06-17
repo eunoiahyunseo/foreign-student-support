@@ -25,4 +25,5 @@ protocol BoardAPI {
     func removePinFromBoard(userId: String, boardId: String, completion: @escaping (Error?) -> Void)
     func getPinnedAndOtherBoards(userId: String, completion: @escaping ([BoardDTO]?, Error?) -> Void)
     func getMyPosts(pid: String?, completion: @escaping (Result<[PostDTO], Error>) -> Void)
+    func deleteComments(postId: String, commentId: String, completion: @escaping (Error?) -> Void)
 }

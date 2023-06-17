@@ -352,7 +352,16 @@ class BoardService: BoardAPI {
         }
     }
     
-    func deleteComments(postId: String, commentId: String, completion: @escaping (Error?) -> Void)) {
+    func deleteComments(postId: String, commentId: String, completion: @escaping (Error?) -> Void) {
+        // 먼저 Post를 찾습니다
+        let postRef = db.collection(Post.collection_name).document(postId)
         
+        // 해당 Post의 comments 서브컬렉션에서 comment를 찾습니다.
+        let commentRef = postRef.collection(Comment.collection_name).document(commentId)
+        
+        // 찾은 comment를 삭제합니다.
+        commentRef.delete() { error in
+            completion(error)
+        }
     }
 }
