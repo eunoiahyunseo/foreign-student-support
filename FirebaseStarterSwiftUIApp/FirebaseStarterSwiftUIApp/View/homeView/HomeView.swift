@@ -138,7 +138,10 @@ struct TopRatedView: View {
     var post: PostDTO
     
     var body: some View {
-        return VStack(alignment: .leading) {
+        VStack(alignment: .leading) {
+            Text(post.board.name)
+                .bold()
+            
             HStack {
                 Image(systemName: "person.crop.square.fill")
                     .resizable()
@@ -164,8 +167,6 @@ struct TopRatedView: View {
                 .font(.system(size: 16))
             
             HStack {
-                Text(post.board.name)
-                
                 Spacer()
                 
                 Image(systemName: "hand.thumbsup")
@@ -186,10 +187,15 @@ struct TopRatedView: View {
                 Text(String((post.comments?.count)!))
                     .font(.footnote)
                     .foregroundColor(.blue)
-                
             }
         }
-        .padding(.bottom, 7)
+        .padding(10)
+        .overlay(
+                RoundedRectangle(cornerRadius: 16)
+                    .stroke(.gray, lineWidth: 1)
+                    .shadow(color: .gray, radius: 2)
+            )
+        
     }
 }
 
@@ -252,7 +258,6 @@ struct HomeTabView: View {
                     boardConfigViewModel.getAllBoardsWithPinnedInfo()
                     boardConfigViewModel.getTopPosts()
                     self.isRefreshing = false
-                    print("Refresh Done!")
                 }
             }) {
                 List {
@@ -270,28 +275,34 @@ struct HomeTabView: View {
                             .font(.system(size: 20))
                             .bold()
                             .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.bottom, 20)
                         
-                        GeometryReader { proxy in
-                            ScrollView(.horizontal, showsIndicators: false) {
-                                HStack {
-                                    ForEach(topRatedPosts) { post in
-                                        NavigationLink(destination: ContentDetail(), isActive: $isActive) {
-                                            TopRatedView(post: post)
-                                                .foregroundColor(.black)
-                                                .onTapGesture {
-                                                    boardConfigViewModel.selectedPost = post
-                                                    self.isActive = true
-                                                }
+                        
+                        
+                        VStack {
+                            GeometryReader { proxy in
+                                ScrollView(.horizontal, showsIndicators: false) {
+                                    HStack {
+                                        ForEach(topRatedPosts) { post in
+                                            NavigationLink(destination: ContentDetail(), isActive: $isActive) {
+                                                TopRatedView(post: post)
+                                                    .foregroundColor(.black)
+                                                    .onTapGesture {
+                                                        boardConfigViewModel.selectedPost = post
+                                                        self.isActive = true
+                                                    }
+                                            }
                                         }
+                                        .frame(width: proxy.size.width)
                                     }
-                                    .frame(width: proxy.size.width)
                                 }
+                                .onAppear{ UIScrollView.appearance().isPagingEnabled = true }
+                                
                             }
-                            .onAppear{ UIScrollView.appearance().isPagingEnabled = true }
-                            .frame(height: 200)
                         }
+                        .frame(height: 153)
                     }
-                    .frame(maxWidth: .infinity, maxHeight: 200)
+                    .frame(maxWidth: .infinity)
                     .padding(10)
                     .overlay(
                         RoundedRectangle(cornerRadius: 10)

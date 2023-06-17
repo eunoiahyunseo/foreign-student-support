@@ -74,7 +74,7 @@ struct boardmain: View {
                         VStack {
                             Text((boardConfigViewModel.selectedBoard?.name) ?? "")
                                 .font(.headline)
-                            Text((userConfigViewModel.state.currentUser?.school)!)
+                            Text((userConfigViewModel.state.currentUser?.school) ?? "")
                                 .font(.footnote)
                                 .foregroundColor(Color.secondary)
 
