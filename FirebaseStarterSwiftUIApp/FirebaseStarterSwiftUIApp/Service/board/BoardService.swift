@@ -352,7 +352,7 @@ class BoardService: BoardAPI {
         }
     }
     
-    func deleteComments(postId: String, commentId: String, completion: @escaping (Error?) -> Void)) {
-        
-    }
+//    func deleteComments(postId: String, commentId: String, completion: @escaping (Error?) -> Void)) {
+//        
+//    }
 }

@@ -262,15 +262,11 @@ struct HomeTabView: View {
                         .padding(.horizontal, -10)
                         .padding(.bottom, -10)
                     
-                    //Divider()
-                    
                     LinkCollectionView()
                         .padding(.horizontal, -10)
                         //.padding(.top, -40)
                         .padding(.bottom)
                         .listRowSeparator(.hidden)
-                    
-                    //Divider()
                     
                     VStack(alignment: .leading, spacing: 4) {
                         Text("실시간 인기글")
@@ -342,7 +338,7 @@ struct HomeTabView: View {
                                 .padding()
                             }
                         }
-                        .padding(.bottom, -10)
+                        .padding(.bottom, -25)
                         
                         VStack {
                             ForEach(boardData.indices, id: \.self) { idx in
@@ -361,10 +357,6 @@ struct HomeTabView: View {
                             }
                         }
                         .padding(.vertical, 12)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(Color.gray, lineWidth: 2)
-                        )
                         .padding(10)
                         
                     }

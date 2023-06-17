@@ -27,6 +27,7 @@ struct ContentDetail: View {
     @State var sendMsg = false
     @State var doAccuse = false
     @State private var alertType: AlertType?
+    @State private var showingActionSheet = false
     @EnvironmentObject var userConfigViewModel: UserConfigViewModel
     @EnvironmentObject var boardConfigViewModel: BoardConfigViewModel
 
@@ -107,7 +108,6 @@ struct ContentDetail: View {
                 .padding([.top, .trailing])
                 .padding(.bottom, 7)
 
-
                 commentTextFieldView
             } else {
                 ProgressView()
@@ -187,17 +187,20 @@ private extension ContentDetail{
 
                             Text("|")
 
-//                            Menu {
-//                                Button("삭제 하기", action: {
-//                                    print("delete!")
-//                                })
-//                            } label: {
+//                            Button(action: {self.showingActionSheet = true}) {
 //                                Label("", systemName: "ellipsis")
 //                                    .resizable()
 //                                    .scaledToFit()
 //                                    .rotationEffect(.degrees(90))
 //                                    .frame(width: 10, height: 10)
 //                            }
+//                            .actionSheet(isPresented: $showingActionSheet) {
+//                                ActionSheet(title: Text("댓글 메뉴"), buttons: [
+//                                    .default(Text("댓글 삭제"))
+//                                    .cancel(Text("취소"))
+//                                ])
+//                            }
+                            
                         }
                         .foregroundColor(.gray)
                     }
