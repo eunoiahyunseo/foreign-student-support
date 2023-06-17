@@ -24,4 +24,6 @@ struct User: Codable, Identifiable {
     var school: String?
     var isInitialInfoSet: Bool = false // Added new field
     var isAdmin: Bool = false
+    //var isAdmin: Bool = true
+    var pinBoardInfo: [Board]?
 }

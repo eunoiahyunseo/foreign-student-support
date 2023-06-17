@@ -55,7 +55,7 @@ extension ContentRow{
                 .foregroundColor(.blue)
             
             Group {
-                Text((content.user?.nickname)!)
+                Text((content.user?.nickname) ?? "annonymous")
                 Text("|")
                 Text(timeAgoDisplay(timestamp: content.timestamp))
             }

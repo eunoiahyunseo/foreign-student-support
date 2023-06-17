@@ -20,7 +20,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let boardAPI = BoardService()
         let userAPI = UserService()
         
-        
         // MARK: environmentObject에 rootViewModel로 Dependency Injection을 하려 했으나,
         // MARK: Nested @Observable 이슈로 하나하나 다 따로 주입해서 싱글톤을 유지하게 끔 해야함.
         let rootView = SplashView()
@@ -30,6 +29,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 boardAPI: boardAPI, userAPI: userAPI, state: initialState))
             .environmentObject(BoardConfigViewModel(
                 boardAPI: boardAPI, userAPI: userAPI, state: initialState))
+            .environmentObject(MyPostsViewModel(
+                userAPI: userAPI, boardAPI: boardAPI, state: initialState))
         
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
