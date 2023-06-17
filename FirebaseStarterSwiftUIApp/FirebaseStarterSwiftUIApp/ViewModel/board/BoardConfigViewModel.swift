@@ -254,4 +254,44 @@ class BoardConfigViewModel: ObservableObject {
                 }
         }
     }
+    
+    
+    
+    
+    func fetchMyPosts(id: String) {
+        isLoading = true
+        boardAPI.getMyPosts(pid: id) { [weak self] result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let posts):
+                    print("posts: \(posts)")
+                    
+                    self?.posts = posts
+                case .failure(let error):
+                    print("Error fetching posts: \(error)")
+                }
+                
+                self?.isLoading = false
+            }
+        }
+    }
+    
+    
+    func addCommentToPostById(userid: String?) {
+        let comment: Comment = Comment(
+            commentedBy: (userid)!,
+            content: self.comment,
+            timestamp: Date()
+        )
+        boardAPI.addCommentToPost(postId: (selectedPost?.id)!, comment: comment) { error in
+            if let error = error {
+                print("Error creating comment to post: \(error)")
+                self.statusViewModel = .commentCreationFailureStatus
+            } else {
+                self.statusViewModel = .commentCreationSuccessStatus
+            }
+        }
+        
+    }
+    
 }
