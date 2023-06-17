@@ -64,6 +64,7 @@
 		F32A5DED2A38DE08008EB168 /* UserInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F32A5DEC2A38DE08008EB168 /* UserInfoView.swift */; };
 		F32A5DEF2A38DE11008EB168 /* adminAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = F32A5DEE2A38DE11008EB168 /* adminAuth.swift */; };
 		F32A5DF12A38DE18008EB168 /* WriteNoticeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F32A5DF02A38DE18008EB168 /* WriteNoticeView.swift */; };
+		F32A5DF42A3C3E42008EB168 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F32A5DF32A3C3E42008EB168 /* MapView.swift */; };
 		F3690BD02A1F8775006556D8 /* ChatGPTAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3690BCE2A1F8774006556D8 /* ChatGPTAPI.swift */; };
 		F3690BD12A1F8775006556D8 /* GPT_API_Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3690BCF2A1F8774006556D8 /* GPT_API_Models.swift */; };
 		F3B397502A08E4D40060974D /* Content.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B3974F2A08E4D40060974D /* Content.swift */; };
@@ -174,6 +175,7 @@
 		F32A5DEC2A38DE08008EB168 /* UserInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfoView.swift; sourceTree = "<group>"; };
 		F32A5DEE2A38DE11008EB168 /* adminAuth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = adminAuth.swift; sourceTree = "<group>"; };
 		F32A5DF02A38DE18008EB168 /* WriteNoticeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WriteNoticeView.swift; sourceTree = "<group>"; };
+		F32A5DF32A3C3E42008EB168 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		F3690BCE2A1F8774006556D8 /* ChatGPTAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatGPTAPI.swift; sourceTree = "<group>"; };
 		F3690BCF2A1F8774006556D8 /* GPT_API_Models.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPT_API_Models.swift; sourceTree = "<group>"; };
 		F3B3974F2A08E4D40060974D /* Content.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Content.swift; sourceTree = "<group>"; };
@@ -275,6 +277,7 @@
 		30F0AF9324E985240084CE6E /* View */ = {
 			isa = PBXGroup;
 			children = (
+				F32A5DF22A3C3E16008EB168 /* mapView */,
 				DA3C0BD82A17B5F70033D2BD /* userView */,
 				DA3C0BD72A17B5E60033D2BD /* homeView */,
 				DA3C0BD62A17B5D00033D2BD /* commonView */,
@@ -506,6 +509,14 @@
 				DAED40C12A1E5B5F0047C8E1 /* BoardConfigViewModel.swift */,
 			);
 			path = board;
+			sourceTree = "<group>";
+		};
+		F32A5DF22A3C3E16008EB168 /* mapView */ = {
+			isa = PBXGroup;
+			children = (
+				F32A5DF32A3C3E42008EB168 /* MapView.swift */,
+			);
+			path = mapView;
 			sourceTree = "<group>";
 		};
 		F3690BCD2A1F8774006556D8 /* openAI */ = {
@@ -747,6 +758,7 @@
 				F32A5DEF2A38DE11008EB168 /* adminAuth.swift in Sources */,
 				30F0AF9224E976410084CE6E /* SplashView.swift in Sources */,
 				30DDE0C124EC2AD300208D32 /* AppState.swift in Sources */,
+				F32A5DF42A3C3E42008EB168 /* MapView.swift in Sources */,
 				DAB423D82A2CB75D00420121 /* RefreshView.swift in Sources */,
 				DAA497E52A1904DA001F888D /* UserConfig.swift in Sources */,
 				F32A5DED2A38DE08008EB168 /* UserInfoView.swift in Sources */,

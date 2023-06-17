@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import NMapsMap
 
 
 enum TabItems {
@@ -101,11 +102,16 @@ struct GTabView: View {
     var text: String
     var image: String
     var tag: TabItems
-    
+    @State private var sendMsg = false
+    @State var name = ""
+    @ObservedObject var locationManager = LocationManager()
+
     var body: some View {
-        ScrollView {
-            Text(text)
-        }
+        MapView(sendMsg: $sendMsg, name: $name)
+        .edgesIgnoringSafeArea(.top)
+        .sheet(isPresented: $sendMsg, content: {
+            SendMsgView(sendMsg: $sendMsg, name: $name)
+        })
         .tabItem {
             Label(text, systemImage: image)
         }
@@ -258,30 +264,38 @@ struct HomeTabView: View {
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack {
                                 ForEach(topRatedPosts) { post in
-                                    Button(action: {
-                                        boardConfigViewModel.selectedPost = post
-                                        self.isActive = true
-                                    }) {
+                                    NavigationLink(destination: ContentDetail(), isActive: $isActive) {
                                         TopRatedView(post: post)
                                             .foregroundColor(.black)
+                                            .onTapGesture {
+                                                boardConfigViewModel.selectedPost = post
+                                                self.isActive = true
+                                            }
                                     }
+//                                    Button(action: {
+//                                        boardConfigViewModel.selectedPost = post
+//                                        self.isActive = true
+//                                    }) {
+//                                        TopRatedView(post: post)
+//                                            .foregroundColor(.black)
+//                                    }
                                 }
                                 .frame(width: proxy.size.width)
                             }
                         }
                         .onAppear{ UIScrollView.appearance().isPagingEnabled = true }
-                        .background(
-                            Group {
-                                if let _ = boardConfigViewModel.selectedPost {
-                                    NavigationLink(
-                                        destination: ContentDetail(),
-                                        isActive: $isActive) {
-                                            EmptyView()
-                                        }
-                                        .hidden()
-                                }
-                            }
-                        )
+//                        .background(
+//                            Group {
+//                                if let _ = boardConfigViewModel.selectedPost {
+//                                    NavigationLink(
+//                                        destination: ContentDetail(),
+//                                        isActive: $isActive) {
+//                                            EmptyView()
+//                                        }
+//                                        .hidden()
+//                                }
+//                            }
+//                        )
                         .frame(height: 200)
                     }
                 }

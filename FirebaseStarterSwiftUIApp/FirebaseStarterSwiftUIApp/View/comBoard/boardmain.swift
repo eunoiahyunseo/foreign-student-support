@@ -6,6 +6,7 @@ struct boardmain: View {
 
     @State var isActive: Bool = false
     @State var isShownFullScreenCover = false
+    @State var doAccuse = false
     
     var body: some View {
         GeometryReader { geometry in
@@ -50,8 +51,13 @@ struct boardmain: View {
                         PostCreatingCover(isShownFullScreenCover: $isShownFullScreenCover)
                     }
                     Button("신고", action: {
-                        //
+                        self.doAccuse = true
                     })
+                    .alert(isPresented: $doAccuse) {
+                        Alert(title: Text("이 이용자를 정말 신고하시겠습니까"), primaryButton: .destructive(Text("확인"), action: {
+                            //
+                        }), secondaryButton: .cancel(Text("취소")))
+                    }
                 } label: {
                     Label("", systemImage: "ellipsis")
                         .rotationEffect(.degrees(90))
