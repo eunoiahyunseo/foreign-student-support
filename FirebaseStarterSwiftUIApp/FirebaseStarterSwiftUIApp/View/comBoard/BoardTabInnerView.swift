@@ -18,6 +18,8 @@ struct BoardTabInnerView: View {
     @Binding var isDetailViewVisible: Bool
     @EnvironmentObject var boardConfigViewModel: BoardConfigViewModel
     @State private var isLinkActive = false
+    @State var posts : [AdminBoard] = []
+    var adminBoardService : AdminBoardService = AdminBoardService()
 
     var body: some View {
         List{
@@ -55,10 +57,30 @@ struct BoardTabInnerView: View {
                     ProgressView()
                 }
             case .info:
-                Text("info")
-            case .community:
-                Text("community")
+                //Text("info")
+//                ScrollView(.vertical, showsIndicators: false){
+//                    LazyVStack{
+//                        ForEach(posts) { post in
+//                            adminList(title: post.title, content: post.content)
+//                        }
+//                    }
+//                }
+                ForEach(posts) { post in
+                    adminList(title: post.title, content: post.content)
+                }
+                
             }
+        }
+        .onAppear{
+            adminBoardService.getAllPosts(completion: { result in
+                switch result{
+                case .success(let boards):
+                    posts = boards
+                case .failure(let error):
+                    print(error)
+                }
+                
+            })
         }
         .listStyle(PlainListStyle())
     }
