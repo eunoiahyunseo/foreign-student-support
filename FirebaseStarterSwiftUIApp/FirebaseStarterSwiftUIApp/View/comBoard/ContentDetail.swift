@@ -24,6 +24,8 @@ enum AlertType: Identifiable {
 struct ContentDetail: View {
     @State var isGood: Int = 0
     @State var comment: String = ""
+    @State var sendMsg = false
+    @State var doAccuse = false
     @State private var alertType: AlertType?
     @EnvironmentObject var userConfigViewModel: UserConfigViewModel
     @EnvironmentObject var boardConfigViewModel: BoardConfigViewModel
@@ -55,16 +57,38 @@ struct ContentDetail: View {
                     commentView
 
                 }
-                .navigationBarItems(trailing: Button(action: {
-                    //설정 버튼액션
-                }, label: {
-                    Image(systemName: "ellipsis")
-                    .rotationEffect(.degrees(90))})
-                    .foregroundColor(.black))
+                .navigationBarItems(trailing: Menu{
+                    Button("새로고침", action: {
+                        print("i am here")
+                    })
+                    Button("쪽지 보내기", action: {
+                        sendMsg = true
+                    })
+                    .fullScreenCover(isPresented: $sendMsg, onDismiss: nil) {
+                        //SendMsgView(sendMsg: $sendMsg)
+                        //WriteNoticeView(isShownTxtFeild: $sendMsg)
+                    }
+                    Button("친구로 추가", action: {
+                        //
+                    })
+                    Button("신고", action: {
+                        self.doAccuse = true
+                    })
+                    .alert(isPresented: $doAccuse) {
+                        Alert(title: Text("이 이용자를 정말 신고하시겠습니까"), primaryButton: .destructive(Text("확인"), action: {
+                            //
+                        }), secondaryButton: .cancel(Text("취소")))
+                    }
+                } label: {
+                    Label("", systemImage: "ellipsis")
+                        .rotationEffect(.degrees(90))
+                        .foregroundColor(.black)
+                })
                 .navigationBarItems(trailing: Button(action: {
                     //검색 버튼액션
                 }, label: {
                     Image(systemName: "magnifyingglass")
+                        .foregroundColor(.black)
                 }))
                 .toolbar {
                     ToolbarItem(placement: .principal) {
@@ -294,21 +318,21 @@ private extension ContentDetail{
     }
 }
 
-struct ContentDetail_Previews: PreviewProvider {
-    static var previews: some View {
-        let state = AppState()
-        state.currentUser = mockUser
-        
-        let selectedPost = mockPosts[0]
-        let boardConfigViewModel = BoardConfigViewModel(
-            boardAPI: BoardService(), userAPI: UserService(), state: state)
-        boardConfigViewModel.selectedPost = selectedPost
-        
-        let board = Board(name: "영어권 게시판", description: "영어권 게시판입니다.")
-        
-        return ContentDetail()
-            .environmentObject(UserConfigViewModel(
-                boardAPI: BoardService(), userAPI: UserService(), state: state))
-            .environmentObject(boardConfigViewModel)
-    }
-}
+//struct ContentDetail_Previews: PreviewProvider {
+//    static var previews: some View {
+//        let state = AppState()
+//        state.currentUser = mockUser
+//
+//        let selectedPost = mockPosts[0]
+//        let boardConfigViewModel = BoardConfigViewModel(
+//            boardAPI: BoardService(), userAPI: UserService(), state: state)
+//        boardConfigViewModel.selectedPost = selectedPost
+//
+//        let board = Board(name: "영어권 게시판", description: "영어권 게시판입니다.")
+//
+//        return ContentDetail()
+//            .environmentObject(UserConfigViewModel(
+//                boardAPI: BoardService(), userAPI: UserService(), state: state))
+//            .environmentObject(boardConfigViewModel)
+//    }
+//}

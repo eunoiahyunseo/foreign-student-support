@@ -20,50 +20,92 @@ struct BoardTabInnerView: View {
     @State private var isLinkActive = false
 
     var body: some View {
-        VStack {
+        List{
             switch tests {
+                //!boardConfigViewModel.isLoading,
             case .board:
-                if !boardConfigViewModel.isLoading, let boardData = boardConfigViewModel.boards {
-                    VStack(alignment: .leading) {
-                        List {
-                            ForEach(boardData.indices, id: \.self) { index in
-                                VStack {
-                                    Button(action: {
-                                        isLinkActive = true
-                                        boardConfigViewModel.selectedBoard = boardData[index]
-                                    }) {
-                                        BoardRow(boardData: boardData[index])
-                                    }
-                                    NavigationLink(destination: boardmain()
-                                        .onAppear {
-                                            self.isDetailViewVisible = true
-                                        }
-                                        .onDisappear {
-                                            self.isDetailViewVisible = false
-                                        }, isActive: $isLinkActive) {
-                                            EmptyView()
-                                        }
-                                        .frame(width: 0).opacity(0)
-                                }
-                                .navigationBarTitle("", displayMode: .inline)
-                                .listRowSeparator(.hidden)
-                                .foregroundColor(.black)
+                if !boardConfigViewModel.isLoading, let boardData = boardConfigViewModel.boards{
+                    ForEach(boardData.indices, id: \.self) { index in
+                        ZStack {
+                            Button(action: {
+                                isLinkActive = true
+                                boardConfigViewModel.selectedBoard = boardData[index]
+                            }) {
+                                BoardRow(boardData: boardData[index])
                             }
+                            NavigationLink(destination: boardmain()
+                                .onAppear {
+                                    self.isDetailViewVisible = true
+                                }
+                                .onDisappear {
+                                    self.isDetailViewVisible = false
+                                }, isActive: $isLinkActive) {
+                                    EmptyView()
+                                }
+                                .frame(width: 0)
+                                .opacity(0)
                         }
+    //                    Color.primary
+    //                        .opacity(0.3)
+    //                        .frame(maxWidth: .infinity, maxHeight: 1)
                     }
+                    .navigationBarTitleDisplayMode(.inline)
+                    .listRowSeparator(.hidden)
                 } else {
                     ProgressView()
                 }
-                
             case .info:
                 Text("info")
             case .community:
                 Text("community")
             }
         }
-        .onAppear { UITableView.appearance().separatorStyle = .none }
+        .listStyle(PlainListStyle())
     }
 }
+
+//VStack {
+//    switch tests {
+//    case .board:
+//        if !boardConfigViewModel.isLoading, let boardData = boardConfigViewModel.boards {
+//            VStack(alignment: .leading) {
+//                List {
+//                    ForEach(boardData.indices, id: \.self) { index in
+//                        VStack {
+//                            Button(action: {
+//                                isLinkActive = true
+//                                boardConfigViewModel.selectedBoard = boardData[index]
+//                            }) {
+//                                BoardRow(boardData: boardData[index])
+//                            }
+//                            NavigationLink(destination: boardmain()
+//                                .onAppear {
+//                                    self.isDetailViewVisible = true
+//                                }
+//                                .onDisappear {
+//                                    self.isDetailViewVisible = false
+//                                }, isActive: $isLinkActive) {
+//                                    EmptyView()
+//                                }
+//                                .frame(width: 0).opacity(0)
+//                        }
+//                        .navigationBarTitle("", displayMode: .inline)
+//                        .listRowSeparator(.hidden)
+//                        .foregroundColor(.black)
+//                    }
+//                }
+//            }
+//        } else {
+//            ProgressView()
+//        }
+//
+//    case .info:
+//        Text("info")
+//    case .community:
+//        Text("community")
+//    }
+//}
+////.onAppear { UITableView.appearance().separatorStyle = .none }
 
 struct BoardRow: View {
     var boardData: BoardDTO
