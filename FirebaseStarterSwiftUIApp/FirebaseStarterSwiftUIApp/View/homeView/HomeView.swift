@@ -250,6 +250,12 @@ struct HomeTabView: View {
                     print("Refresh Done!")
                 }
             }) {
+                adminPostsView()
+                    .padding(.top,8).padding(.leading, 8).padding(.trailing, 8)
+                
+                LinkCollectionView()
+                    .padding(.leading, 8).padding(.trailing, 8)
+                
                 VStack(alignment: .leading, spacing: 4) {
                     Text("실시간 인기글")
                         .font(.system(size: 20))
@@ -354,6 +360,15 @@ struct HomeTabView: View {
 //                    boardAPI: boardAPI, userAPI: userAPI, state: initialState))
                 
                 //FavorBoardHomeView(selected: $selected)
+//
+                
+//                ZStack{
+//                    EmptyView().frame(height:350)
+//                    AdLinkCollectionView()
+//                        .frame(height : 350)
+//                }
+//                .frame(height:350)
+                
             }
             .navigationBarItems(leading: HeaderLeadingItem, trailing: HeaderTailintItem)
             .navigationBarTitle("", displayMode: .inline)
