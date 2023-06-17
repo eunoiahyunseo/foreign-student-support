@@ -57,7 +57,7 @@ struct SendMsgView: View {
                     .focused($focusField, equals: .content)
                     .submitLabel(.return)
                     .onTapGesture {
-                        hideKeyboard()
+                        //hideKeyboard()
                     }
                 if content.isEmpty {
                     Text("내용을 입력해주세요")
@@ -73,10 +73,10 @@ struct SendMsgView: View {
         }
     }
 }
-
-struct SendMsgView_Previews: PreviewProvider {
-    static var previews: some View {
-        @State var tmpnotice = true
-        SendMsgView(sendMsg: $tmpnotice)
-    }
-}
+//
+//struct SendMsgView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        @State var tmpnotice = true
+//        SendMsgView(sendMsg: $tmpnotice)
+//    }
+//}

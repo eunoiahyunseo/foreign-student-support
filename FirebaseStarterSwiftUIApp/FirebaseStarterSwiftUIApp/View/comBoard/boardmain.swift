@@ -175,7 +175,7 @@ struct PostCreatingCover: View {
                         .focused($focusField, equals: .content)
                         .submitLabel(.return)
                         .onTapGesture {
-                            hideKeyboard()
+                            //hideKeyboard()
                         }
                     if boardConfigViewModel.content.isEmpty {
                         Text("내용을 입력해주세요")
