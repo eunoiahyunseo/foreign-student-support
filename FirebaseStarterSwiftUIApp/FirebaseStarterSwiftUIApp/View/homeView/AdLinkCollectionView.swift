@@ -15,7 +15,7 @@ struct AdLinkCollectionView: View {
     var body: some View {
             ImageSlider()
                 .frame(height: 300)
-                .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                //.listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
     }
     
     struct ImageSlider: View {
@@ -24,38 +24,41 @@ struct AdLinkCollectionView: View {
         let db: Firestore = RootAPI.inst.db
         
         var body: some View {
-            TabView {
-                ForEach(ad_link_infos, id: \.self) { item in
-                    VStack{
-                        ZStack {
-                            AsyncImage(url: URL(string: item.imgurl!), scale: 2) { image in
-                                                image
-                                                    .resizable()
-                                                    .aspectRatio(contentMode: .fit)
-                                            } placeholder: { ProgressView().progressViewStyle(.circular) }
-                                        }
-    
-                        Text(item.describe!)
-                            .padding()
-    
-                        HStack{
-                            Spacer()
-                            Link(destination: URL(string : item.linkurl!)!,
-                            label: {
-                                Text("지금 보러가기")
-                            })
-                            Spacer()
+            GeometryReader { proxy in
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack {
+                        ForEach(ad_link_infos) { item in
+                            VStack{
+                                ZStack {
+                                    AsyncImage(url: URL(string: item.imgurl!), scale: 2) { image in
+                                                        image
+                                                            .resizable()
+                                                            .aspectRatio(contentMode: .fit)
+                                                    } placeholder: { ProgressView().progressViewStyle(.circular) }
+                                                }
+            
+                                Text(item.describe!)
+                                    .padding()
+            
+                                HStack{
+                                    Spacer()
+                                    Link(destination: URL(string : item.linkurl!)!,
+                                    label: {
+                                        Text("지금 보러가기")
+                                    })
+                                    Spacer()
+                                }
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 16)
+                                        .stroke(.red, lineWidth: 2)
+                                )
+                                .padding([.leading, .trailing, .bottom], 20)
+                            }
                         }
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 16)
-                                .stroke(.red, lineWidth: 2)
-                        )
-                        .padding([.leading, .trailing, .bottom], 20)
+                        .frame(width: proxy.size.width)
                     }
-                }
-            }
-            .tabViewStyle(PageTabViewStyle())
-            .task {
+                }.onAppear{ UIScrollView.appearance().isPagingEnabled = true }
+            }.task {
                 db.collection(AdLinkInfo.collection_name).getDocuments { (querySnapshot, error) in
                     if let error = error {
                         print("Error occured : \(error)")
@@ -67,6 +70,50 @@ struct AdLinkCollectionView: View {
                     }
                 }
             }
+            
+//            TabView {
+//                ForEach(ad_link_infos, id: \.self) { item in
+//                    VStack{
+//                        ZStack {
+//                            AsyncImage(url: URL(string: item.imgurl!), scale: 2) { image in
+//                                                image
+//                                                    .resizable()
+//                                                    .aspectRatio(contentMode: .fit)
+//                                            } placeholder: { ProgressView().progressViewStyle(.circular) }
+//                                        }
+//
+//                        Text(item.describe!)
+//                            .padding()
+//
+//                        HStack{
+//                            Spacer()
+//                            Link(destination: URL(string : item.linkurl!)!,
+//                            label: {
+//                                Text("지금 보러가기")
+//                            })
+//                            Spacer()
+//                        }
+//                        .overlay(
+//                            RoundedRectangle(cornerRadius: 16)
+//                                .stroke(.red, lineWidth: 2)
+//                        )
+//                        .padding([.leading, .trailing, .bottom], 20)
+//                    }
+//                }
+//            }
+//            .tabViewStyle(PageTabViewStyle())
+//            .task {
+//                db.collection(AdLinkInfo.collection_name).getDocuments { (querySnapshot, error) in
+//                    if let error = error {
+//                        print("Error occured : \(error)")
+//                        return
+//                    } else if let querySnapshot = querySnapshot {
+//                        ad_link_infos = querySnapshot.documents.compactMap { document in
+//                            try? document.data(as: AdLinkInfo.self)
+//                        }
+//                    }
+//                }
+//            }
         }
     }
 }
