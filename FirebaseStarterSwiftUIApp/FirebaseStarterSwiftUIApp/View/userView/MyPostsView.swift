@@ -279,21 +279,28 @@ struct MyPostsView: View {
                     .font(.system(size: 30, weight:.heavy)).frame(maxWidth: .infinity, alignment: .leading).padding(.horizontal, 30)
 
                 List(myPostsViewModel.posts ?? []) { post in
-                    VStack(alignment: .leading) {
-                        Text(post.title)
-                            .font(.headline)
-                        Text(post.content)
-                            .font(.subheadline)
-                    }
-                }.onAppear(perform: {myPostsViewModel.fetchMyPosts(id: signInViewModel.state.currentUser?.id)})
+//                    VStack(alignment: .leading) {
+//                        Text(post.title)
+//                            .font(.headline)
+//                        Text(post.content)
+//                            .font(.subheadline)
+//                    }
+                    ContentRow(content: post)
+                    
+                }.listStyle(PlainListStyle())
+                .onAppear(perform: {myPostsViewModel.fetchMyPosts(id: signInViewModel.state.currentUser?.id)})
+                
 
                 Button(action:{
-                    isMyPostVisible = false
+                    withAnimation{
+                        isMyPostVisible.toggle()
+                    }
                 }) {
                     Text("닫기")
                 }.frame(height: 50)
                     .cornerRadius(20)
             }.frame(maxWidth: .infinity, maxHeight: .infinity)
+                .transition(.move(edge: .trailing))
                 
             .padding(.top, 20)
         }

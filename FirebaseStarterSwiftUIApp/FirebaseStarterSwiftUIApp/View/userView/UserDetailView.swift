@@ -77,7 +77,9 @@ struct UserDetailView: View {
                             .font(.system(size: 17))
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .onTapGesture {
-                                self.isShownFullScreenCover.toggle()
+                                
+                                    self.isShownFullScreenCover.toggle()
+                                
                             }
                             .fullScreenCover(isPresented: $isShownFullScreenCover) {
                                 NickNameModifyingCover(isShownFullScreenCover: $isShownFullScreenCover,
@@ -116,7 +118,9 @@ struct UserDetailView: View {
                     
                 }.onTapGesture {
                     print("내가 쓴 글 보기 버튼 누름")
-                    self.isMyPostVisible.toggle()
+                    withAnimation(.easeInOut(duration: 0.1)) {
+                        self.isMyPostVisible.toggle()
+                    }
                 }
                 Spacer()
                 
@@ -125,6 +129,7 @@ struct UserDetailView: View {
             
             if(isMyPostVisible) {
                 MyPostsView(isMyPostVisible: $isMyPostVisible)
+                    .transition(.slide)
             }
         }
     }
