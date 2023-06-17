@@ -252,7 +252,7 @@ struct HomeTabView: View {
         return NavigationView {
             if !boardConfigViewModel.isLoading,
                 let topRatedPosts = boardConfigViewModel.topRatedPosts,
-               let boardData = boardConfigViewModel.boards{
+                let boardData = boardConfigViewModel.boards {
             RefreshableScrollView(onRefresh: {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                     boardConfigViewModel.getAllBoardsWithPinnedInfo()
@@ -275,8 +275,6 @@ struct HomeTabView: View {
                             .bold()
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(.bottom, 20)
-                        
-                        
                         
                         VStack {
                             GeometryReader { proxy in
@@ -313,10 +311,19 @@ struct HomeTabView: View {
                     //즐겨찾는 게시판 뷰
                     VStack(alignment: .leading) {
                         HStack{
-                            Text("즐겨찾는 게시판")
-                                .font(.body)
-                                .fontWeight(.bold)
-                                .padding(.horizontal)
+                            HStack {
+                                Image(systemName: "star")
+                                    .imageScale(.medium)
+                                    .foregroundColor(.yellow)
+                                    .frame(width: 18, height: 18)
+//                                    .padding(.trailing, -5)
+                                
+                                Text("즐겨찾는 게시판")
+                                    .font(.body)
+                                    .fontWeight(.bold)
+                            }
+                            .padding(.horizontal)
+                            
                             Spacer()
                             Button(action: {
                                 selected = TabItems.Board
@@ -324,43 +331,37 @@ struct HomeTabView: View {
                                 HStack(spacing: 0){
                                     Text("더보기")
                                         .font(.body)
+                                        .padding(.trailing, 4)
                                     Image(systemName: "chevron.right")
                                 }
                                 .padding()
                             }
                         }
-                        .padding(.bottom, -5)
+                        .padding(.bottom, -10)
                         
-                        if boardData.count < 5 {
+                        VStack {
                             ForEach(boardData.indices, id: \.self) { idx in
-                                ZStack{
-                                    favorRow(boardData: boardData[idx])
-                                        .padding(.bottom, idx == boardData.count-1 ? 12 : 0)
-                                        .foregroundColor(.black)
-                                        .onTapGesture {
-                                            isLinkActive = true
-                                            boardConfigViewModel.selectedBoard = boardData[idx]
-                                        }
-                                    NavigationLink(destination: boardmain(), isActive: $isLinkActive) {
-                                    }.opacity(0.0)
+                                if boardData[idx].isPinned {
+                                    ZStack{
+                                        favorRow(boardData: boardData[idx])
+                                            .foregroundColor(.black)
+                                            .onTapGesture {
+                                                isLinkActive = true
+                                                boardConfigViewModel.selectedBoard = boardData[idx]
+                                            }
+                                        NavigationLink(destination: boardmain(), isActive: $isLinkActive) {
+                                        }.opacity(0.0)
+                                    }
                                 }
-                            }
-                        }else {
-                            ForEach(0..<4){ idx in
-                                ZStack{
-                                    favorRow(boardData: boardData[idx])
-                                        .padding(.bottom, idx == 3 ? 12 : 0)
-                                        .foregroundColor(.black)
-                                        .onTapGesture {
-                                            isLinkActive = true
-                                            boardConfigViewModel.selectedBoard = boardData[idx]
-                                        }
-                                    NavigationLink(destination: boardmain(), isActive: $isLinkActive){
-                                    }.opacity(0.0)
-                                }
-                                
                             }
                         }
+                        .padding(.vertical, 12)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(Color.gray, lineWidth: 2)
+                        )
+                        .padding(10)
+                        
                     }
                     .overlay {
                         RoundedRectangle(cornerRadius: 15)
@@ -369,13 +370,7 @@ struct HomeTabView: View {
                     }
                     .padding()
                     .listRowSeparator(.hidden)
-                    
-    //                FavorBoardHomeView(selected: $selected)
-    //                    .environmentObject(BoardConfigViewModel(
-    //                    boardAPI: boardAPI, userAPI: userAPI, state: initialState))
-                    
-                    //FavorBoardHomeView(selected: $selected)
-                    
+
                     EmptyView().frame(height:200)
                     
                     AdLinkCollectionView()

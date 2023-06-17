@@ -214,7 +214,7 @@ class BoardConfigViewModel: ObservableObject {
             switch result {
             case .success(let posts):
                 self.topRatedPosts = posts
-                print("topRatedPosts: \(self.topRatedPosts)")
+                print("topRate]dPosts: \(self.topRatedPosts)")
             case .failure(let error):
                 print("error: \(error)")
             }

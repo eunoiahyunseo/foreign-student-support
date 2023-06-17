@@ -175,8 +175,10 @@ private extension ContentDetail{
                     }
                     Spacer()
                     HStack {
-                        Group {
-                            Button(action: {}) {
+                        HStack {
+                            Button(action: {
+                                print("like!")
+                            }) {
                                 Image(systemName: "hand.thumbsup")
                                     .resizable()
                                     .scaledToFit()
@@ -185,13 +187,17 @@ private extension ContentDetail{
 
                             Text("|")
 
-                            Button(action: {}) {
-                                Image(systemName: "ellipsis")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .rotationEffect(.degrees(90))
-                                    .frame(width: 10, height: 10)
-                            }
+//                            Menu {
+//                                Button("삭제 하기", action: {
+//                                    print("delete!")
+//                                })
+//                            } label: {
+//                                Label("", systemName: "ellipsis")
+//                                    .resizable()
+//                                    .scaledToFit()
+//                                    .rotationEffect(.degrees(90))
+//                                    .frame(width: 10, height: 10)
+//                            }
                         }
                         .foregroundColor(.gray)
                     }

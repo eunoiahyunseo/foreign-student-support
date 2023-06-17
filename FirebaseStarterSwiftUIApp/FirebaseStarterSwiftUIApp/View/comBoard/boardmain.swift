@@ -126,7 +126,7 @@ struct PostCreatingCover: View {
     @State var sensitive_res : String = "응답을 기다리는 중..."
     @FocusState private var focusField: Field?
     
-    var chatGPT = ChatGPTAPI(apiKey : "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")
+    var chatGPT = ChatGPTAPI(apiKey : "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")
 
     var body: some View {
         VStack(alignment: .leading) {
