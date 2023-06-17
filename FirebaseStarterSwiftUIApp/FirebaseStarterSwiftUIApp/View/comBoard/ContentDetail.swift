@@ -113,7 +113,6 @@ struct ContentDetail: View {
                 .padding([.top, .trailing])
                 .padding(.bottom, 7)
 
-
                 commentTextFieldView
             } else {
                 ProgressView()
